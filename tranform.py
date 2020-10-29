@@ -8,6 +8,7 @@
 # Always automate the boring stuff ;)
 
 import pandas as pd
+import sys
 from pathlib import Path
 
 
@@ -155,12 +156,18 @@ if __name__ == "__main__":
         process = input("(F)ast or (C)ustom processing?\n").upper()
 
     if process == "F":
-        files_parent = Path(__file__).parent.parent
-        data_path = files_parent.joinpath("Database_Data.xlsx")
-        costs_path = files_parent.joinpath("Costs_per_Region.xlsx")
+        try:
+            working_dir = Path(sys.argv[1])
+        except IndexError:
+            working_dir = Path(__file__).parent.parent
+
+        data_path = working_dir.joinpath("Database_Data.xlsx")
+        costs_path = working_dir.joinpath("Costs_per_Region.xlsx")
 
         main(data_file=data_path, cost_file=costs_path)
     elif process == "C":
-        data_path = input("\nFile with the database data:\n").strip('"')
-        costs_path = input('\nFile with costs per region:\n').strip('"')
+        data_path = input("\nFile with the database data:\n").strip('"').strip(
+            "'")
+        costs_path = input('\nFile with costs per region:\n').strip('"').strip(
+            "'")
         main(data_file=data_path, cost_file=costs_path)
