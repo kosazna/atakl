@@ -18,6 +18,8 @@ cd %USERPROFILE%\Desktop\AKL_Auto
 md .utilities .history .templates
 cd %USERPROFILE%\AKL\Lib\site-packages\aztool-akl\bat
 copy *.bat %USERPROFILE%\Desktop\AKL_Auto\.utilities
+cd %USERPROFILE%\AKL\Lib\site-packages\aztool-akl\templates
+copy *.xlsx %USERPROFILE%\Desktop\AKL_Auto\.templates
 
 echo.
 pause
