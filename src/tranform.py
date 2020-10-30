@@ -161,8 +161,8 @@ if __name__ == "__main__":
         except IndexError:
             working_dir = Path(__file__).parent.parent
 
-        data_path = working_dir.joinpath("Database_Data.xlsx")
-        costs_path = working_dir.joinpath("Costs_per_Region.xlsx")
+        data_path = working_dir.joinpath("DB_Data.xlsx")
+        costs_path = working_dir.joinpath(".templates\\Region_Costs.xlsx")
 
         main(data_file=data_path, cost_file=costs_path)
     elif process == "C":
