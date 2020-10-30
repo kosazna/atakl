@@ -6,13 +6,18 @@ echo Enter password when prompted and press enter
 echo Don't worry if nothing appears on the screen while typing. That's the way it works ;)
 echo.
 
-python -m venv C:\Users\%username%\AKL
-cd C:\Users\%username%\AKL\Lib\site-packages
+python -m venv %USERPROFILE%\AKL
+cd %USERPROFILE%\AKL\Lib\site-packages
 git clone git@github.com:kosazna/aztool-akl.git
-call C:\Users\%username%\AKL\Scripts\activate.bat
-C:\Users\%username%\AKL\Scripts\python.exe -m pip install --upgrade pip
-pip install -r C:\Users\aznavouridis.k\AKL\Lib\site-packages\aztool-akl\requirements.txt
-call C:\Users\%username%\AKL\Scripts\deactivate.bat
+call %USERPROFILE%\AKL\Scripts\activate.bat
+%USERPROFILE%\AKL\Scripts\python.exe -m pip install --upgrade pip
+pip install -r %USERPROFILE%\AKL\Lib\site-packages\aztool-akl\requirements.txt
+call %USERPROFILE%\AKL\Scripts\deactivate.bat
+mkdir %USERPROFILE%\Desktop\AKL_Auto
+cd %USERPROFILE%\Desktop\AKL_Auto
+md .utilities .history .templates
+cd %USERPROFILE%\AKL\Lib\site-packages\aztool-akl\bat
+copy *.bat %USERPROFILE%\Desktop\AKL_Auto\.utilities
 
 echo.
 pause
