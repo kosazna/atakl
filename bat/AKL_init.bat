@@ -20,6 +20,8 @@ cd %USERPROFILE%\AKL\Lib\site-packages\aztool-akl\bat
 copy *.bat %USERPROFILE%\Desktop\AKL_Auto\.utilities
 cd %USERPROFILE%\AKL\Lib\site-packages\aztool-akl\templates
 copy *.xlsx %USERPROFILE%\Desktop\AKL_Auto\.templates
+copy %USERPROFILE%\AKL\Lib\site-packages\aztool-akl\bat\AKL.bat %USERPROFILE%\Desktop\AKL_Auto\
+copy %USERPROFILE%\AKL\Lib\site-packages\aztool-akl\templates\DB_Data.xlsx %USERPROFILE%\Desktop\AKL_Auto\
 
 echo.
 pause
