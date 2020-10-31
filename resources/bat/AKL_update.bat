@@ -11,9 +11,9 @@ git pull git@github.com:kosazna/aztool-akl.git
 pip install -r %USERPROFILE%\AKL\repo\aztool-akl\requirements.txt
 
 ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\src %USERPROFILE%\AKL\Lib\site-packages\aztool_akl /E /IS /IT /NJH /NJS /NDL
-ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\bat %USERPROFILE%\Desktop\AKL_Auto\.utilities /E /IS /IT /NJH /NJS /NDL
-ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\templates %USERPROFILE%\Desktop\AKL_Auto\.templates /E /IS /IT /NJH /NJS /NDL
-ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\bat %USERPROFILE%\Desktop\AKL_Auto AKL.bat /E /IS /IT /NJH /NJS /NDL
+ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\resources\bat %USERPROFILE%\Desktop\AKL_Auto\.utilities /E /IS /IT /NJH /NJS /NDL
+ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\resources\templates %USERPROFILE%\Desktop\AKL_Auto\.templates /E /IS /IT /NJH /NJS /NDL
+ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\resources\bat %USERPROFILE%\Desktop\AKL_Auto AKL.bat /E /IS /IT /NJH /NJS /NDL
 
 echo.
 echo.
