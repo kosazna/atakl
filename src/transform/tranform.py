@@ -56,10 +56,15 @@ def main(data_file=None, cost_file=None):
     data['Κενά_Βαρέλια'] = data['Κενά_Βαρέλια'].fillna(0).astype(int)
     data['Περιοχή_Παράδοσης'] = data['Περιοχή_Παράδοσης'].fillna("<NULL>")
 
+
+
     missing_region = data['Γεωγραφικός_Τομέας'].isna().sum()
+
     if bool(missing_region):
         print("[WARNING] - Column contains missing values.")
         print(f"    'Γεωγραφικός Τομέας' : {missing_region}\n")
+
+
 
     data['Χρέωση_Διανομής_Παλέτας'] = data.apply(
         lambda x: get_cost(costs, x['Γεωγραφικός_Τομέας'], 'Παλέτα',
