@@ -22,11 +22,12 @@ if __name__ == "__main__":
 
         if process == "F":
             working_dir = Path(sys.argv[1])
+            print(working_dir)
             data_path = working_dir.joinpath("DB_Data.xlsx")
             costs_path = working_dir.joinpath(".templates\\Region_Costs.xlsx")
         else:
             data_path = validate_path("File with the database data:\n")
-            costs_path = validate_path('File with costs per region:\n')
+            costs_path = validate_path("File with costs per region:\n")
 
         tranformer = TypeOneTransformer(data_filepath=data_path,
                                         cost_filepath=costs_path)
