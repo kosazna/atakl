@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def undercore2space(text: str):
     return text.replace('_', ' ')
 

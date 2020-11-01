@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from aztool_akl.utils import *
 from pathlib import Path
 

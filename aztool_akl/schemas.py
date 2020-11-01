@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from aztool_akl.utils import *
 
 # Type ONE columns for processing
