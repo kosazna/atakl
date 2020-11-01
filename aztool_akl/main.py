@@ -31,7 +31,7 @@ if __name__ == "__main__":
             data_path = _data_path
 
         if _costs_path is None:
-            costs_path = working_dir.joinpath("templates\\Region_Costs.xlsx")
+            costs_path = working_dir.joinpath(".templates\\Region_Costs.xlsx")
         else:
             costs_path = _costs_path
 
