@@ -1,5 +1,5 @@
 import pandas as pd
-from ..schemas import *
+from aztool_akl.schemas import *
 
 
 class TypeOneValidator:

@@ -21,7 +21,7 @@ mkdir %USERPROFILE%\Desktop\AKL_Auto
 cd %USERPROFILE%\Desktop\AKL_Auto
 md .utilities .history .templates
 
-ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\src %USERPROFILE%\AKL\Lib\site-packages\aztool_akl /E /IS /IT /NJH /NJS /NDL
+ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\aztool_akl %USERPROFILE%\AKL\Lib\site-packages\aztool_akl /E /IS /IT /NJH /NJS /NDL
 ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\resources\bat %USERPROFILE%\Desktop\AKL_Auto\.utilities /E /IS /IT /NJH /NJS /NDL
 ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\resources\templates %USERPROFILE%\Desktop\AKL_Auto\.templates /E /IS /IT /NJH /NJS /NDL
 ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\resources\bat %USERPROFILE%\Desktop\AKL_Auto AKL.bat /E /IS /IT /NJH /NJS /NDL

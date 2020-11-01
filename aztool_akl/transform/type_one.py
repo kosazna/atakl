@@ -1,7 +1,7 @@
 import pandas as pd
 from pathlib import Path
-from ..schemas import *
-from ..validate.data import TypeOneValidator
+from aztool_akl.schemas import *
+from aztool_akl.validate.data import TypeOneValidator
 
 
 class TypeOneTransformer:

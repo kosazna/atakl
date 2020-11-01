@@ -8,8 +8,8 @@
 # Always automate the boring stuff ;)
 
 import sys
-from .validate import *
-from .transform import *
+from aztool_akl.validate import *
+from aztool_akl.transform import *
 
 
 if __name__ == "__main__":

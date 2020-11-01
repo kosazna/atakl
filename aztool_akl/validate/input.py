@@ -1,4 +1,4 @@
-from ..utils import *
+from aztool_akl.utils import *
 from pathlib import Path
 
 
