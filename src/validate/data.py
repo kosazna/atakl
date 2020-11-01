@@ -1,4 +1,5 @@
 import pandas as pd
+from ..schemas import *
 
 
 class TypeOneValidator:
@@ -6,8 +7,8 @@ class TypeOneValidator:
         self.data = data
 
     def validate(self):
-        _missing = self.data['Γεωγραφικός_Τομέας'].isna().sum()
+        _missing = self.data[tomeas].isna().sum()
 
         if bool(_missing):
-            print("[WARNING] - Column contains missing values.")
-            print(f"    'Γεωγραφικός Τομέας' : {_missing}\n")
+            display_warning("Column contains missing values")
+            print(f"  -> {undercore2space(tomeas)} : {_missing}\n")

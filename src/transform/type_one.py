@@ -1,9 +1,7 @@
 import pandas as pd
 from pathlib import Path
+from ..schemas import *
 from ..validate.data import TypeOneValidator
-
-sort_n_group = ['Ημερομηνία', 'Επωνυμία Πελάτη', 'Γεωγραφικός Τομέας',
-                'Περιοχή Παράδοσης']
 
 
 class TypeOneTransformer:
@@ -12,18 +10,11 @@ class TypeOneTransformer:
         self.cost_file = Path(cost_filepath)
         self.working_dir = self.data_file.parent
         self.output = self.working_dir.joinpath("Processed_Data.xlsx")
-
-        self.data = pd.read_excel(self.data_file).sort_values(
-            sort_n_group).dropna(subset=['Επωνυμία Πελάτη']).reset_index(
-            drop=True)
-
-        self.costs = pd.read_excel(self.cost_file).set_index(
-            'Γεωγραφικός Τομέας', drop=True)
-
-        self.original_columns = self.data.columns.tolist()
-        self.data.columns = [col.replace(' ', '_') for col in
-                             self.data.columns.str.strip()]
         self.preprocessed = False
+        self.data = pd.read_excel(self.data_file).sort_values(DATA_SORT).dropna(
+            subset=[undercore2space(pelatis)]).reset_index(drop=True)
+        self.costs = pd.read_excel(self.cost_file).set_index(tomeas, drop=True)
+        self.data.columns = TYPE_ONE_COLUMNS[:12]
         self.validator = TypeOneValidator(self.data)
 
     def _check_next_idx(self, index, column):
@@ -40,7 +31,7 @@ class TypeOneTransformer:
                 if quantity is None:
                     return self.costs.loc[region, material]
 
-                if material == "Παλέτα":
+                if material == paleta:
                     if region != 'ΑΤΤΙΚΗ':
                         return self.costs.loc[region, material] * quantity
                     else:
@@ -58,12 +49,9 @@ class TypeOneTransformer:
                 return 0
 
     def _preprocess(self):
-        self.data['Κενά_Βαρέλια'] = self.data['Κενά_Βαρέλια'].fillna(
-            0).astype(
-            int)
-        self.data['Περιοχή_Παράδοσης'] = self.data[
-            'Περιοχή_Παράδοσης'].fillna(
-            "<NULL>")
+        self.data[kena_varelia] = self.data[kena_varelia].fillna(0).astype(int)
+
+        self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
 
         self.preprocessed = True
 
@@ -73,48 +61,40 @@ class TypeOneTransformer:
 
         self.validator.validate()
 
-        self.data['Χρέωση_Διανομής_Παλέτας'] = self.data.apply(
-            lambda x: self._get_cost(x['Γεωγραφικός_Τομέας'],
-                                     'Παλέτα',
-                                     x['Παλέτες']), axis=1)
+        self.data[paletes_charge] = self.data.apply(
+            lambda x: self._get_cost(x[tomeas], paleta, x[paletes]), axis=1)
 
-        self.data['Χρέωση_Διανομής_Κιβωτίου'] = self.data.apply(
-            lambda x: self._get_cost(x['Γεωγραφικός_Τομέας'],
-                                     'Κιβώτιο',
-                                     x['Κιβώτια']), axis=1)
+        self.data[kivotia_charge] = self.data.apply(
+            lambda x: self._get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
 
-        self.data['Χρέωση_Διανομής_Βαρελιού'] = self.data.apply(
-            lambda x: self._get_cost(x['Γεωγραφικός_Τομέας'],
-                                     'Βαρέλι',
-                                     x['Βαρέλια']), axis=1)
+        self.data[varelia_charge] = self.data.apply(
+            lambda x: self._get_cost(x[tomeas], vareli, x[varelia]), axis=1)
 
-        self.data['Χρέωση_Διανομής_Κενού_Βαρελιού'] = self.data.apply(
-            lambda x: self._get_cost(x['Γεωγραφικός_Τομέας'],
-                                     'Κενό Βαρέλι',
-                                     x['Κενά_Βαρέλια']), axis=1)
+        self.data[kena_varelia_charge] = self.data.apply(
+            lambda x: self._get_cost(x[tomeas], keno_vareli, x[kena_varelia]),
+            axis=1)
 
-        self.data['Συνολική_Χρέωση'] = sum(
-            [self.data['Χρέωση_Διανομής_Παλέτας'],
-             self.data['Χρέωση_Διανομής_Κιβωτίου'],
-             self.data['Χρέωση_Διανομής_Βαρελιού'],
-             self.data['Χρέωση_Διανομής_Κενού_Βαρελιού']])
+        self.data[total_charge] = sum(
+            [self.data[paletes_charge],
+             self.data[kivotia_charge],
+             self.data[varelia_charge],
+             self.data[kena_varelia_charge]])
 
-        self.data['Τελική_Χρέωση'] = 0.0
+        self.data[final_charge] = 0.0
 
         hold_idx = []
         hold = []
 
         for i in self.data.itertuples():
-            same_name = self._check_next_idx(i.Index, "Επωνυμία_Πελάτη")
+            same_name = self._check_next_idx(i.Index, pelatis)
 
-            same_date = self._check_next_idx(i.Index, "Ημερομηνία")
+            same_date = self._check_next_idx(i.Index, imerominia)
 
-            same_region = self._check_next_idx(i.Index, "Γεωγραφικός_Τομέας")
+            same_region = self._check_next_idx(i.Index, tomeas)
 
-            same_delivery = self._check_next_idx(i.Index, "Περιοχή_Παράδοσης")
+            same_delivery = self._check_next_idx(i.Index, paradosi)
 
-            minimum = self._get_cost(i.Γεωγραφικός_Τομέας,
-                                     'Ελάχιστη Χρέωση Παραγγελίας')
+            minimum = self._get_cost(i.Γεωγραφικός_Τομέας, elaxisti)
 
             if all([same_name, same_date, same_region, same_delivery]):
                 hold_idx.append(i.Index)
@@ -126,35 +106,27 @@ class TypeOneTransformer:
 
                     if sum(hold) > minimum:
                         for idx, value in zip(hold_idx, hold):
-                            self.data.loc[idx, 'Τελική_Χρέωση'] = value
+                            self.data.loc[idx, final_charge] = value
                     else:
-                        self.data.loc[i.Index, 'Τελική_Χρέωση'] = minimum
+                        self.data.loc[i.Index, final_charge] = minimum
 
                     hold_idx = []
                     hold = []
                 else:
                     if i.Συνολική_Χρέωση > minimum:
                         self.data.loc[
-                            i.Index, 'Τελική_Χρέωση'] = i.Συνολική_Χρέωση
+                            i.Index, final_charge] = i.Συνολική_Χρέωση
                     else:
-                        self.data.loc[i.Index, 'Τελική_Χρέωση'] = minimum
+                        self.data.loc[i.Index, final_charge] = minimum
 
-        self.data['Περιοχή_Παράδοσης'] = self.data['Περιοχή_Παράδοσης'].replace(
-            "<NULL>", "")
+        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
-        self.data.loc[
-            self.data["Τρόπος_Αποστολής"] == "Ιδιοφόρτωση", "Τελική_Χρέωση"] = 0
+        self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0
 
-        self.original_columns.extend(
-            ['Χρέωση Διανομής Παλέτας', 'Χρέωση Διανομής Κιβωτίου',
-             'Χρέωση Διανομής Βαρελιού',
-             'Χρέωση Διανομής Κενού Βαρελιού', 'Συνολική Χρέωση',
-             'Τελική Χρέωση'])
+        self.data.columns = TYPE_ONE_COLUMNS
 
-        self.data.columns = self.original_columns
-
-        print(f"    Data processing finished: [{self.data.shape[0]}] records\n")
+        print(f"  -> Data Process Complete: [{self.data.shape[0]}] records\n")
 
     def export(self):
         self.data.to_excel(self.output, index=False)
-        print(f"    Exported file: {self.output}\n\n\n\n")
+        print(f"  -> Exported file: {self.output}\n\n\n\n")

@@ -10,6 +10,7 @@
 import pandas as pd
 import sys
 from pathlib import Path
+from .validate.input import *
 
 
 def get_cost(cost_table, region, material, quantity=None):
@@ -149,11 +150,8 @@ def main(data_file=None, cost_file=None):
 if __name__ == "__main__":
     print("ATTIKH KINISI LOGISTICS S.A.\n\n")
 
-    process = input("(F)ast or (C)ustom processing?\n").upper()
-
-    while process not in ['F', 'C']:
-        print("\n[ERROR] - Enter a valid letter ('F' or 'C')\n")
-        process = input("(F)ast or (C)ustom processing?\n").upper()
+    action = get_input("action")
+    process = get_input("process")
 
     if process == "F":
         try:
