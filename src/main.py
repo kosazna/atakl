@@ -8,7 +8,7 @@
 # Always automate the boring stuff ;)
 
 import sys
-from .validate.input import *
+from .validate import *
 from .transform import *
 
 
