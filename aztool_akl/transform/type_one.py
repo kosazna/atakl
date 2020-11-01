@@ -13,7 +13,8 @@ class TypeOneTransformer:
         self.preprocessed = False
         self.data = pd.read_excel(self.data_file).sort_values(DATA_SORT).dropna(
             subset=[undercore2space(pelatis)]).reset_index(drop=True)
-        self.costs = pd.read_excel(self.cost_file).set_index(tomeas, drop=True)
+        self.costs = pd.read_excel(self.cost_file).set_index(
+            undercore2space(tomeas), drop=True)
         self.data.columns = TYPE_ONE_COLUMNS[:12]
         self.validator = TypeOneValidator(self.data)
 
