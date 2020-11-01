@@ -23,15 +23,19 @@ def validate_input(text: str) -> str:
         return user_action
 
 
-def validate_path(text: str) -> Path:
+def validate_path(text: str) -> (None, Path):
     user_path = input(text)
-    path = Path(user_path.strip('"'))
 
-    if path.is_file():
-        return path
+    if user_path == "":
+        return None
     else:
-        while not path.is_file():
-            user_path = input("Path does not exist or is not valid")
-            path = Path(user_path.strip('"'))
+        path = Path(user_path.strip('"'))
 
-        return path
+        if path.is_file():
+            return path
+        else:
+            while not path.is_file():
+                user_path = input("Path does not exist or is not valid")
+                path = Path(user_path.strip('"'))
+
+            return path
