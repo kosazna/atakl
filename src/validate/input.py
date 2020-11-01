@@ -1,23 +1,8 @@
 from ..utils import *
+from pathlib import Path
 
 
-def get_input(_func):
-    """
-    Custom function for USER input.
-    Given a _func a custom message will be displayed for the USER.
-
-    After USER selects one action function checks against all possible
-    compinations. If USER input is in the approved actions the execution
-    proceeds. While his registered action is not within the approved list USER
-    is prompted to give an action again.
-
-    :param _func: str
-        Function which is called. This function name should me in both the
-        console dict and the approved dict else KeyError is raised.
-    :return: str
-        User action after validation
-    """
-
+def validate_input(text: str) -> str:
     console = {'action': " (1) Type One Tranformation\n"
                          " (2) Type Two Tranformation\n\n",
                'process': "\n(F)ast or (C)ustom processing ?\n\n"}
@@ -25,11 +10,28 @@ def get_input(_func):
     approved = {'action': ['', '1', '2'],
                 'process': ['F', 'C']}
 
-    user_action = input(console[_func]).upper()
-    accepted = ' or '.join(approved[_func])
+    user_action = input(console[text]).upper()
+    accepted = ' or '.join(approved[text])
 
-    while user_action not in approved[_func]:
-        display_error(f"Enter a valid input [{accepted}]\n")
-        user_action = input(console[_func]).upper()
+    if user_action in approved[text]:
+        return user_action
+    else:
+        while user_action not in approved[text]:
+            display_error(f"Enter a valid input [{accepted}]\n")
+            user_action = input(console[text]).upper()
 
-    return user_action
+        return user_action
+
+
+def validate_path(text: str) -> Path:
+    user_path = input(text)
+    path = Path(user_path.strip('"'))
+
+    if path.is_file():
+        return path
+    else:
+        while not path.is_file():
+            user_path = input("Path does not exist or is not valid")
+            path = Path(user_path.strip('"'))
+
+        return path
