@@ -8,7 +8,7 @@ from aztool_akl.validate.data import TypeOneValidator
 
 class TypeTwoTransformer:
     def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
-        self.name = "PT Beverages Spirits"
+        self.name = "PT Beverages - Spirits"
         self.data_file = Path(data_filepath)
         self.cost_file = Path(cost_filepath)
         self.working_dir = self.data_file.parent
@@ -78,3 +78,7 @@ class TypeTwoTransformer:
         self.data[kena_varelia_charge] = self.data.apply(
             lambda x: self._get_cost(x[tomeas], keno_vareli, x[kena_varelia]),
             axis=1)
+
+    def export(self):
+        self.data.to_excel(self.output, index=False)
+        print(f"  -> Exported file: {self.output}\n\n\n\n")
