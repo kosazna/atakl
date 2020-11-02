@@ -6,9 +6,9 @@ from aztool_akl.schemas import *
 from aztool_akl.validate.data import TypeOneValidator
 
 
-class TypeOneTransformer:
+class TypeTwoTransformer:
     def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
-        self.name = "Concepts"
+        self.name = "PT Beverages Spirits"
         self.data_file = Path(data_filepath)
         self.cost_file = Path(cost_filepath)
         self.working_dir = self.data_file.parent
@@ -20,12 +20,6 @@ class TypeOneTransformer:
             undercore2space(tomeas), drop=True)
         self.data.columns = TYPE_ONE_COLUMNS[:12]
         self.validator = TypeOneValidator(self.data)
-
-    def _check_next_idx(self, index, column):
-        try:
-            return self.data[index, column] == self.data[index + 1, column]
-        except KeyError:
-            return False
 
     def _get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
@@ -40,11 +34,11 @@ class TypeOneTransformer:
                         return self.costs.loc[region, material] * quantity
                     else:
                         if quantity >= 21:
-                            return 175
+                            return quantity * 9
                         elif quantity >= 11:
-                            return quantity * 11.5
+                            return quantity * 12
                         elif quantity > 0:
-                            return quantity * 15
+                            return quantity * 13
                         else:
                             return 0
                 else:
@@ -55,9 +49,12 @@ class TypeOneTransformer:
     def _preprocess(self):
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
         self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
-        self.data[kola] = self.data[kola].fillna(0).astype(int)
+        self.data[tsantes] = self.data[tsantes].fillna(0).astype(int)
+        self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)
         self.data[varelia] = self.data[varelia].fillna(0).astype(int)
-        self.data[kena_varelia] = self.data[kena_varelia].fillna(0).astype(int)
+        self.data[ompreles] = self.data[ompreles].fillna(0).astype(int)
+        self.data[paletes_san] = self.data[paletes_san].fillna(0).astype(int)
+        self.data[kola] = self.data[kola].fillna(0).astype(int)
 
         self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
 
@@ -81,60 +78,3 @@ class TypeOneTransformer:
         self.data[kena_varelia_charge] = self.data.apply(
             lambda x: self._get_cost(x[tomeas], keno_vareli, x[kena_varelia]),
             axis=1)
-
-        self.data[total_charge] = sum(
-            [self.data[paletes_charge],
-             self.data[kivotia_charge],
-             self.data[varelia_charge],
-             self.data[kena_varelia_charge]])
-
-        self.data[final_charge] = 0.0
-
-        hold_idx = []
-        hold = []
-
-        for i in self.data.itertuples():
-            same_name = self._check_next_idx(i.Index, pelatis)
-
-            same_date = self._check_next_idx(i.Index, imerominia)
-
-            same_region = self._check_next_idx(i.Index, tomeas)
-
-            same_delivery = self._check_next_idx(i.Index, paradosi)
-
-            minimum = self._get_cost(i.Γεωγραφικός_Τομέας, elaxisti)
-
-            if all([same_name, same_date, same_region, same_delivery]):
-                hold_idx.append(i.Index)
-                hold.append(i.Συνολική_Χρέωση)
-            else:
-                if hold:
-                    hold_idx.append(i.Index)
-                    hold.append(i.Συνολική_Χρέωση)
-
-                    if sum(hold) > minimum:
-                        for idx, value in zip(hold_idx, hold):
-                            self.data.loc[idx, final_charge] = value
-                    else:
-                        self.data.loc[i.Index, final_charge] = minimum
-
-                    hold_idx = []
-                    hold = []
-                else:
-                    if i.Συνολική_Χρέωση > minimum:
-                        self.data.loc[
-                            i.Index, final_charge] = i.Συνολική_Χρέωση
-                    else:
-                        self.data.loc[i.Index, final_charge] = minimum
-
-        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
-
-        self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0
-
-        self.data.columns = list(map(undercore2space, TYPE_ONE_COLUMNS))
-
-        print(f"  -> Data Process Complete: [{self.data.shape[0]}] records\n")
-
-    def export(self):
-        self.data.to_excel(self.output, index=False)
-        print(f"  -> Exported file: {self.output}\n\n\n\n")

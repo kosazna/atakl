@@ -21,11 +21,25 @@ kena_varelia_charge = "Χρέωση_Διανομής_Κενού_Βαρελιού
 total_charge = "Συνολική_Χρέωση"
 final_charge = "Τελική_Χρέωση"
 
+# Type Two columns for processing
+parastatiko = "Παραστατικό"
+kodikos = "Κωδικός_Είδους"
+perigrafi = "Περιγραφή"
+tsantes = "Τσάντες"
+temaxia = "Τεμάχια"
+ompreles = "Διαφ_Ομπρέλες"
+paletes_san = "Παλέτες_San_Miguel"
+tsanta_charge = "Χρέωση_Διανομής_Τσάντας"
+omprela_charge = "Χρέωση_Διανομής_Διαφ_Ομπρέλας"
+
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
 vareli = "Βαρέλι"
 keno_vareli = "Κενό Βαρέλι"
 elaxisti = "Ελάχιστη Χρέωση Παραγγελίας"
+mixani = "Μηχανή"
+tsanta = "Τσάντα"
+omprela = "Διαφ Ομπρέλα"
 
 atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
@@ -44,6 +58,30 @@ TYPE_ONE_COLUMNS = [paraggelia,
                     varelia,
                     kena_varelia,
                     apostoli,
+                    paletes_charge,
+                    kivotia_charge,
+                    varelia_charge,
+                    kena_varelia_charge,
+                    total_charge,
+                    final_charge]
+
+TYPE_TWO_COLUMNS = [paraggelia,
+                    imerominia,
+                    parastatiko,
+                    pelatis,
+                    tomeas,
+                    paradosi,
+                    apostoli,
+                    kodikos,
+                    perigrafi,
+                    paletes,
+                    kivotia,
+                    tsantes,
+                    temaxia,
+                    varelia,
+                    ompreles,
+                    paletes_san,
+                    kola,
                     paletes_charge,
                     kivotia_charge,
                     varelia_charge,
