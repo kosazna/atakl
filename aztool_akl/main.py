@@ -18,22 +18,16 @@ if __name__ == "__main__":
     action = validate_input("action")
 
     if action == "1":
-        # process = validate_input("process")
-
         working_dir = Path(sys.argv[1])
 
-        _data_path = validate_path("File with the database data:\n")
-        _costs_path = validate_path("File with costs per region:\n")
+        _data = validate_path("File with the database data:\n")
+        costs = validate_path("File with costs per region:\n")
 
-        if _data_path is None:
-            data_path = working_dir.joinpath("DB_Data.xlsx")
-        else:
-            data_path = _data_path
+        data_path = working_dir.joinpath(
+            "DB_Data.xlsx") if _data is None else _data
 
-        if _costs_path is None:
-            costs_path = working_dir.joinpath(".templates\\Region_Costs.xlsx")
-        else:
-            costs_path = _costs_path
+        costs_path = working_dir.joinpath(
+            ".templates\\Region_Costs.xlsx") if costs is None else costs
 
         tranformer = TypeOneTransformer(data_filepath=data_path,
                                         cost_filepath=costs_path)
