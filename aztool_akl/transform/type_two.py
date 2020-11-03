@@ -23,31 +23,32 @@ class TypeTwoTransformer(TypeTemplate):
 
     def _get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
-            return 0
+            return 0.0
         else:
             try:
                 if quantity is None:
-                    return self.costs.loc[region, material]
+                    return round(self.costs.loc[region, material], 2)
 
                 if material == paleta:
                     if region != 'ΑΤΤΙΚΗ':
-                        return self.costs.loc[region, material] * quantity
+                        return round(
+                            self.costs.loc[region, material] * quantity, 2)
                     else:
                         if quantity >= 21:
-                            return quantity * 9
+                            return round(quantity * 9, 2)
                         elif quantity >= 11:
-                            return quantity * 12
+                            return round(quantity * 12, 2)
                         elif quantity > 0:
-                            return quantity * 13
+                            return round(quantity * 13, 2)
                         else:
-                            return 0
+                            return 0.0
                 else:
-                    return self.costs.loc[region, material] * quantity
+                    return round(self.costs.loc[region, material] * quantity, 2)
             except KeyError:
-                return 0
+                return 0.0
 
     def _finalize_cost(self, region: str, charge: float):
-        wall = self._get_cost(region, paleta, 1)
+        wall = round(self._get_cost(region, paleta, 1), 2)
         if charge > wall:
             return wall
         return charge
@@ -137,7 +138,9 @@ class TypeTwoTransformer(TypeTemplate):
                     hold_idx.append(i.Index)
                     hold.append(i.Συνολική_Χρέωση)
 
-                    if sum(hold) > minimum:
+                    whole = round(sum(hold), 2)
+
+                    if whole > minimum:
                         for idx, value in zip(hold_idx, hold):
                             self.data.loc[idx, final_charge] = value
                     else:
