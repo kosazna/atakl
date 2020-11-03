@@ -18,6 +18,15 @@ class TypeTemplate:
         self.costs = pd.DataFrame()
         self.validator = Validator(self.data)
 
+    def _preprocess(self):
+        pass
+
+    def get_cost(self, region: str, material: str, quantity: int = None):
+        pass
+
+    def process(self):
+        pass
+
     def _check_next_idx(self, index, column):
         try:
             return self.data.loc[index, column] == self.data.loc[
@@ -75,15 +84,6 @@ class TypeTemplate:
                             i.Index, final_charge] = i.Συνολική_Χρέωση
                     else:
                         self.data.loc[i.Index, final_charge] = minimum
-
-    def get_cost(self, region: str, material: str, quantity: int = None):
-        pass
-
-    def _preprocess(self):
-        pass
-
-    def process(self):
-        pass
 
     def export(self):
         self.data.to_excel(self.output, index=False)

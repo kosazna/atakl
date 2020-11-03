@@ -13,7 +13,7 @@ class TypeOneTransformer(TypeTemplate):
         self.data_file = Path(data_filepath)
         self.cost_file = Path(cost_filepath)
         self.working_dir = self.data_file.parent
-        self.output = self.working_dir.joinpath(f"CHARGE_f{self.name}.xlsx")
+        self.output = self.working_dir.joinpath(f"CHARGES_{self.name}.xlsx")
         self.preprocessed = False
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
@@ -27,7 +27,8 @@ class TypeOneTransformer(TypeTemplate):
             try:
                 if material == paleta:
                     if region != 'ΑΤΤΙΚΗ':
-                        return self.costs.loc[region, material] * quantity
+                        return round2(
+                            self.costs.loc[region, material] * quantity)
                     else:
                         if quantity >= 21:
                             return round2(175)
@@ -87,7 +88,3 @@ class TypeOneTransformer(TypeTemplate):
         self.data.columns = list(map(undercore2space, TYPE_ONE_COLUMNS))
 
         print(f"  -> Data Process Complete: [{self.data.shape[0]}] records\n")
-
-    def export(self):
-        self.data.to_excel(self.output, index=False)
-        print(f"  -> Exported file: {self.output}\n\n\n\n")
