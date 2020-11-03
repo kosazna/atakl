@@ -13,7 +13,6 @@ class TypeTwoTransformer(TypeTemplate):
         self.label = "Spirits"
         self.output = self.working_dir.joinpath(
             f"CHARGES_{self.name}-{self.label}.xlsx")
-        self.preprocessed = False
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)
@@ -24,7 +23,7 @@ class TypeTwoTransformer(TypeTemplate):
             return 0.00
         else:
             try:
-                if material == paleta:
+                if material == paleta or material == mixani:
                     if region != 'ΑΤΤΙΚΗ':
                         return round2(
                             self.costs.loc[region, material] * quantity)
@@ -49,6 +48,7 @@ class TypeTwoTransformer(TypeTemplate):
         return charge
 
     def _preprocess(self):
+        self.data = self.data.sort_values(DATA_SORT).reset_index(drop=True)
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
         self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
         self.data[tsantes] = self.data[tsantes].fillna(0).astype(int)
@@ -68,36 +68,36 @@ class TypeTwoTransformer(TypeTemplate):
 
         self.validator.validate()
 
-        self.data[paletes_charge] = self.data.apply(
+        self.data[paletes_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], paleta, x[paletes]), axis=1)
 
-        self.data[kivotia_charge] = self.data.apply(
+        self.data[kivotia_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
 
-        self.data[tsantes_charge] = self.data.apply(
+        self.data[tsantes_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], tsanta, x[tsantes]), axis=1)
 
-        self.data[varelia_charge] = 0.0
+        self.data[varelia_dist_charge] = 0.0
 
-        self.data[ompreles_charge] = self.data.apply(
+        self.data[ompreles_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], omprela, x[ompreles]), axis=1)
 
-        self.data[kivotia_charge] = self.data.apply(
-            lambda x: self._finalize_cost(x[tomeas], x[kivotia_charge]), axis=1)
+        self.data[kivotia_dist_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas], x[kivotia_dist_charge]), axis=1)
 
-        self.data[tsantes_charge] = self.data.apply(
-            lambda x: self._finalize_cost(x[tomeas], x[tsantes_charge]), axis=1)
+        self.data[tsantes_dist_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas], x[tsantes_dist_charge]), axis=1)
 
-        self.data[ompreles_charge] = self.data.apply(
-            lambda x: self._finalize_cost(x[tomeas], x[ompreles_charge]),
+        self.data[ompreles_dist_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas], x[ompreles_dist_charge]),
             axis=1)
 
         self.data[total_charge] = sum(
-            [self.data[paletes_charge],
-             self.data[kivotia_charge],
-             self.data[varelia_charge],
-             self.data[tsantes_charge],
-             self.data[ompreles_charge]])
+            [self.data[paletes_dist_charge],
+             self.data[kivotia_dist_charge],
+             self.data[varelia_dist_charge],
+             self.data[tsantes_dist_charge],
+             self.data[ompreles_dist_charge]])
 
         self.process_per_client()
 

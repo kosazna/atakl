@@ -1,20 +1,71 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
+import numpy as np
 from pathlib import Path
 from aztool_akl.schemas import *
-from aztool_akl.transform.template import TypeTemplate
+from aztool_akl.transform.type_two import TypeTwoTransformer
 
 
-class TypeThreeTransformer(TypeTemplate):
+class TypeThreeTransformer(TypeTwoTransformer):
     def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
         super().__init__(data_filepath, cost_filepath)
-        self.name = "PT Beverages"
         self.label = "Lavazza"
         self.output = self.working_dir.joinpath(
             f"CHARGES_{self.name}-{self.label}.xlsx")
-        self.preprocessed = False
-        self.costs = pd.read_excel(self.cost_file,
-                                   sheet_name=self.name).set_index(
-            undercore2space(tomeas), drop=True)
-        self.data.columns = TYPE_TWO_COLUMNS[:17]
+        self.data.columns = TYPE_THREE_COLUMNS[:14]
+
+    def _preprocess(self):
+        self.data = self.data.sort_values(DATA_SORT2).reset_index(drop=True)
+        self.data[sunolika_temaxia] = self.data[sunolika_temaxia].fillna(
+            0).astype(int)
+        self.data[atofia_paleta] = self.data[atofia_paleta].fillna(0).astype(
+            int)
+        self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
+        self.data[upoloipo_se_temaxia] = self.data[upoloipo_se_temaxia].fillna(
+            0).astype(int)
+        self.data[mixanes] = self.data[mixanes].fillna(0).astype(int)
+
+        self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
+
+        self.preprocessed = True
+
+    def process(self):
+        if not self.preprocessed:
+            self._preprocess()
+
+        self.validator.validate()
+
+        # self.data[kivotia] = self.data[kivotia] + np.ceil(
+        #     self.data[temaxia] / 6)
+
+        self.data[atofia_paleta_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], paleta, x[atofia_paleta]),
+            axis=1)
+
+        self.data[kivotia_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
+            axis=1)
+
+        self.data[mixanes_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], mixani, x[mixanes]),
+            axis=1)
+
+        self.data[kivotia_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas], x[kivotia_charge]),
+            axis=1)
+
+        self.data[total_charge] = sum(
+            [self.data[atofia_paleta_charge],
+             self.data[kivotia_charge],
+             self.data[mixanes_charge]])
+
+        self.process_per_client()
+
+        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+
+        self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0.00
+
+        self.data.columns = list(map(undercore2space, TYPE_THREE_COLUMNS))
+
+        print(f"  -> Data Process Complete: [{self.data.shape[0]}] records\n")

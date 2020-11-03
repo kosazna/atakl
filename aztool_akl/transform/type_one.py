@@ -14,7 +14,6 @@ class TypeOneTransformer(TypeTemplate):
         self.cost_file = Path(cost_filepath)
         self.working_dir = self.data_file.parent
         self.output = self.working_dir.joinpath(f"CHARGES_{self.name}.xlsx")
-        self.preprocessed = False
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)
@@ -44,6 +43,7 @@ class TypeOneTransformer(TypeTemplate):
                 return 0.00
 
     def _preprocess(self):
+        self.data = self.data.sort_values(DATA_SORT).reset_index(drop=True)
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
         self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
         self.data[kola] = self.data[kola].fillna(0).astype(int)
@@ -60,24 +60,24 @@ class TypeOneTransformer(TypeTemplate):
 
         self.validator.validate()
 
-        self.data[paletes_charge] = self.data.apply(
+        self.data[paletes_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], paleta, x[paletes]), axis=1)
 
-        self.data[kivotia_charge] = self.data.apply(
+        self.data[kivotia_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
 
-        self.data[varelia_charge] = self.data.apply(
+        self.data[varelia_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], vareli, x[varelia]), axis=1)
 
-        self.data[kena_varelia_charge] = self.data.apply(
+        self.data[kena_varelia_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], keno_vareli, x[kena_varelia]),
             axis=1)
 
         self.data[total_charge] = sum(
-            [self.data[paletes_charge],
-             self.data[kivotia_charge],
-             self.data[varelia_charge],
-             self.data[kena_varelia_charge]])
+            [self.data[paletes_dist_charge],
+             self.data[kivotia_dist_charge],
+             self.data[varelia_dist_charge],
+             self.data[kena_varelia_dist_charge]])
 
         self.process_per_client()
 

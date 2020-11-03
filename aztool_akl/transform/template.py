@@ -13,8 +13,8 @@ class TypeTemplate:
         self.working_dir = self.data_file.parent
         self.output = ""
         self.preprocessed = False
-        self.data = pd.read_excel(self.data_file).sort_values(DATA_SORT).dropna(
-            subset=[undercore2space(pelatis)]).reset_index(drop=True)
+        self.data = pd.read_excel(self.data_file).dropna(
+            subset=[undercore2space(pelatis)])
         self.costs = pd.DataFrame()
         self.validator = Validator(self.data)
 
