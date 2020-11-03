@@ -26,10 +26,13 @@ class TypeTemplate:
             return False
 
     def get_minimum(self, region: str):
-        if region == "ΕΞΑΓΩΓΗ":
+        try:
+            if region == "ΕΞΑΓΩΓΗ":
+                return 0.00
+            else:
+                return round2(self.costs.loc[region, elaxisti])
+        except KeyError:
             return 0.00
-        else:
-            return round2(self.costs.loc[region, elaxisti])
 
     def process_per_client(self):
         self.data[final_charge] = 0.0
