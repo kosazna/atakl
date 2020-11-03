@@ -132,7 +132,8 @@ class TypeTwoTransformer(TypeTemplate):
             minimum = self._get_cost(i.Γεωγραφικός_Τομέας, elaxisti)
 
             print(all([same_name, same_date, same_region, same_delivery]))
-            print(same_name, same_date, same_region, same_delivery)
+            print(i.Ημερομηνία, i.Επωνυμία_Πελάτη, i.Γεωγραφικός_Τομέας,
+                  i.Τρόπος_Αποστολής)
 
             if all([same_name, same_date, same_region, same_delivery]):
                 hold_idx.append(i.Index)
