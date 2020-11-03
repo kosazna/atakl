@@ -11,20 +11,28 @@ import sys
 from aztool_akl.validate import *
 from aztool_akl.transform import *
 
+general_costs = ".templates\\Region_Costs.xlsx"
+dt_mapper = {"1": {"data": "DB_Concepts.xlsx",
+                   "tranformer": TypeOneTransformer},
+             "2": {"data": "DB_PT Beverages-Spirits.xlsx",
+                   "tranformer": TypeTwoTransformer}}
 
-def get_user_commands():
-    working_dir = Path(sys.argv[1])
+
+def load_tranformer(_action: str):
+    cwd = Path(sys.argv[1])
 
     _data = validate_path("File with the database data:\n")
     _costs = validate_path("File with costs per region:\n")
 
-    _data_path = working_dir.joinpath(
-        "DB_Data.xlsx") if _data is None else _data
+    data_path = cwd.joinpath(
+        dt_mapper[_action]['data']) if _data is None else _data
 
-    _costs_path = working_dir.joinpath(
-        ".templates\\Region_Costs.xlsx") if _costs is None else _costs
+    costs_path = cwd.joinpath(general_costs) if _costs is None else _costs
 
-    return _data_path, _costs_path
+    _tranformer = dt_mapper[action]['tranformer'](data_filepath=data_path,
+                                                  cost_filepath=costs_path)
+
+    return _tranformer
 
 
 if __name__ == "__main__":
@@ -32,17 +40,7 @@ if __name__ == "__main__":
 
     action = validate_input("action")
 
-    if action == "1":
-        data_path, costs_path = get_user_commands()
+    transformer = load_tranformer(action)
 
-        tranformer = TypeOneTransformer(data_filepath=data_path,
-                                        cost_filepath=costs_path)
-        tranformer.process()
-        tranformer.export()
-    elif action == "2":
-        data_path, costs_path = get_user_commands()
-
-        tranformer = TypeTwoTransformer(data_filepath=data_path,
-                                        cost_filepath=costs_path)
-        tranformer.process()
-        tranformer.export()
+    transformer.process()
+    transformer.export()
