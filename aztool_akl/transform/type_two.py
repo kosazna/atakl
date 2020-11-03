@@ -52,6 +52,12 @@ class TypeTwoTransformer(TypeTemplate):
             return wall
         return charge
 
+    def _minimum_charge(self, region: str, charge: float):
+        minimum = self._get_cost(region, elaxisti)
+        if charge > minimum:
+            return charge
+        return minimum
+
     def _preprocess(self):
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
         self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
@@ -102,6 +108,10 @@ class TypeTwoTransformer(TypeTemplate):
              self.data[varelia_charge],
              self.data[tsantes_charge],
              self.data[ompreles_charge]])
+
+        self.data[final_charge] = self.data.apply(
+            lambda x: self._minimum_charge(x[tomeas], x[final_charge]),
+            axis=1)
 
         self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
