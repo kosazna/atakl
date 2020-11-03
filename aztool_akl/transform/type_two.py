@@ -3,7 +3,7 @@
 import pandas as pd
 from pathlib import Path
 from aztool_akl.schemas import *
-from aztool_akl.transform.type_template import TypeTemplate
+from aztool_akl.transform.template import TypeTemplate
 
 
 class TypeTwoTransformer(TypeTemplate):
@@ -11,17 +11,15 @@ class TypeTwoTransformer(TypeTemplate):
         super().__init__(data_filepath, cost_filepath)
         self.name = "PT Beverages"
         self.label = "Spirits"
-
         self.output = self.working_dir.joinpath(
             f"{self.name}-{self.label}_Processed.xlsx")
         self.preprocessed = False
-
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)
         self.data.columns = TYPE_TWO_COLUMNS[:17]
 
-    def _get_cost(self, region: str, material: str, quantity: int = None):
+    def get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
             return 0.00
         else:
@@ -45,7 +43,7 @@ class TypeTwoTransformer(TypeTemplate):
                 return 0.00
 
     def _finalize_cost(self, region: str, charge: float):
-        wall = round2(self._get_cost(region, paleta, 1))
+        wall = round2(self.get_cost(region, paleta, 1))
         if charge > wall:
             return wall
         return charge
@@ -68,21 +66,21 @@ class TypeTwoTransformer(TypeTemplate):
         if not self.preprocessed:
             self._preprocess()
 
-        # self.validator.validate()
+        self.validator.validate()
 
         self.data[paletes_charge] = self.data.apply(
-            lambda x: self._get_cost(x[tomeas], paleta, x[paletes]), axis=1)
+            lambda x: self.get_cost(x[tomeas], paleta, x[paletes]), axis=1)
 
         self.data[kivotia_charge] = self.data.apply(
-            lambda x: self._get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
+            lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
 
         self.data[tsantes_charge] = self.data.apply(
-            lambda x: self._get_cost(x[tomeas], tsanta, x[tsantes]), axis=1)
+            lambda x: self.get_cost(x[tomeas], tsanta, x[tsantes]), axis=1)
 
         self.data[varelia_charge] = 0.0
 
         self.data[ompreles_charge] = self.data.apply(
-            lambda x: self._get_cost(x[tomeas], omprela, x[ompreles]), axis=1)
+            lambda x: self.get_cost(x[tomeas], omprela, x[ompreles]), axis=1)
 
         self.data[kivotia_charge] = self.data.apply(
             lambda x: self._finalize_cost(x[tomeas], x[kivotia_charge]), axis=1)
@@ -101,9 +99,7 @@ class TypeTwoTransformer(TypeTemplate):
              self.data[tsantes_charge],
              self.data[ompreles_charge]])
 
-        self.data[final_charge] = 0.00
-
-        self._process_per_client()
+        self.process_per_client()
 
         self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 

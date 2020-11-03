@@ -4,7 +4,7 @@ import pandas as pd
 from aztool_akl.schemas import *
 
 
-class TypeOneValidator:
+class Validator:
     def __init__(self, data: pd.DataFrame):
         self.data = data
 

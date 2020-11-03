@@ -3,56 +3,44 @@
 import pandas as pd
 from pathlib import Path
 from aztool_akl.schemas import *
-from aztool_akl.validate.data import TypeOneValidator
+from aztool_akl.transform.template import TypeTemplate
 
 
-class TypeOneTransformer:
+class TypeOneTransformer(TypeTemplate):
     def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
+        super().__init__(data_filepath, cost_filepath)
         self.name = "Concepts"
         self.data_file = Path(data_filepath)
         self.cost_file = Path(cost_filepath)
         self.working_dir = self.data_file.parent
-        self.output = self.working_dir.joinpath("Processed_Data.xlsx")
+        self.output = self.working_dir.joinpath(f"f{self.name}_Processed.xlsx")
         self.preprocessed = False
-        self.data = pd.read_excel(self.data_file).sort_values(DATA_SORT).dropna(
-            subset=[undercore2space(pelatis)]).reset_index(drop=True)
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)
         self.data.columns = TYPE_ONE_COLUMNS[:12]
-        self.validator = TypeOneValidator(self.data)
 
-    def _check_next_idx(self, index, column):
-        try:
-            return self.data.loc[index, column] == self.data.loc[
-                index + 1, column]
-        except KeyError:
-            return False
-
-    def _get_cost(self, region: str, material: str, quantity: int = None):
+    def get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
-            return 0
+            return 0.00
         else:
             try:
-                if quantity is None:
-                    return self.costs.loc[region, material]
-
                 if material == paleta:
                     if region != 'ΑΤΤΙΚΗ':
                         return self.costs.loc[region, material] * quantity
                     else:
                         if quantity >= 21:
-                            return 175
+                            return round2(175)
                         elif quantity >= 11:
-                            return quantity * 11.5
+                            return round2(quantity * 11.5)
                         elif quantity > 0:
-                            return quantity * 15
+                            return round2(quantity * 15)
                         else:
-                            return 0
+                            return 0.00
                 else:
-                    return self.costs.loc[region, material] * quantity
+                    return round2(self.costs.loc[region, material] * quantity)
             except KeyError:
-                return 0
+                return 0.00
 
     def _preprocess(self):
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
@@ -72,16 +60,16 @@ class TypeOneTransformer:
         self.validator.validate()
 
         self.data[paletes_charge] = self.data.apply(
-            lambda x: self._get_cost(x[tomeas], paleta, x[paletes]), axis=1)
+            lambda x: self.get_cost(x[tomeas], paleta, x[paletes]), axis=1)
 
         self.data[kivotia_charge] = self.data.apply(
-            lambda x: self._get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
+            lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
 
         self.data[varelia_charge] = self.data.apply(
-            lambda x: self._get_cost(x[tomeas], vareli, x[varelia]), axis=1)
+            lambda x: self.get_cost(x[tomeas], vareli, x[varelia]), axis=1)
 
         self.data[kena_varelia_charge] = self.data.apply(
-            lambda x: self._get_cost(x[tomeas], keno_vareli, x[kena_varelia]),
+            lambda x: self.get_cost(x[tomeas], keno_vareli, x[kena_varelia]),
             axis=1)
 
         self.data[total_charge] = sum(
@@ -90,48 +78,11 @@ class TypeOneTransformer:
              self.data[varelia_charge],
              self.data[kena_varelia_charge]])
 
-        self.data[final_charge] = 0.0
-
-        hold_idx = []
-        hold = []
-
-        for i in self.data.itertuples():
-            same_name = self._check_next_idx(i.Index, pelatis)
-
-            same_date = self._check_next_idx(i.Index, imerominia)
-
-            same_region = self._check_next_idx(i.Index, tomeas)
-
-            same_delivery = self._check_next_idx(i.Index, paradosi)
-
-            minimum = self._get_cost(i.Γεωγραφικός_Τομέας, elaxisti)
-
-            if all([same_name, same_date, same_region, same_delivery]):
-                hold_idx.append(i.Index)
-                hold.append(i.Συνολική_Χρέωση)
-            else:
-                if hold:
-                    hold_idx.append(i.Index)
-                    hold.append(i.Συνολική_Χρέωση)
-
-                    if sum(hold) > minimum:
-                        for idx, value in zip(hold_idx, hold):
-                            self.data.loc[idx, final_charge] = value
-                    else:
-                        self.data.loc[i.Index, final_charge] = minimum
-
-                    hold_idx = []
-                    hold = []
-                else:
-                    if i.Συνολική_Χρέωση > minimum:
-                        self.data.loc[
-                            i.Index, final_charge] = i.Συνολική_Χρέωση
-                    else:
-                        self.data.loc[i.Index, final_charge] = minimum
+        self.process_per_client()
 
         self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
-        self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0
+        self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
         self.data.columns = list(map(undercore2space, TYPE_ONE_COLUMNS))
 

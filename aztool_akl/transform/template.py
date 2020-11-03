@@ -3,7 +3,7 @@
 import pandas as pd
 from pathlib import Path
 from aztool_akl.schemas import *
-from aztool_akl.validate.data import TypeOneValidator
+from aztool_akl.validate.data import Validator
 
 
 class TypeTemplate:
@@ -16,6 +16,7 @@ class TypeTemplate:
         self.data = pd.read_excel(self.data_file).sort_values(DATA_SORT).dropna(
             subset=[undercore2space(pelatis)]).reset_index(drop=True)
         self.costs = pd.DataFrame()
+        self.validator = Validator(self.data)
 
     def _check_next_idx(self, index, column):
         try:
@@ -24,13 +25,13 @@ class TypeTemplate:
         except KeyError:
             return False
 
-    def _get_minimum(self, region: str):
+    def get_minimum(self, region: str):
         if region == "ΕΞΑΓΩΓΗ":
             return 0.00
         else:
             return round2(self.costs.loc[region, elaxisti])
 
-    def _process_per_client(self):
+    def process_per_client(self):
         self.data[final_charge] = 0.0
 
         hold_idx = []
@@ -72,7 +73,7 @@ class TypeTemplate:
                     else:
                         self.data.loc[i.Index, final_charge] = minimum
 
-    def _get_cost(self, region: str, material: str, quantity: int = None):
+    def get_cost(self, region: str, material: str, quantity: int = None):
         pass
 
     def _preprocess(self):
