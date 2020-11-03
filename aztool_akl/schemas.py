@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from aztool_akl.utils import *
 
 # Type ONE columns for processing
 paraggelia = "Παραγγελία"
@@ -53,8 +52,8 @@ omprela = "Διαφ Ομπρέλα"
 atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
 
-DATA_SORT = list(map(undercore2space, [imerominia, pelatis, tomeas, paradosi]))
-DATA_SORT2 = list(map(undercore2space, [imerominia, pelatis, tomeas, poli]))
+DATA_SORT = [imerominia, pelatis, tomeas, paradosi]
+DATA_SORT2 = [imerominia, pelatis, tomeas, poli]
 
 TYPE_ONE_COLUMNS = [paraggelia,
                     imerominia,

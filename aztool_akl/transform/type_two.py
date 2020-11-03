@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import pandas as pd
-from pathlib import Path
-from aztool_akl.schemas import *
-from aztool_akl.transform.template import TypeTemplate
+from aztool_akl.transform.template import *
 
 
 class TypeTwoTransformer(TypeTemplate):
@@ -16,7 +13,6 @@ class TypeTwoTransformer(TypeTemplate):
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)
-        self.data.columns = TYPE_TWO_COLUMNS[:17]
 
     def get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
@@ -48,6 +44,7 @@ class TypeTwoTransformer(TypeTemplate):
         return charge
 
     def _preprocess(self):
+        self.data.columns = TYPE_TWO_COLUMNS[:17]
         self.data = self.data.sort_values(DATA_SORT).reset_index(drop=True)
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
         self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
@@ -83,10 +80,12 @@ class TypeTwoTransformer(TypeTemplate):
             lambda x: self.get_cost(x[tomeas], omprela, x[ompreles]), axis=1)
 
         self.data[kivotia_dist_charge] = self.data.apply(
-            lambda x: self._finalize_cost(x[tomeas], x[kivotia_dist_charge]), axis=1)
+            lambda x: self._finalize_cost(x[tomeas], x[kivotia_dist_charge]),
+            axis=1)
 
         self.data[tsantes_dist_charge] = self.data.apply(
-            lambda x: self._finalize_cost(x[tomeas], x[tsantes_dist_charge]), axis=1)
+            lambda x: self._finalize_cost(x[tomeas], x[tsantes_dist_charge]),
+            axis=1)
 
         self.data[ompreles_dist_charge] = self.data.apply(
             lambda x: self._finalize_cost(x[tomeas], x[ompreles_dist_charge]),

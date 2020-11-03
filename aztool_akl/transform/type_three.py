@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import pandas as pd
 import numpy as np
-from pathlib import Path
-from aztool_akl.schemas import *
-from aztool_akl.transform.type_two import TypeTwoTransformer
+from aztool_akl.transform.type_two import *
 
 
 class TypeThreeTransformer(TypeTwoTransformer):
@@ -13,9 +10,9 @@ class TypeThreeTransformer(TypeTwoTransformer):
         self.label = "Lavazza"
         self.output = self.working_dir.joinpath(
             f"CHARGES_{self.name}-{self.label}.xlsx")
-        self.data.columns = TYPE_THREE_COLUMNS[:14]
 
     def _preprocess(self):
+        self.data.columns = TYPE_THREE_COLUMNS[:14]
         self.data = self.data.sort_values(DATA_SORT2).reset_index(drop=True)
         self.data[sunolika_temaxia] = self.data[sunolika_temaxia].fillna(
             0).astype(int)

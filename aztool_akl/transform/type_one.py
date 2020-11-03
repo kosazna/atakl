@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import pandas as pd
-from pathlib import Path
-from aztool_akl.schemas import *
-from aztool_akl.transform.template import TypeTemplate
+from aztool_akl.transform.template import *
 
 
 class TypeOneTransformer(TypeTemplate):
@@ -17,7 +14,6 @@ class TypeOneTransformer(TypeTemplate):
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)
-        self.data.columns = TYPE_ONE_COLUMNS[:12]
 
     def get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
@@ -43,6 +39,7 @@ class TypeOneTransformer(TypeTemplate):
                 return 0.00
 
     def _preprocess(self):
+        self.data.columns = TYPE_ONE_COLUMNS[:12]
         self.data = self.data.sort_values(DATA_SORT).reset_index(drop=True)
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
         self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
