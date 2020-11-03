@@ -46,7 +46,7 @@ class TypeTemplate:
 
             same_delivery = self._check_next_idx(i.Index, paradosi)
 
-            minimum = self._get_minimum(i.Γεωγραφικός_Τομέας)
+            minimum = self.get_minimum(i.Γεωγραφικός_Τομέας)
 
             if all([same_name, same_date, same_region, same_delivery]):
                 hold_idx.append(i.Index)
