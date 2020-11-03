@@ -15,7 +15,10 @@ general_costs = ".templates\\Region_Costs.xlsx"
 dt_mapper = {"1": {"data": "DB_Concepts.xlsx",
                    "tranformer": TypeOneTransformer},
              "2": {"data": "DB_PT Beverages-Spirits.xlsx",
-                   "tranformer": TypeTwoTransformer}}
+                   "tranformer": TypeTwoTransformer},
+             "3": {"data": "DB_PT Beverages-Lavazza.xlsx",
+                   "tranformer": TypeThreeTransformer}
+             }
 
 
 def load_tranformer(_action: str):
