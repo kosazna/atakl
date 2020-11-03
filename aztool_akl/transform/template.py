@@ -44,7 +44,7 @@ class TypeTemplate:
         except KeyError:
             return 0.00
 
-    def process_per_client(self):
+    def process_per_client(self, last_sort_element=paradosi):
         self.data[final_charge] = 0.0
 
         hold_idx = []
@@ -57,7 +57,7 @@ class TypeTemplate:
 
             same_region = self._check_next_idx(i.Index, tomeas)
 
-            same_delivery = self._check_next_idx(i.Index, paradosi)
+            same_delivery = self._check_next_idx(i.Index, last_sort_element)
 
             minimum = self.get_minimum(i.Γεωγραφικός_Τομέας)
 

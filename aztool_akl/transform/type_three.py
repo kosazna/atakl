@@ -57,7 +57,7 @@ class TypeThreeTransformer(TypeTwoTransformer):
              self.data[kivotia_charge],
              self.data[mixanes_charge]])
 
-        self.process_per_client()
+        self.process_per_client(last_sort_element=poli)
 
         self.data[poli] = self.data[poli].replace("<NULL>", "")
 
