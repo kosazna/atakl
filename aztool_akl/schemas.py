@@ -29,8 +29,8 @@ tsantes = "Τσάντες"
 temaxia = "Τεμάχια"
 ompreles = "Διαφ_Ομπρέλες"
 paletes_san = "Παλέτες_San_Miguel"
-tsanta_charge = "Χρέωση_Διανομής_Τσάντας"
-omprela_charge = "Χρέωση_Διανομής_Διαφ_Ομπρέλας"
+tsantes_charge = "Χρέωση_Διανομής_Τσάντας"
+ompreles_charge = "Χρέωση_Διανομής_Διαφ_Ομπρέλας"
 
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
@@ -84,7 +84,7 @@ TYPE_TWO_COLUMNS = [paraggelia,
                     kola,
                     paletes_charge,
                     kivotia_charge,
+                    tsantes_charge,
                     varelia_charge,
-                    kena_varelia_charge,
-                    total_charge,
+                    ompreles_charge,
                     final_charge]

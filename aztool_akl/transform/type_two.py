@@ -4,22 +4,22 @@ import pandas as pd
 from pathlib import Path
 from aztool_akl.schemas import *
 from aztool_akl.validate.data import TypeOneValidator
+from aztool_akl.transform.type_template import TypeTemplate
 
 
-class TypeTwoTransformer:
+class TypeTwoTransformer(TypeTemplate):
     def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
-        self.name = "PT Beverages - Spirits"
-        self.data_file = Path(data_filepath)
-        self.cost_file = Path(cost_filepath)
-        self.working_dir = self.data_file.parent
-        self.output = self.working_dir.joinpath("Processed_Data.xlsx")
+        super().__init__(data_filepath, cost_filepath)
+        self.name = "PT Beverages"
+        self.label = "Spirits"
+        self.output = self.working_dir.joinpath(
+            f"{self.name}-{self.label}_Processed.xlsx")
         self.preprocessed = False
-        self.data = pd.read_excel(self.data_file).sort_values(DATA_SORT).dropna(
-            subset=[undercore2space(pelatis)]).reset_index(drop=True)
-        self.costs = pd.read_excel(self.cost_file).set_index(
+        self.costs = pd.read_excel(self.cost_file,
+                                   sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)
-        self.data.columns = TYPE_ONE_COLUMNS[:12]
-        self.validator = TypeOneValidator(self.data)
+        self.data.columns = TYPE_TWO_COLUMNS[:17]
+        # self.validator = TypeOneValidator(self.data)
 
     def _get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
@@ -46,6 +46,12 @@ class TypeTwoTransformer:
             except KeyError:
                 return 0
 
+    def _finalize_cost(self, region: str, charge: float):
+        wall = self._get_cost(region, paleta, 1)
+        if charge > wall:
+            return wall
+        return charge
+
     def _preprocess(self):
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
         self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
@@ -64,7 +70,7 @@ class TypeTwoTransformer:
         if not self.preprocessed:
             self._preprocess()
 
-        self.validator.validate()
+        # self.validator.validate()
 
         self.data[paletes_charge] = self.data.apply(
             lambda x: self._get_cost(x[tomeas], paleta, x[paletes]), axis=1)
@@ -72,13 +78,35 @@ class TypeTwoTransformer:
         self.data[kivotia_charge] = self.data.apply(
             lambda x: self._get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
 
-        self.data[varelia_charge] = self.data.apply(
-            lambda x: self._get_cost(x[tomeas], vareli, x[varelia]), axis=1)
+        self.data[tsantes_charge] = self.data.apply(
+            lambda x: self._get_cost(x[tomeas], tsanta, x[tsantes]), axis=1)
 
-        self.data[kena_varelia_charge] = self.data.apply(
-            lambda x: self._get_cost(x[tomeas], keno_vareli, x[kena_varelia]),
+        self.data[varelia_charge] = 0.0
+
+        self.data[ompreles_charge] = self.data.apply(
+            lambda x: self._get_cost(x[tomeas], omprela, x[ompreles]), axis=1)
+
+        self.data[kivotia_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas], x[kivotia_charge]), axis=1)
+
+        self.data[tsantes_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas], x[tsantes_charge]), axis=1)
+
+        self.data[ompreles_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas], x[ompreles_charge]),
             axis=1)
 
-    def export(self):
-        self.data.to_excel(self.output, index=False)
-        print(f"  -> Exported file: {self.output}\n\n\n\n")
+        self.data[final_charge] = sum(
+            [self.data[paletes_charge],
+             self.data[kivotia_charge],
+             self.data[varelia_charge],
+             self.data[tsantes_charge],
+             self.data[ompreles_charge]])
+
+        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+
+        self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0
+
+        self.data.columns = list(map(undercore2space, TYPE_TWO_COLUMNS))
+
+        print(f"  -> Data Process Complete: [{self.data.shape[0]}] records\n")
