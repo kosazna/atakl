@@ -5,9 +5,9 @@ from pathlib import Path
 
 
 def validate_input(text: str) -> str:
-    console = {'action': " (1) Concepts\n"
-                         " (2) PT Beverages - Spirits\n"
-                         " (3) PT Beverages - Lavazza\n\n",
+    console = {'action': "(1) Concepts\n"
+                         "(2) PT Beverages - Spirits\n"
+                         "(3) PT Beverages - Lavazza\n\n",
                'process': "\n(F)ast or (C)ustom processing ?\n\n"}
 
     approved = {'action': ['', '1', '2', '3'],
