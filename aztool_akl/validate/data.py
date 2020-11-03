@@ -2,6 +2,7 @@
 
 import pandas as pd
 from aztool_akl.schemas import *
+from aztool_akl.utils import *
 
 
 class Validator:
