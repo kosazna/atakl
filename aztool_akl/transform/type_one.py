@@ -13,7 +13,7 @@ class TypeOneTransformer(TypeTemplate):
         self.data_file = Path(data_filepath)
         self.cost_file = Path(cost_filepath)
         self.working_dir = self.data_file.parent
-        self.output = self.working_dir.joinpath(f"f{self.name}_Processed.xlsx")
+        self.output = self.working_dir.joinpath(f"CHARGE_f{self.name}.xlsx")
         self.preprocessed = False
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
