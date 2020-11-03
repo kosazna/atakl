@@ -24,7 +24,8 @@ class TypeOneTransformer:
 
     def _check_next_idx(self, index, column):
         try:
-            return self.data[index, column] == self.data[index + 1, column]
+            return self.data.loc[index, column] == self.data.loc[
+                index + 1, column]
         except KeyError:
             return False
 

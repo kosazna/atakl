@@ -3,32 +3,23 @@
 import pandas as pd
 from pathlib import Path
 from aztool_akl.schemas import *
+from aztool_akl.transform.type_template import TypeTemplate
 
 
-class TypeTwoTransformer:
+class TypeTwoTransformer(TypeTemplate):
     def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
-
+        super().__init__(data_filepath, cost_filepath)
         self.name = "PT Beverages"
         self.label = "Spirits"
-        self.data_file = Path(data_filepath)
-        self.cost_file = Path(cost_filepath)
-        self.working_dir = self.data_file.parent
+
         self.output = self.working_dir.joinpath(
             f"{self.name}-{self.label}_Processed.xlsx")
         self.preprocessed = False
-        self.data = pd.read_excel(self.data_file).sort_values(DATA_SORT).dropna(
-            subset=[undercore2space(pelatis)]).reset_index(drop=True)
+
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)
         self.data.columns = TYPE_TWO_COLUMNS[:17]
-
-    def _check_next_idx(self, index, column):
-        try:
-            return self.data.loc[index, column] == self.data.loc[
-                index + 1, column]
-        except KeyError:
-            return False
 
     def _get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
@@ -168,7 +159,3 @@ class TypeTwoTransformer:
         self.data.columns = list(map(undercore2space, TYPE_TWO_COLUMNS))
 
         print(f"  -> Data Process Complete: [{self.data.shape[0]}] records\n")
-
-    def export(self):
-        self.data.to_excel(self.output, index=False)
-        print(f"  -> Exported file: {self.output}\n\n\n\n")
