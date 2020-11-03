@@ -87,4 +87,5 @@ TYPE_TWO_COLUMNS = [paraggelia,
                     tsantes_charge,
                     varelia_charge,
                     ompreles_charge,
+                    total_charge,
                     final_charge]

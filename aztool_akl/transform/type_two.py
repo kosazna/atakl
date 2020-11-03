@@ -102,20 +102,55 @@ class TypeTwoTransformer(TypeTemplate):
             lambda x: self._finalize_cost(x[tomeas], x[ompreles_charge]),
             axis=1)
 
-        self.data[final_charge] = sum(
+        self.data[total_charge] = sum(
             [self.data[paletes_charge],
              self.data[kivotia_charge],
              self.data[varelia_charge],
              self.data[tsantes_charge],
              self.data[ompreles_charge]])
 
-        self.data[final_charge] = self.data.apply(
-            lambda x: self._minimum_charge(x[tomeas], x[final_charge]),
-            axis=1)
+        self.data[final_charge] = 0.0
+
+        hold_idx = []
+        hold = []
+
+        for i in self.data.itertuples():
+            same_name = self._check_next_idx(i.Index, pelatis)
+
+            same_date = self._check_next_idx(i.Index, imerominia)
+
+            same_region = self._check_next_idx(i.Index, tomeas)
+
+            same_delivery = self._check_next_idx(i.Index, paradosi)
+
+            minimum = self._get_cost(i.Γεωγραφικός_Τομέας, elaxisti)
+
+            if all([same_name, same_date, same_region, same_delivery]):
+                hold_idx.append(i.Index)
+                hold.append(i.Συνολική_Χρέωση)
+            else:
+                if hold:
+                    hold_idx.append(i.Index)
+                    hold.append(i.Συνολική_Χρέωση)
+
+                    if sum(hold) > minimum:
+                        for idx, value in zip(hold_idx, hold):
+                            self.data.loc[idx, final_charge] = value
+                    else:
+                        self.data.loc[i.Index, final_charge] = minimum
+
+                    hold_idx = []
+                    hold = []
+                else:
+                    if i.Συνολική_Χρέωση > minimum:
+                        self.data.loc[
+                            i.Index, final_charge] = i.Συνολική_Χρέωση
+                    else:
+                        self.data.loc[i.Index, final_charge] = minimum
 
         self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
-        self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0
+        self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0.0
 
         self.data.columns = list(map(undercore2space, TYPE_TWO_COLUMNS))
 
