@@ -23,41 +23,32 @@ class TypeTwoTransformer(TypeTemplate):
 
     def _get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
-            return 0.0
+            return 0.00
         else:
             try:
-                if quantity is None:
-                    return round(self.costs.loc[region, material], 2)
-
                 if material == paleta:
                     if region != 'ΑΤΤΙΚΗ':
-                        return round(
-                            self.costs.loc[region, material] * quantity, 2)
+                        return round2(
+                            self.costs.loc[region, material] * quantity)
                     else:
                         if quantity >= 21:
-                            return round(quantity * 9, 2)
+                            return round2(quantity * 9)
                         elif quantity >= 11:
-                            return round(quantity * 12, 2)
+                            return round2(quantity * 12)
                         elif quantity > 0:
-                            return round(quantity * 13, 2)
+                            return round2(quantity * 13)
                         else:
                             return 0.0
                 else:
-                    return round(self.costs.loc[region, material] * quantity, 2)
+                    return round2(self.costs.loc[region, material] * quantity)
             except KeyError:
-                return 0.0
+                return 0.00
 
     def _finalize_cost(self, region: str, charge: float):
-        wall = round(self._get_cost(region, paleta, 1), 2)
+        wall = round2(self._get_cost(region, paleta, 1))
         if charge > wall:
             return wall
         return charge
-
-    def _minimum_charge(self, region: str, charge: float):
-        minimum = self._get_cost(region, elaxisti)
-        if charge > minimum:
-            return charge
-        return minimum
 
     def _preprocess(self):
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
@@ -110,50 +101,13 @@ class TypeTwoTransformer(TypeTemplate):
              self.data[tsantes_charge],
              self.data[ompreles_charge]])
 
-        self.data[final_charge] = 0.0
+        self.data[final_charge] = 0.00
 
-        hold_idx = []
-        hold = []
-
-        for i in self.data.itertuples():
-            same_name = self._check_next_idx(i.Index, pelatis)
-
-            same_date = self._check_next_idx(i.Index, imerominia)
-
-            same_region = self._check_next_idx(i.Index, tomeas)
-
-            same_delivery = self._check_next_idx(i.Index, paradosi)
-
-            minimum = self._get_cost(i.Γεωγραφικός_Τομέας, elaxisti)
-
-            if all([same_name, same_date, same_region, same_delivery]):
-                hold_idx.append(i.Index)
-                hold.append(i.Συνολική_Χρέωση)
-            else:
-                if hold:
-                    hold_idx.append(i.Index)
-                    hold.append(i.Συνολική_Χρέωση)
-
-                    whole = round(sum(hold), 2)
-
-                    if whole > minimum:
-                        for idx, value in zip(hold_idx, hold):
-                            self.data.loc[idx, final_charge] = value
-                    else:
-                        self.data.loc[i.Index, final_charge] = minimum
-
-                    hold_idx = []
-                    hold = []
-                else:
-                    if i.Συνολική_Χρέωση > minimum:
-                        self.data.loc[
-                            i.Index, final_charge] = i.Συνολική_Χρέωση
-                    else:
-                        self.data.loc[i.Index, final_charge] = minimum
+        self._process_per_client()
 
         self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
-        self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0.0
+        self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
         self.data.columns = list(map(undercore2space, TYPE_TWO_COLUMNS))
 

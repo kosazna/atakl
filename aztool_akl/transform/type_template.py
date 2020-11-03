@@ -15,6 +15,7 @@ class TypeTemplate:
         self.preprocessed = False
         self.data = pd.read_excel(self.data_file).sort_values(DATA_SORT).dropna(
             subset=[undercore2space(pelatis)]).reset_index(drop=True)
+        self.costs = pd.DataFrame()
 
     def _check_next_idx(self, index, column):
         try:
@@ -22,6 +23,54 @@ class TypeTemplate:
                 index + 1, column]
         except KeyError:
             return False
+
+    def _get_minimum(self, region: str):
+        if region == "ΕΞΑΓΩΓΗ":
+            return 0.00
+        else:
+            return round2(self.costs.loc[region, elaxisti])
+
+    def _process_per_client(self):
+        self.data[final_charge] = 0.0
+
+        hold_idx = []
+        hold = []
+
+        for i in self.data.itertuples():
+            same_name = self._check_next_idx(i.Index, pelatis)
+
+            same_date = self._check_next_idx(i.Index, imerominia)
+
+            same_region = self._check_next_idx(i.Index, tomeas)
+
+            same_delivery = self._check_next_idx(i.Index, paradosi)
+
+            minimum = self._get_minimum(i.Γεωγραφικός_Τομέας)
+
+            if all([same_name, same_date, same_region, same_delivery]):
+                hold_idx.append(i.Index)
+                hold.append(i.Συνολική_Χρέωση)
+            else:
+                if hold:
+                    hold_idx.append(i.Index)
+                    hold.append(i.Συνολική_Χρέωση)
+
+                    whole = round2(sum(hold))
+
+                    if whole > minimum:
+                        for idx, value in zip(hold_idx, hold):
+                            self.data.loc[idx, final_charge] = value
+                    else:
+                        self.data.loc[i.Index, final_charge] = minimum
+
+                    hold_idx = []
+                    hold = []
+                else:
+                    if i.Συνολική_Χρέωση > minimum:
+                        self.data.loc[
+                            i.Index, final_charge] = i.Συνολική_Χρέωση
+                    else:
+                        self.data.loc[i.Index, final_charge] = minimum
 
     def _get_cost(self, region: str, material: str, quantity: int = None):
         pass

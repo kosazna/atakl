@@ -10,3 +10,7 @@ def display_error(text: str):
 
 def display_warning(text: str):
     print(f"[WARNING] - {text}")
+
+
+def round2(number):
+    return round(float(number), 2)
