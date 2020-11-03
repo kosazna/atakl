@@ -21,6 +21,12 @@ class TypeTwoTransformer(TypeTemplate):
         self.data.columns = TYPE_TWO_COLUMNS[:17]
         # self.validator = TypeOneValidator(self.data)
 
+    def _check_next_idx(self, index, column):
+        try:
+            return self.data[index, column] == self.data[index + 1, column]
+        except KeyError:
+            return False
+
     def _get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
             return 0
