@@ -23,7 +23,7 @@ class TypeThreeTransformer(TypeTwoTransformer):
             0).astype(int)
         self.data[mixanes] = self.data[mixanes].fillna(0).astype(int)
 
-        self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
+        self.data[poli] = self.data[poli].fillna("<NULL>")
 
         self.preprocessed = True
 
@@ -59,7 +59,7 @@ class TypeThreeTransformer(TypeTwoTransformer):
 
         self.process_per_client()
 
-        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+        self.data[poli] = self.data[poli].replace("<NULL>", "")
 
         self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
