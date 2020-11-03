@@ -25,7 +25,8 @@ class TypeTwoTransformer:
 
     def _check_next_idx(self, index, column):
         try:
-            return self.data[index, column] == self.data[index + 1, column]
+            return self.data.loc[index, column] == self.data.loc[
+                index + 1, column]
         except KeyError:
             return False
 
@@ -167,3 +168,7 @@ class TypeTwoTransformer:
         self.data.columns = list(map(undercore2space, TYPE_TWO_COLUMNS))
 
         print(f"  -> Data Process Complete: [{self.data.shape[0]}] records\n")
+
+    def export(self):
+        self.data.to_excel(self.output, index=False)
+        print(f"  -> Exported file: {self.output}\n\n\n\n")
