@@ -133,7 +133,7 @@ class TypeTwoTransformer(TypeTemplate):
 
             print(all([same_name, same_date, same_region, same_delivery]))
             print(i.Ημερομηνία, i.Επωνυμία_Πελάτη, i.Γεωγραφικός_Τομέας,
-                  i.Τρόπος_Αποστολής)
+                  i.Περιοχή_Παράδοσης)
 
             if all([same_name, same_date, same_region, same_delivery]):
                 hold_idx.append(i.Index)
