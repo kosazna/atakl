@@ -29,6 +29,7 @@ class TypeThreeTransformer(TypeTwoTransformer):
         self.preprocessed = True
 
     def process(self):
+        print("  Processing...")
         if not self.preprocessed:
             self._preprocess()
 

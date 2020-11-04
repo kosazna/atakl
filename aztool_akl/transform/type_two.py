@@ -61,6 +61,7 @@ class TypeTwoTransformer(TypeTemplate):
         self.preprocessed = True
 
     def process(self):
+        print("  Processing...")
         if not self.preprocessed:
             self._preprocess()
 
