@@ -22,5 +22,8 @@ ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\resources\bat %USERPROFILE%\Desktop\A
 ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\resources\templates %USERPROFILE%\Desktop\AKL_Auto\.templates /MIR /NJH /NJS /NDL
 ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\resources\bat %USERPROFILE%\Desktop\AKL_Auto AKL.bat /E /IS /IT /NJH /NJS /NDL
 
+ROBOCOPY %USERPROFILE%\AKL\repo\aztool-akl\resources\templates %USERPROFILE%\Desktop\AKL_Auto\DB_Data "DB_Concepts.xlsx" "DB_PT Beverages-Lavazza.xlsx" "DB_PT Beverages-Spirits.xlsx" /E /IS /IT /NJH /NJS /NDL
+
+
 echo.
 pause
