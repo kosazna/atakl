@@ -22,10 +22,7 @@ dt_mapper = {"1": {"data": "DB_Data\\Concepts.xlsx",
 
 
 def load_tranformer(_action: str, wd=None):
-    if wd is None:
-        cwd = Path(sys.argv[1])
-    else:
-        cwd = wd
+    cwd = Path(sys.argv[1]) if wd is None else wd
 
     _data = validate_path("File with the database data:\n")
     _costs = validate_path("File with costs per region:\n")
