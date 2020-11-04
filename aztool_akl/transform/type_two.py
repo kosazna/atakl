@@ -10,6 +10,7 @@ class TypeTwoTransformer(TypeTemplate):
         self.label = "Spirits"
         self.output = self.working_dir.joinpath(
             f"{self.name}-{self.label}.xlsx")
+        self.backup = f"{self.name}-{self.label}.xlsx"
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)

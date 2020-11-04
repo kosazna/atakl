@@ -8,11 +8,11 @@ from aztool_akl.validate.data import Validator
 
 class TypeTemplate:
     def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
-        self.name = ""
         self.data_file = Path(data_filepath)
         self.cost_file = Path(cost_filepath)
         self.working_dir = self.data_file.parent.parent
         self.output = ""
+        self.backup = ""
         self.preprocessed = False
         self.data = pd.read_excel(self.data_file).dropna(
             subset=[undercore2space(pelatis)])
@@ -90,8 +90,7 @@ class TypeTemplate:
     def export(self):
         self.data.to_excel(self.output, index=False)
         backup_title = self.working_dir.joinpath(
-            f".history\\{self.backup_count:0>5}-{timestamp()}-{self.name}")
-        print(backup_title)
-        # self.data.to_excel(backup_title, index=False)
+            f".history\\{self.backup_count:0>5}-{timestamp()}-{self.backup}")
+        self.data.to_excel(backup_title, index=False)
 
         print(f"  -> Exported file: {self.output}\n\n\n\n")
