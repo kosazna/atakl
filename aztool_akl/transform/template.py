@@ -88,7 +88,7 @@ class TypeTemplate:
                         self.data.loc[i.Index, final_charge] = minimum
 
     def export(self):
-        print("  Creating excel files...\n")
+        print("  Creating excel files...")
         self.data.to_excel(self.output, index=False)
         backup_title = self.working_dir.joinpath(
             f".history\\{self.backup_count:0>5}-{timestamp()}-{self.backup}")
