@@ -12,11 +12,11 @@ from aztool_akl.validate import *
 from aztool_akl.transform import *
 
 general_costs = ".templates\\Region_Costs.xlsx"
-dt_mapper = {"1": {"data": "DB_Concepts.xlsx",
+dt_mapper = {"1": {"data": "DB_Data\\Concepts.xlsx",
                    "tranformer": TypeOneTransformer},
-             "2": {"data": "DB_PT Beverages-Spirits.xlsx",
+             "2": {"data": "DB_Data\\PT Beverages-Spirits.xlsx",
                    "tranformer": TypeTwoTransformer},
-             "3": {"data": "DB_PT Beverages-Lavazza.xlsx",
+             "3": {"data": "DB_Data\\PT Beverages-Lavazza.xlsx",
                    "tranformer": TypeThreeTransformer}
              }
 
@@ -40,10 +40,10 @@ def load_tranformer(_action: str):
 
 if __name__ == "__main__":
     print("ATTIKH KINISI LOGISTICS S.A.\n\n")
+    while True:
+        action = validate_input("action")
 
-    action = validate_input("action")
+        transformer = load_tranformer(action)
 
-    transformer = load_tranformer(action)
-
-    transformer.process()
-    transformer.export()
+        transformer.process()
+        transformer.export()

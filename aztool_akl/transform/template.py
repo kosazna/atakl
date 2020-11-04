@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
-from pathlib import Path
 from aztool_akl.schemas import *
 from aztool_akl.utils import *
 from aztool_akl.validate.data import Validator
@@ -16,6 +15,7 @@ class TypeTemplate:
         self.preprocessed = False
         self.data = pd.read_excel(self.data_file).dropna(
             subset=[undercore2space(pelatis)])
+        self.backup_count = count_xlsx(self.working_dir.joinpath(".history"))
         self.costs = pd.DataFrame()
         self.validator = Validator(self.data)
 
@@ -88,4 +88,8 @@ class TypeTemplate:
 
     def export(self):
         self.data.to_excel(self.output, index=False)
+        backup_title = self.working_dir.joinpath(
+            f".history\\{self.backup_count:0>5}-{timestamp()}-{self.output}")
+        self.data.to_excel(backup_title, index=False)
+
         print(f"  -> Exported file: {self.output}\n\n\n\n")

@@ -10,7 +10,8 @@ class TypeOneTransformer(TypeTemplate):
         self.data_file = Path(data_filepath)
         self.cost_file = Path(cost_filepath)
         self.working_dir = self.data_file.parent
-        self.output = self.working_dir.joinpath(f"CHARGES_{self.name}.xlsx")
+        self.output = self.working_dir.joinpath(f"{self.name}.xlsx")
+        self.backup = count_xlsx(self.working_dir.joinpath(".history"))
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)
