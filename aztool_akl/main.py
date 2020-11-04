@@ -39,8 +39,11 @@ def load_tranformer(_action: str):
 
 
 if __name__ == "__main__":
-    print("ATTIKH KINISI LOGISTICS S.A.\n\n")
+    print("ATTIKH KINISI LOGISTICS S.A.\n")
     while True:
+        print("=" * 40)
+        print("Choose an action:\n")
+
         action = validate_input("action")
 
         transformer = load_tranformer(action)
