@@ -11,7 +11,7 @@ class TypeTemplate:
         self.name = ""
         self.data_file = Path(data_filepath)
         self.cost_file = Path(cost_filepath)
-        self.working_dir = self.data_file.parent
+        self.working_dir = self.data_file.parent.parent
         self.output = ""
         self.preprocessed = False
         self.data = pd.read_excel(self.data_file).dropna(
