@@ -7,9 +7,6 @@ class TypeOneTransformer(TypeTemplate):
     def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
         super().__init__(data_filepath, cost_filepath)
         self.name = "Concepts"
-        self.data_file = Path(data_filepath)
-        self.cost_file = Path(cost_filepath)
-        self.working_dir = self.data_file.parent.parent
         self.output = self.working_dir.joinpath(f"{self.name}.xlsx")
         self.backup = self.backup = f"{self.name}.xlsx"
         self.costs = pd.read_excel(self.cost_file,
