@@ -12,21 +12,11 @@ from aztool_akl.transform import *
 from aztool_akl.utilities import *
 from aztool_akl.gui import *
 
-# dt_gui_mapper = {"Concepts": {"data": "DB_Data\\Concepts.xlsx",
-#                               "tranformer": TypeOneTransformer},
-#                  "PT Beverages - Spirits": {
-#                      "data": "DB_Data\\PT Beverages-Spirits.xlsx",
-#                      "tranformer": TypeTwoTransformer},
-#                  "PT Beverages - Lavazza": {
-#                      "data": "DB_Data\\PT Beverages-Lavazza.xlsx",
-#                      "tranformer": TypeThreeTransformer}
-#                  }
 
 transformer_mapper = {
     "Concepts": TypeOneTransformer,
     "PT Beverages - Spirits": TypeTwoTransformer,
-    "PT Beverages - Lavazza": TypeThreeTransformer
-}
+    "PT Beverages - Lavazza": TypeThreeTransformer}
 
 
 def load_tranformer(_action: str):
@@ -49,16 +39,6 @@ def load_tranformer(_action: str):
                                               cost_filepath=costs_path)
 
     return _tranformer
-
-
-# def gui_execute():
-#     _action = ui.get_process_action()
-#     data_path =
-#     costs_path =
-#     _tranformer = dt_mapper[_action]['tranformer'](data_filepath=data_path,
-#                                                    cost_filepath=costs_path)
-#     _tranformer.process()
-#     _tranformer.export()
 
 
 if __name__ == "__main__":
