@@ -21,7 +21,7 @@ def validate_input(text: str) -> str:
     accepted = 'Enter' + ' or '.join(approved[text])
 
     if user_action in approved[text]:
-        return user_action
+        return action_mapper[user_action]
     else:
         while user_action not in approved[text]:
             display_error(f"Enter a valid input [{accepted}]\n")

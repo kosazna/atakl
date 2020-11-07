@@ -12,8 +12,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 import os
 
-from pathlib import Path
-
 
 class Ui_akl_windows(object):
     def setupUi(self, akl_windows):
@@ -320,9 +318,9 @@ class Ui_akl_windows(object):
         self.tick_default.setChecked(True)
         self.tick_default.setTristate(False)
         self.tick_default.setObjectName("tick_default")
-        self.label_output_2 = QtWidgets.QLabel(self.frame)
-        self.label_output_2.setGeometry(QtCore.QRect(10, 270, 60, 30))
-        self.label_output_2.setObjectName("label_output_2")
+        self.label_output = QtWidgets.QLabel(self.frame)
+        self.label_output.setGeometry(QtCore.QRect(10, 270, 60, 30))
+        self.label_output.setObjectName("label_output")
         self.text_output = QtWidgets.QLineEdit(self.frame)
         self.text_output.setGeometry(QtCore.QRect(80, 270, 680, 30))
         font = QtGui.QFont()
@@ -382,7 +380,7 @@ class Ui_akl_windows(object):
         self.button_process.raise_()
         self.text_general.raise_()
         self.tick_default.raise_()
-        self.label_output_2.raise_()
+        self.label_output.raise_()
         self.text_output.raise_()
         self.browse_output.raise_()
         self.button_validate_data.raise_()
@@ -413,8 +411,7 @@ class Ui_akl_windows(object):
         self.process_list.currentIndexChanged.connect(
             self.change_paths_per_process)
 
-        self.button_process.clicked.connect(self.check_default_box)
-
+        self.button_process.clicked.connect(self.process_execute)
 
     def retranslateUi(self, akl_windows):
         _translate = QtCore.QCoreApplication.translate
@@ -449,7 +446,7 @@ class Ui_akl_windows(object):
         self.browse_db_data.setText(_translate("akl_windows", "..."))
         self.tick_default.setText(
             _translate("akl_windows", "Use default file paths"))
-        self.label_output_2.setText(_translate("akl_windows", "Output"))
+        self.label_output.setText(_translate("akl_windows", "Output"))
         self.browse_output.setText(_translate("akl_windows", "..."))
         self.button_validate_data.setText(
             _translate("akl_windows", "Validate data"))
@@ -484,8 +481,20 @@ class Ui_akl_windows(object):
         self.default_export_path_mapper = {k: str(v) for k, v in
                                            path_mapper.items()}
 
-    def set_transformers(self,mapper):
+    def set_transformers(self, mapper):
         self.transformer_mapper = mapper
+
+    def process_execute(self):
+        process = self.process_list.currentText()
+        tranformer_process = self.transformer_mapper[process]
+        costs_path = self.text_costs.text()
+        db_data = self.text_db_data.text()
+        output = self.text_output.text()
+
+        transformer = tranformer_process(data_filepath=db_data,
+                                         cost_filepath=costs_path)
+        transformer.process()
+        transformer.export()
 
     def change_paths_per_process(self):
         process = self.process_list.currentText()

@@ -23,7 +23,7 @@ from aztool_akl.gui import *
 #                      "tranformer": TypeThreeTransformer}
 #                  }
 
-tranformer_mapper = {
+transformer_mapper = {
     "Concepts": TypeOneTransformer,
     "PT Beverages - Spirits": TypeTwoTransformer,
     "PT Beverages - Lavazza": TypeThreeTransformer
@@ -46,7 +46,7 @@ def load_tranformer(_action: str):
         paths.user_costs = _costs
         costs_path = _costs
 
-    _tranformer = tranformer_mapper[_action](data_filepath=data_path,
+    _tranformer = transformer_mapper[_action](data_filepath=data_path,
                                              cost_filepath=costs_path)
 
     return _tranformer
@@ -91,6 +91,7 @@ if __name__ == "__main__":
         ui.set_default_costs(paths.default_costs)
         ui.set_default_path_mapper(paths.default_path_mapper)
         ui.set_default_export_path_mapper(paths.default_export_path_mapper)
+        ui.set_transformers(transformer_mapper)
         ui.init_paths()
 
         akl_windows.show()

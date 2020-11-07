@@ -8,7 +8,7 @@ class TypeOneTransformer(TypeTemplate):
         super().__init__(data_filepath, cost_filepath)
         self.name = "Concepts"
         self.output = self.working_dir.joinpath(f"{self.name}.xlsx")
-        self.backup = self.backup = f"{self.name}.xlsx"
+        self.backup = f"{self.name}.xlsx"
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             undercore2space(tomeas), drop=True)
