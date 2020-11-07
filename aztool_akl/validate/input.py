@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
 
-from aztool_akl.utils import *
+from aztool_akl.utilities.utils import *
 from pathlib import Path
 
 
 def validate_input(text: str) -> str:
     console = {'action': "(1) Concepts\n"
                          "(2) PT Beverages - Spirits\n"
-                         "(3) PT Beverages - Lavazza\n\n",
-               'process': "\n(F)ast or (C)ustom processing ?\n\n"}
+                         "(3) PT Beverages - Lavazza\n\n"}
 
-    approved = {'action': ['', '1', '2', '3'],
-                'process': ['F', 'C']}
+    approved = {'action': ['', '1', '2', '3']}
+
+    action_mapper = {
+        "1": "Concepts",
+        "2": "PT Beverages - Spirits",
+        "3": "PT Beverages - Lavazza"
+    }
 
     user_action = input(console[text]).upper()
-    accepted = ' or '.join(approved[text])
+    accepted = 'Enter' + ' or '.join(approved[text])
 
     if user_action in approved[text]:
         return user_action
@@ -23,7 +27,7 @@ def validate_input(text: str) -> str:
             display_error(f"Enter a valid input [{accepted}]\n")
             user_action = input(console[text]).upper()
 
-        return user_action
+        return action_mapper[user_action]
 
 
 def validate_path(text: str) -> (None, Path):

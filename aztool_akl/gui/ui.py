@@ -9,6 +9,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog
+
+from pathlib import Path
 
 
 class Ui_akl_windows(object):
@@ -97,29 +100,27 @@ class Ui_akl_windows(object):
         font.setFamily("Century Gothic")
         font.setPointSize(9)
         self.frame.setFont(font)
+        self.frame.setAutoFillBackground(False)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.label_process = QtWidgets.QLabel(self.frame)
-        self.label_process.setGeometry(QtCore.QRect(10, 130, 60, 30))
+        self.label_process.setGeometry(QtCore.QRect(10, 110, 60, 30))
         self.label_process.setObjectName("label_process")
         self.label_costs = QtWidgets.QLabel(self.frame)
-        self.label_costs.setGeometry(QtCore.QRect(10, 230, 60, 30))
+        self.label_costs.setGeometry(QtCore.QRect(10, 190, 60, 30))
         self.label_costs.setObjectName("label_costs")
         self.label_db_data = QtWidgets.QLabel(self.frame)
-        self.label_db_data.setGeometry(QtCore.QRect(10, 270, 60, 30))
+        self.label_db_data.setGeometry(QtCore.QRect(10, 230, 60, 30))
         self.label_db_data.setObjectName("label_db_data")
         self.label_records = QtWidgets.QLabel(self.frame)
-        self.label_records.setGeometry(QtCore.QRect(10, 350, 60, 30))
+        self.label_records.setGeometry(QtCore.QRect(10, 340, 60, 30))
         self.label_records.setObjectName("label_records")
         self.label_output = QtWidgets.QLabel(self.frame)
-        self.label_output.setGeometry(QtCore.QRect(10, 390, 60, 30))
+        self.label_output.setGeometry(QtCore.QRect(10, 380, 60, 30))
         self.label_output.setObjectName("label_output")
-        self.label_backup = QtWidgets.QLabel(self.frame)
-        self.label_backup.setGeometry(QtCore.QRect(10, 430, 60, 30))
-        self.label_backup.setObjectName("label_backup")
         self.label_data_paths = QtWidgets.QLabel(self.frame)
-        self.label_data_paths.setGeometry(QtCore.QRect(10, 170, 200, 30))
+        self.label_data_paths.setGeometry(QtCore.QRect(10, 150, 200, 30))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(10)
@@ -139,7 +140,7 @@ class Ui_akl_windows(object):
         self.label_action.setFont(font)
         self.label_action.setObjectName("label_action")
         self.label_results = QtWidgets.QLabel(self.frame)
-        self.label_results.setGeometry(QtCore.QRect(10, 310, 200, 30))
+        self.label_results.setGeometry(QtCore.QRect(10, 300, 200, 30))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(10)
@@ -154,87 +155,113 @@ class Ui_akl_windows(object):
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.line_2 = QtWidgets.QFrame(self.frame)
-        self.line_2.setGeometry(QtCore.QRect(10, 200, 780, 3))
+        self.line_2.setGeometry(QtCore.QRect(10, 180, 780, 3))
         self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_2.setObjectName("line_2")
         self.line_3 = QtWidgets.QFrame(self.frame)
-        self.line_3.setGeometry(QtCore.QRect(10, 340, 780, 3))
+        self.line_3.setGeometry(QtCore.QRect(10, 330, 780, 3))
         self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_3.setObjectName("line_3")
-        self.action_list = QtWidgets.QComboBox(self.frame)
-        self.action_list.setGeometry(QtCore.QRect(80, 130, 300, 30))
+        self.process_list = QtWidgets.QComboBox(self.frame)
+        self.process_list.setGeometry(QtCore.QRect(80, 110, 300, 30))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(10)
-        self.action_list.setFont(font)
-        self.action_list.setObjectName("action_list")
-        self.action_list.addItem("")
-        self.action_list.addItem("")
-        self.action_list.addItem("")
-        self.process_button = QtWidgets.QToolButton(self.frame)
-        self.process_button.setGeometry(QtCore.QRect(500, 500, 140, 35))
+        self.process_list.setFont(font)
+        self.process_list.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
+        self.process_list.setEditable(False)
+        self.process_list.setFrame(False)
+        self.process_list.setObjectName("process_list")
+        self.process_list.addItem("")
+        self.process_list.addItem("")
+        self.process_list.addItem("")
+        self.button_process = QtWidgets.QToolButton(self.frame)
+        self.button_process.setGeometry(QtCore.QRect(650, 480, 140, 71))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(13)
+        font.setBold(True)
+        font.setWeight(75)
+        self.button_process.setFont(font)
+        self.button_process.setAutoFillBackground(False)
+        self.button_process.setStyleSheet("background-color: rgb(72, 72, 72);\n"
+                                          "color: rgb(255, 255, 255);\n"
+                                          "border-width:4px;\n"
+                                          "border-color:black;\n"
+                                          "border-style:offset;\n"
+                                          "border-radius:10px;")
+        self.button_process.setCheckable(False)
+        self.button_process.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
+        self.button_process.setAutoRaise(False)
+        self.button_process.setObjectName("button_process")
+        self.button_change_costs = QtWidgets.QToolButton(self.frame)
+        self.button_change_costs.setGeometry(QtCore.QRect(650, 110, 140, 35))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.process_button.setFont(font)
-        self.process_button.setObjectName("process_button")
-        self.change_costs_button = QtWidgets.QToolButton(self.frame)
-        self.change_costs_button.setGeometry(QtCore.QRect(650, 500, 140, 35))
+        self.button_change_costs.setFont(font)
+        self.button_change_costs.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
+        self.button_change_costs.setObjectName("button_change_costs")
+        self.text_costs = QtWidgets.QLineEdit(self.frame)
+        self.text_costs.setGeometry(QtCore.QRect(80, 190, 680, 30))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(10)
+        self.text_costs.setFont(font)
+        self.text_costs.setStyleSheet("background-color: rgb(209, 209, 209);\n"
+                                      "border-width:4px;\n"
+                                      "border-color:black;\n"
+                                      "border-style:offset;\n"
+                                      "border-radius:10px;")
+        self.text_costs.setFrame(True)
+        self.text_costs.setObjectName("text_costs")
+        self.text_db_data = QtWidgets.QLineEdit(self.frame)
+        self.text_db_data.setGeometry(QtCore.QRect(80, 230, 680, 30))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(10)
+        self.text_db_data.setFont(font)
+        self.text_db_data.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
+        self.text_db_data.setObjectName("text_db_data")
+        self.text_records = QtWidgets.QLabel(self.frame)
+        self.text_records.setGeometry(QtCore.QRect(80, 340, 700, 30))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.change_costs_button.setFont(font)
-        self.change_costs_button.setObjectName("change_costs_button")
-        self.cost_path_text = QtWidgets.QLineEdit(self.frame)
-        self.cost_path_text.setGeometry(QtCore.QRect(80, 230, 700, 30))
-        font = QtGui.QFont()
-        font.setFamily("Century Gothic")
-        font.setPointSize(10)
-        self.cost_path_text.setFont(font)
-        self.cost_path_text.setObjectName("cost_path_text")
-        self.db_data_text = QtWidgets.QLineEdit(self.frame)
-        self.db_data_text.setGeometry(QtCore.QRect(80, 270, 700, 30))
-        font = QtGui.QFont()
-        font.setFamily("Century Gothic")
-        font.setPointSize(10)
-        self.db_data_text.setFont(font)
-        self.db_data_text.setObjectName("db_data_text")
-        self.label_records_text = QtWidgets.QLabel(self.frame)
-        self.label_records_text.setGeometry(QtCore.QRect(80, 350, 700, 30))
+        self.text_records.setFont(font)
+        self.text_records.setText("")
+        self.text_records.setObjectName("text_records")
+        self.text_backup = QtWidgets.QLabel(self.frame)
+        self.text_backup.setGeometry(QtCore.QRect(80, 380, 700, 30))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.label_records_text.setFont(font)
-        self.label_records_text.setText("")
-        self.label_records_text.setObjectName("label_records_text")
-        self.label_output_text = QtWidgets.QLabel(self.frame)
-        self.label_output_text.setGeometry(QtCore.QRect(80, 390, 700, 30))
-        font = QtGui.QFont()
-        font.setFamily("Century Gothic")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_output_text.setFont(font)
-        self.label_output_text.setText("")
-        self.label_output_text.setObjectName("label_output_text")
-        self.label_backup_text = QtWidgets.QLabel(self.frame)
-        self.label_backup_text.setGeometry(QtCore.QRect(80, 430, 700, 30))
-        font = QtGui.QFont()
-        font.setFamily("Century Gothic")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_backup_text.setFont(font)
-        self.label_backup_text.setText("")
-        self.label_backup_text.setObjectName("label_backup_text")
+        self.text_backup.setFont(font)
+        self.text_backup.setText("")
+        self.text_backup.setObjectName("text_backup")
         self.akl_logo = QtWidgets.QTextBrowser(self.frame)
         self.akl_logo.setGeometry(QtCore.QRect(10, 1, 781, 71))
         palette = QtGui.QPalette()
@@ -250,9 +277,117 @@ class Ui_akl_windows(object):
         self.akl_logo.setPalette(palette)
         self.akl_logo.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.akl_logo.setObjectName("akl_logo")
+        self.browse_costs = QtWidgets.QToolButton(self.frame)
+        self.browse_costs.setGeometry(QtCore.QRect(760, 190, 30, 30))
+        self.browse_costs.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
+        self.browse_costs.setObjectName("browse_costs")
+        self.browse_db_data = QtWidgets.QToolButton(self.frame)
+        self.browse_db_data.setGeometry(QtCore.QRect(760, 230, 30, 30))
+        self.browse_db_data.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
+        self.browse_db_data.setObjectName("browse_db_data")
+        self.text_general = QtWidgets.QTextEdit(self.frame)
+        self.text_general.setGeometry(QtCore.QRect(10, 430, 631, 121))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.text_general.setFont(font)
+        self.text_general.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
+        self.text_general.setObjectName("text_general")
+        self.tick_default = QtWidgets.QCheckBox(self.frame)
+        self.tick_default.setGeometry(QtCore.QRect(420, 110, 201, 30))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(10)
+        self.tick_default.setFont(font)
+        self.tick_default.setAutoFillBackground(False)
+        self.tick_default.setStyleSheet("")
+        self.tick_default.setChecked(True)
+        self.tick_default.setTristate(False)
+        self.tick_default.setObjectName("tick_default")
+        self.label_output_2 = QtWidgets.QLabel(self.frame)
+        self.label_output_2.setGeometry(QtCore.QRect(10, 270, 60, 30))
+        self.label_output_2.setObjectName("label_output_2")
+        self.text_output = QtWidgets.QLineEdit(self.frame)
+        self.text_output.setGeometry(QtCore.QRect(80, 270, 680, 30))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(10)
+        self.text_output.setFont(font)
+        self.text_output.setStyleSheet("background-color: rgb(209, 209, 209);\n"
+                                       "border-width:4px;\n"
+                                       "border-color:black;\n"
+                                       "border-style:offset;\n"
+                                       "border-radius:10px;")
+        self.text_output.setObjectName("text_output")
+        self.browse_output = QtWidgets.QToolButton(self.frame)
+        self.browse_output.setGeometry(QtCore.QRect(760, 270, 30, 30))
+        self.browse_output.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
+        self.browse_output.setObjectName("browse_output")
+        self.button_validate_data = QtWidgets.QToolButton(self.frame)
+        self.button_validate_data.setGeometry(QtCore.QRect(650, 430, 140, 35))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.button_validate_data.setFont(font)
+        self.button_validate_data.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
+        self.button_validate_data.setObjectName("button_validate_data")
+        self.label_process.raise_()
+        self.label_costs.raise_()
+        self.label_db_data.raise_()
+        self.label_records.raise_()
+        self.label_output.raise_()
+        self.label_data_paths.raise_()
+        self.label_action.raise_()
+        self.label_results.raise_()
+        self.line.raise_()
+        self.line_2.raise_()
+        self.line_3.raise_()
+        self.process_list.raise_()
+        self.button_change_costs.raise_()
+        self.text_costs.raise_()
+        self.text_db_data.raise_()
+        self.text_records.raise_()
+        self.text_backup.raise_()
+        self.akl_logo.raise_()
+        self.browse_costs.raise_()
+        self.browse_db_data.raise_()
+        self.button_process.raise_()
+        self.text_general.raise_()
+        self.tick_default.raise_()
+        self.label_output_2.raise_()
+        self.text_output.raise_()
+        self.browse_output.raise_()
+        self.button_validate_data.raise_()
         akl_windows.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(akl_windows)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 20))
         self.menubar.setObjectName("menubar")
         akl_windows.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(akl_windows)
@@ -262,8 +397,19 @@ class Ui_akl_windows(object):
         self.retranslateUi(akl_windows)
         QtCore.QMetaObject.connectSlotsByName(akl_windows)
 
-        self.process_button.clicked.connect(self.process_data)
-        self.change_costs_button.clicked.connect(self.change_costs_excel)
+        ###########################################################################
+        self.home_dir = ""
+
+        self.browse_costs.clicked.connect(self.browse_costs_func)
+        self.browse_db_data.clicked.connect(self.browse_db_data_func)
+        self.browse_output.clicked.connect(self.browse_output_func)
+        self.tick_default.stateChanged.connect(self.check_default_box)
+        self.button_change_costs.clicked.connect(self.change_costs)
+
+
+        self.button_process.clicked.connect(self.check_default_box)
+
+
 
     def retranslateUi(self, akl_windows):
         _translate = QtCore.QCoreApplication.translate
@@ -272,57 +418,109 @@ class Ui_akl_windows(object):
         self.label_costs.setText(_translate("akl_windows", "Costs"))
         self.label_db_data.setText(_translate("akl_windows", "DB Data"))
         self.label_records.setText(_translate("akl_windows", "Records"))
-        self.label_output.setText(_translate("akl_windows", "Output"))
-        self.label_backup.setText(_translate("akl_windows", "Backup"))
+        self.label_output.setText(_translate("akl_windows", "Backup"))
         self.label_data_paths.setText(
             _translate("akl_windows", "Choose data paths"))
         self.label_action.setText(
             _translate("akl_windows", "Choose process action"))
         self.label_results.setText(
             _translate("akl_windows", "Processing results"))
-        self.action_list.setItemText(0, _translate("akl_windows", "Concepts"))
-        self.action_list.setItemText(1, _translate("akl_windows",
-                                                   "PT Beverages - Spirits"))
-        self.action_list.setItemText(2, _translate("akl_windows",
-                                                   "PT Beverages - Lavazza"))
-        self.process_button.setText(_translate("akl_windows", "Process"))
-        self.change_costs_button.setText(
+        self.process_list.setItemText(0, _translate("akl_windows", "Concepts"))
+        self.process_list.setItemText(1, _translate("akl_windows",
+                                                    "PT Beverages - Spirits"))
+        self.process_list.setItemText(2, _translate("akl_windows",
+                                                    "PT Beverages - Lavazza"))
+        self.button_process.setText(_translate("akl_windows", "Process"))
+        self.button_change_costs.setText(
             _translate("akl_windows", "Change Costs"))
         self.akl_logo.setHtml(_translate("akl_windows",
                                          "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                          "p, li { white-space: pre-wrap; }\n"
                                          "</style></head><body style=\" font-family:\'Century Gothic\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-                                         "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; color:#434343;\">Attiki Kinisi Logistics S.A.</span></p>\n"
+                                         "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#434343;\">Attiki Kinisi Logistics S.A.</span></p>\n"
                                          "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600; font-style:italic; color:#434343;\">powered by aztool</span></p></body></html>"))
+        self.browse_costs.setText(_translate("akl_windows", "..."))
+        self.browse_db_data.setText(_translate("akl_windows", "..."))
+        self.tick_default.setText(
+            _translate("akl_windows", "Use default file paths"))
+        self.label_output_2.setText(_translate("akl_windows", "Output"))
+        self.browse_output.setText(_translate("akl_windows", "..."))
+        self.button_validate_data.setText(
+            _translate("akl_windows", "Validate data"))
 
-    def process_data(self):
+    ###########################################################################
+
+    def set_home(self, path):
+        self.home_dir = str(path)
+
+    def browse_costs_func(self):
+        filename = QFileDialog.getOpenFileName(directory=self.home_dir)
+        self.text_costs.setText(filename[0])
+
+    def browse_db_data_func(self):
+        filename = QFileDialog.getOpenFileName(directory=self.home_dir)
+        self.text_db_data.setText(filename[0])
+
+    def browse_output_func(self):
+        filename = QFileDialog.getSaveFileName(directory=self.home_dir)
+        export_file = filename[0] + ".xlsx"
+        self.text_output.setText(export_file)
+
+    def change_costs(self):
         pass
 
-    def change_costs_excel(self):
-        pass
+    def check_default_box(self):
+        if self.tick_default.isChecked():
+            self.text_costs.setStyleSheet(
+                "background-color: rgb(209, 209, 209);\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
 
-    def get_process_action(self):
-        return self.action_list.currentText()
+            self.text_db_data.setStyleSheet(
+                "background-color: rgb(209, 209, 209);\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
 
-    def get_costs_path(self):
-        return self.cost_path_text.text()
+            self.text_output.setStyleSheet(
+                "background-color: rgb(209, 209, 209);\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
+        else:
+            self.text_costs.setStyleSheet(
+                "background-color: white;\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
 
-    def set_costs_path(self, text):
-        return self.cost_path_text.setText(text)
+            self.text_db_data.setStyleSheet(
+                "background-color: white;\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
 
-    def get_db_data_path(self):
-        return self.db_data_text.text()
+            self.text_output.setStyleSheet(
+                "background-color: white;\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
 
-    def set_db_data_path(self, text):
-        return self.db_data_text.setText(text)
 
+if __name__ == "__main__":
+    import sys
 
-# if __name__ == "__main__":
-#
-#     app = QtWidgets.QApplication(sys.argv)
-#     akl_windows = QtWidgets.QMainWindow()
-#     ui = Ui_akl_windows()
-#     ui.setupUi(akl_windows)
-#     akl_windows.show()
-#     sys.exit(app.exec_())
+    app = QtWidgets.QApplication(sys.argv)
+    akl_windows = QtWidgets.QMainWindow()
+    ui = Ui_akl_windows()
+    ui.setupUi(akl_windows)
+    akl_windows.show()
+    sys.exit(app.exec_())

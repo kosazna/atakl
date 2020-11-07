@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+import os
 from datetime import datetime
-from pathlib import *
+from pathlib import Path
 
 
 def undercore2space(text: str):
@@ -28,3 +29,7 @@ def count_xlsx(path: (str, Path), pattern="*.xlsx"):
     path_to_count = Path(path)
     xlsx_count = list(path_to_count.glob(pattern))
     return len(xlsx_count)
+
+
+def open_excel(path):
+    os.startfile(path)

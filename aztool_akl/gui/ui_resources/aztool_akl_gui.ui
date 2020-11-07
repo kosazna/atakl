@@ -407,7 +407,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
-    <widget class="QComboBox" name="action_list">
+    <widget class="QComboBox" name="process_list">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -451,13 +451,13 @@ border-radius:10px;</string>
       </property>
      </item>
     </widget>
-    <widget class="QToolButton" name="process_button">
+    <widget class="QToolButton" name="button_process">
      <property name="geometry">
       <rect>
        <x>650</x>
-       <y>430</y>
+       <y>480</y>
        <width>140</width>
-       <height>101</height>
+       <height>71</height>
       </rect>
      </property>
      <property name="font">
@@ -492,7 +492,7 @@ border-radius:10px;</string>
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QToolButton" name="change_costs_button">
+    <widget class="QToolButton" name="button_change_costs">
      <property name="geometry">
       <rect>
        <x>650</x>
@@ -520,7 +520,7 @@ border-radius:10px;</string>
       <string>Change Costs</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="cost_path_text">
+    <widget class="QLineEdit" name="text_costs">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -546,7 +546,7 @@ border-radius:10px;</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLineEdit" name="db_data_text">
+    <widget class="QLineEdit" name="text_db_data">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -569,7 +569,7 @@ border-style:offset;
 border-radius:10px;</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_records_text">
+    <widget class="QLabel" name="text_records">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -590,7 +590,7 @@ border-radius:10px;</string>
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_output_text">
+    <widget class="QLabel" name="text_backup">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -665,11 +665,11 @@ border-radius:10px;</string>
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Century Gothic'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; color:#434343;&quot;&gt;Attiki Kinisi Logistics S.A.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; color:#434343;&quot;&gt;Attiki Kinisi Logistics S.A.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; font-style:italic; color:#434343;&quot;&gt;powered by aztool&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton">
+    <widget class="QToolButton" name="browse_costs">
      <property name="geometry">
       <rect>
        <x>760</x>
@@ -689,7 +689,7 @@ border-radius:10px;</string>
       <string>...</string>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_2">
+    <widget class="QToolButton" name="browse_db_data">
      <property name="geometry">
       <rect>
        <x>760</x>
@@ -709,13 +709,13 @@ border-radius:10px;</string>
       <string>...</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="QTextEdit" name="text_general">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>430</y>
        <width>631</width>
-       <height>101</height>
+       <height>121</height>
       </rect>
      </property>
      <property name="font">
@@ -732,7 +732,7 @@ border-style:offset;
 border-radius:10px;</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="tick_default">
      <property name="geometry">
       <rect>
        <x>420</x>
@@ -763,7 +763,7 @@ border-radius:10px;</string>
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label_db_data_2">
+    <widget class="QLabel" name="label_output_2">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -776,7 +776,7 @@ border-radius:10px;</string>
       <string>Output</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="db_data_text_2">
+    <widget class="QLineEdit" name="text_output">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -799,7 +799,7 @@ border-style:offset;
 border-radius:10px;</string>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton_3">
+    <widget class="QToolButton" name="browse_output">
      <property name="geometry">
       <rect>
        <x>760</x>
@@ -819,6 +819,34 @@ border-radius:10px;</string>
       <string>...</string>
      </property>
     </widget>
+    <widget class="QToolButton" name="button_validate_data">
+     <property name="geometry">
+      <rect>
+       <x>650</x>
+       <y>430</y>
+       <width>140</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Century Gothic</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(209, 209, 209);
+border-width:4px;
+border-color:black;
+border-style:offset;
+border-radius:10px;</string>
+     </property>
+     <property name="text">
+      <string>Validate data</string>
+     </property>
+    </widget>
     <zorder>label_process</zorder>
     <zorder>label_costs</zorder>
     <zorder>label_db_data</zorder>
@@ -830,21 +858,22 @@ border-radius:10px;</string>
     <zorder>line</zorder>
     <zorder>line_2</zorder>
     <zorder>line_3</zorder>
-    <zorder>action_list</zorder>
-    <zorder>change_costs_button</zorder>
-    <zorder>cost_path_text</zorder>
-    <zorder>db_data_text</zorder>
-    <zorder>label_records_text</zorder>
-    <zorder>label_output_text</zorder>
+    <zorder>process_list</zorder>
+    <zorder>button_change_costs</zorder>
+    <zorder>text_costs</zorder>
+    <zorder>text_db_data</zorder>
+    <zorder>text_records</zorder>
+    <zorder>text_backup</zorder>
     <zorder>akl_logo</zorder>
-    <zorder>toolButton</zorder>
-    <zorder>toolButton_2</zorder>
-    <zorder>process_button</zorder>
-    <zorder>textEdit</zorder>
-    <zorder>checkBox</zorder>
-    <zorder>label_db_data_2</zorder>
-    <zorder>db_data_text_2</zorder>
-    <zorder>toolButton_3</zorder>
+    <zorder>browse_costs</zorder>
+    <zorder>browse_db_data</zorder>
+    <zorder>button_process</zorder>
+    <zorder>text_general</zorder>
+    <zorder>tick_default</zorder>
+    <zorder>label_output_2</zorder>
+    <zorder>text_output</zorder>
+    <zorder>browse_output</zorder>
+    <zorder>button_validate_data</zorder>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -853,7 +882,7 @@ border-radius:10px;</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

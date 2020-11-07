@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
-from aztool_akl.schemas import *
-from aztool_akl.utils import *
+from aztool_akl.utilities import *
 from aztool_akl.validate.data import Validator
 
 
