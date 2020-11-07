@@ -7,7 +7,7 @@
 # This accounting automation was developed for ATTIKH KINISI LOGISTICS S.A.
 # Always automate the boring stuff ;)
 
-import sys
+
 from aztool_akl.validate import *
 from aztool_akl.transform import *
 from aztool_akl.utilities import *
@@ -43,6 +43,8 @@ def load_tranformer(_action: str):
 
 
 if __name__ == "__main__":
+    import sys
+
     try:
         flow = sys.argv[1]
     except IndexError:
