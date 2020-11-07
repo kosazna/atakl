@@ -10,6 +10,7 @@ class Paths:
 
         self.default_costs = self.akl_home.joinpath(
             ".templates\\Region_Costs.xlsx")
+
         self.default_concepts = self.akl_home.joinpath(
             "DB_Data\\Concepts.xlsx")
         self.default_pt_spirits = self.akl_home.joinpath(
@@ -21,6 +22,19 @@ class Paths:
             "Concepts": self.default_concepts,
             "PT Beverages - Spirits": self.default_pt_spirits,
             "PT Beverages - Lavazza": self.default_pt_lavazza
+        }
+
+        self.default_export_concepts = self.akl_home.joinpath(
+            "Concepts.xlsx")
+        self.default_export_pt_spirits = self.akl_home.joinpath(
+            "PT Beverages - Spirits.xlsx")
+        self.default_export_pt_lavazza = self.akl_home.joinpath(
+            "PT Beverages - Lavazza.xlsx")
+
+        self.default_export_path_mapper = {
+            "Concepts": self.default_export_concepts,
+            "PT Beverages - Spirits": self.default_export_pt_spirits,
+            "PT Beverages - Lavazza": self.default_export_pt_lavazza
         }
 
         self.user_costs = ""

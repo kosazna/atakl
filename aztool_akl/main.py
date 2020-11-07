@@ -66,7 +66,7 @@ if __name__ == "__main__":
     try:
         flow = sys.argv[1]
     except IndexError:
-        flow = "CMD"
+        flow = "GUI"
 
     if flow == 'CMD':
         print("ATTIKH KINISI LOGISTICS S.A.\n")
@@ -82,4 +82,16 @@ if __name__ == "__main__":
             transformer.process()
             transformer.export()
     else:
-        pass
+        app = QtWidgets.QApplication(sys.argv)
+        akl_windows = QtWidgets.QMainWindow()
+        ui = Ui_akl_windows()
+        ui.setupUi(akl_windows)
+
+        ui.set_home(paths.akl_home)
+        ui.set_default_costs(paths.default_costs)
+        ui.set_default_path_mapper(paths.default_path_mapper)
+        ui.set_default_export_path_mapper(paths.default_export_path_mapper)
+        ui.init_paths()
+
+        akl_windows.show()
+        sys.exit(app.exec_())
