@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import QFileDialog
 import os
 
 
+# noinspection PyUnresolvedReferences
 class Ui_akl_windows(object):
     def setupUi(self, akl_windows):
         akl_windows.setObjectName("akl_windows")
@@ -498,10 +499,9 @@ class Ui_akl_windows(object):
         transformer = tranformer_process(data_filepath=db_data,
                                          cost_filepath=costs_path)
 
-        self.text_records.setText(str(transformer.data.shape[0]))
-
         transformer.process()
 
+        self.text_records.setText(str(transformer.data.shape[0]))
         self.text_backup.setText(transformer.export())
 
     def change_paths_per_process(self):

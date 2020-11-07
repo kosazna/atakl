@@ -8,8 +8,8 @@ class TypeThreeTransformer(TypeTwoTransformer):
         super().__init__(data_filepath, cost_filepath)
         self.label = "Lavazza"
         self.output = self.working_dir.joinpath(
-            f"{self.name}-{self.label}.xlsx")
-        self.backup = f"{self.name}-{self.label}.xlsx"
+            f"{self.name} - {self.label}.xlsx")
+        self.backup = f"{self.name} - {self.label}.xlsx"
 
     def _preprocess(self):
         self.data.columns = TYPE_THREE_COLUMNS[:14]
