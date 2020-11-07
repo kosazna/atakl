@@ -396,7 +396,7 @@ class Ui_akl_windows(object):
         self.retranslateUi(akl_windows)
         QtCore.QMetaObject.connectSlotsByName(akl_windows)
 
-        ###########################################################################
+###############################################################################
         self.home_dir = ""
         self.default_costs = ""
         self.default_path_mapper = {}
@@ -413,7 +413,7 @@ class Ui_akl_windows(object):
 
         self.button_process.clicked.connect(self.process_execute)
 
-    ###########################################################################
+###############################################################################
 
     def retranslateUi(self, akl_windows):
         _translate = QtCore.QCoreApplication.translate
@@ -453,7 +453,7 @@ class Ui_akl_windows(object):
         self.button_validate_data.setText(
             _translate("akl_windows", "Validate data"))
 
-    ###########################################################################
+###############################################################################
 
     def init_paths(self):
         start_process = "Concepts"
@@ -598,7 +598,7 @@ class Ui_akl_windows(object):
             self.text_output.setText("Paste path here or browse...")
 
 
-###########################################################################
+###############################################################################
 
 
 if __name__ == "__main__":
