@@ -95,3 +95,5 @@ class TypeTemplate:
 
         print(f"  -> Exported file: {self.output}")
         print(f"  -> Backup file: {backup_title}\n\n\n\n")
+
+        return str(backup_title)

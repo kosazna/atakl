@@ -115,9 +115,9 @@ class Ui_akl_windows(object):
         self.label_records = QtWidgets.QLabel(self.frame)
         self.label_records.setGeometry(QtCore.QRect(10, 340, 60, 30))
         self.label_records.setObjectName("label_records")
-        self.label_output = QtWidgets.QLabel(self.frame)
-        self.label_output.setGeometry(QtCore.QRect(10, 380, 60, 30))
-        self.label_output.setObjectName("label_output")
+        self.label_backup = QtWidgets.QLabel(self.frame)
+        self.label_backup.setGeometry(QtCore.QRect(10, 380, 60, 30))
+        self.label_backup.setObjectName("label_backup")
         self.label_data_paths = QtWidgets.QLabel(self.frame)
         self.label_data_paths.setGeometry(QtCore.QRect(10, 150, 200, 30))
         font = QtGui.QFont()
@@ -361,7 +361,7 @@ class Ui_akl_windows(object):
         self.label_costs.raise_()
         self.label_db_data.raise_()
         self.label_records.raise_()
-        self.label_output.raise_()
+        self.label_backup.raise_()
         self.label_data_paths.raise_()
         self.label_action.raise_()
         self.label_results.raise_()
@@ -413,6 +413,8 @@ class Ui_akl_windows(object):
 
         self.button_process.clicked.connect(self.process_execute)
 
+    ###########################################################################
+
     def retranslateUi(self, akl_windows):
         _translate = QtCore.QCoreApplication.translate
         akl_windows.setWindowTitle(_translate("akl_windows", "AKL"))
@@ -420,7 +422,7 @@ class Ui_akl_windows(object):
         self.label_costs.setText(_translate("akl_windows", "Costs"))
         self.label_db_data.setText(_translate("akl_windows", "DB Data"))
         self.label_records.setText(_translate("akl_windows", "Records"))
-        self.label_output.setText(_translate("akl_windows", "Backup"))
+        self.label_backup.setText(_translate("akl_windows", "Backup"))
         self.label_data_paths.setText(
             _translate("akl_windows", "Choose data paths"))
         self.label_action.setText(
@@ -458,7 +460,8 @@ class Ui_akl_windows(object):
         self.text_costs.setText(self.default_costs)
 
         try:
-            self.text_db_data.setText(self.default_path_mapper[start_process])
+            self.text_db_data.setText(
+                self.default_path_mapper[start_process])
             self.text_output.setText(
                 self.default_export_path_mapper[start_process])
         except KeyError:
@@ -475,7 +478,8 @@ class Ui_akl_windows(object):
         self.default_costs = str(path)
 
     def set_default_path_mapper(self, path_mapper):
-        self.default_path_mapper = {k: str(v) for k, v in path_mapper.items()}
+        self.default_path_mapper = {k: str(v) for k, v in
+                                    path_mapper.items()}
 
     def set_default_export_path_mapper(self, path_mapper):
         self.default_export_path_mapper = {k: str(v) for k, v in
@@ -493,8 +497,12 @@ class Ui_akl_windows(object):
 
         transformer = tranformer_process(data_filepath=db_data,
                                          cost_filepath=costs_path)
+
+        self.text_records.setText(str(transformer.data.shape[0]))
+
         transformer.process()
-        transformer.export()
+
+        self.text_backup.setText(transformer.export())
 
     def change_paths_per_process(self):
         process = self.process_list.currentText()
@@ -512,6 +520,9 @@ class Ui_akl_windows(object):
             self.text_costs.setText("Paste path here or browse...")
             self.text_db_data.setText("Paste path here or browse...")
             self.text_output.setText("Paste path here or browse...")
+
+        self.text_records.setText("")
+        self.text_backup.setText("")
 
     def browse_costs_func(self):
         filename = QFileDialog.getOpenFileName(directory=self.home_dir)
@@ -585,6 +596,9 @@ class Ui_akl_windows(object):
             self.text_costs.setText("Paste path here or browse...")
             self.text_db_data.setText("Paste path here or browse...")
             self.text_output.setText("Paste path here or browse...")
+
+
+###########################################################################
 
 
 if __name__ == "__main__":
