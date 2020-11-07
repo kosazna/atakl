@@ -7,7 +7,6 @@
 # This accounting automation was developed for ATTIKH KINISI LOGISTICS S.A.
 # Always automate the boring stuff ;)
 
-import sys
 from aztool_akl.validate import *
 from aztool_akl.transform import *
 from aztool_akl.utilities import *
@@ -47,7 +46,7 @@ def load_tranformer(_action: str):
         costs_path = _costs
 
     _tranformer = transformer_mapper[_action](data_filepath=data_path,
-                                             cost_filepath=costs_path)
+                                              cost_filepath=costs_path)
 
     return _tranformer
 
