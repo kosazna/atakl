@@ -397,7 +397,7 @@ class Ui_akl_windows(object):
         self.retranslateUi(akl_windows)
         QtCore.QMetaObject.connectSlotsByName(akl_windows)
 
-###############################################################################
+        ###############################################################################
         self.home_dir = ""
         self.default_costs = ""
         self.default_path_mapper = {}
@@ -414,7 +414,7 @@ class Ui_akl_windows(object):
 
         self.button_process.clicked.connect(self.process_execute)
 
-###############################################################################
+    ###############################################################################
 
     def retranslateUi(self, akl_windows):
         _translate = QtCore.QCoreApplication.translate
@@ -454,7 +454,7 @@ class Ui_akl_windows(object):
         self.button_validate_data.setText(
             _translate("akl_windows", "Validate data"))
 
-###############################################################################
+    ###############################################################################
 
     def init_paths(self):
         start_process = "Concepts"
@@ -526,16 +526,22 @@ class Ui_akl_windows(object):
 
     def browse_costs_func(self):
         filename = QFileDialog.getOpenFileName(directory=self.home_dir)
-        self.text_costs.setText(filename[0])
+        file_path = filename[0]
+        if file_path:
+            self.text_costs.setText(file_path)
 
     def browse_db_data_func(self):
         filename = QFileDialog.getOpenFileName(directory=self.home_dir)
-        self.text_db_data.setText(filename[0])
+        file_path = filename[0]
+        if file_path:
+            self.text_db_data.setText(file_path)
 
     def browse_output_func(self):
         filename = QFileDialog.getSaveFileName(directory=self.home_dir)
-        export_file = filename[0] + ".xlsx"
-        self.text_output.setText(export_file)
+        file_path = filename[0]
+        if file_path:
+            export_file = file_path + ".xlsx"
+            self.text_output.setText(export_file)
 
     def check_default_box(self):
         if self.tick_default.isChecked():
