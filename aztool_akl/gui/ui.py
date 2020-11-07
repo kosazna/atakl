@@ -297,7 +297,7 @@ class Ui_akl_windows(object):
                                          "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600; font-style:italic; color:#434343;\">powered by aztool</span></p></body></html>"))
 
     def process_data(self):
-        print(self.action_list.currentText())
+        pass
 
     def change_costs_excel(self):
         pass
@@ -308,10 +308,14 @@ class Ui_akl_windows(object):
     def get_costs_path(self):
         return self.cost_path_text.text()
 
+    def set_costs_path(self, text):
+        return self.cost_path_text.setText(text)
+
     def get_db_data_path(self):
         return self.db_data_text.text()
 
-
+    def set_db_data_path(self, text):
+        return self.db_data_text.setText(text)
 
 
 # if __name__ == "__main__":
