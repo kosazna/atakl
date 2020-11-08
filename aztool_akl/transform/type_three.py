@@ -15,7 +15,6 @@ class TypeThreeTransformer(TypeTwoTransformer):
     def _preprocess(self):
         self.data.columns = TYPE_THREE_COLUMNS[:14]
         self.data = self.data.sort_values(DATA_SORT2).reset_index(drop=True)
-        self.data.to_excel(r"C:\Users\aznavouridis.k\Desktop\AKL_Auto\test.xlsx", index=False)
         self.data[sunolika_temaxia] = self.data[sunolika_temaxia].fillna(
             0).astype(int)
         self.data[atofia_paleta] = self.data[atofia_paleta].fillna(0).astype(
