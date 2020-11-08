@@ -46,3 +46,10 @@ def validate_path(text: str) -> (None, Path):
                 path = Path(user_path.strip('"'))
 
             return path
+
+
+def validate_proper_and_existent_path(text: str):
+    _path = Path(text).with_suffix('.xlsx')
+    if not _path.parent.exists():
+        _path.parent.mkdir()
+    return Path(text).with_suffix('.xlsx')

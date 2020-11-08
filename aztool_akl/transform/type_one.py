@@ -43,9 +43,8 @@ class TypeOneTransformer(TypeTemplate):
         try:
             self.data.columns = TYPE_ONE_COLUMNS[:12]
         except ValueError:
-            display_error("Columns don't match")
-            sys.exit()
-            
+            display_error("\n\nColumns don't match\n\n")
+
         self.data = self.data.sort_values(DATA_SORT).reset_index(drop=True)
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
         self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)

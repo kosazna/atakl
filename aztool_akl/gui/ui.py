@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from aztool_akl.gui.designer import *
-from PyQt5.QtWidgets import QFileDialog
 import os
+from pathlib import Path
+
+from PyQt5.QtWidgets import QFileDialog
+from aztool_akl.gui.designer import *
+from aztool_akl.validate.input import validate_proper_and_existent_path
 
 
 class UiAKL(Ui_designer):
@@ -11,6 +14,7 @@ class UiAKL(Ui_designer):
 
         self.home_dir = ""
         self.default_costs = ""
+        self.last_visited = None
         self.default_path_mapper = {}
         self.default_export_path_mapper = {}
         self.transformer_mapper = {}
@@ -37,6 +41,14 @@ class UiAKL(Ui_designer):
         except KeyError:
             self.text_db_data.setText("")
             self.text_output.setText("")
+
+    def get_last_visit(self):
+        if self.last_visited is None:
+            return self.home_dir
+        return self.last_visited
+
+    def set_last_visit(self, chosen_path):
+        self.last_visited = str(Path(chosen_path).parent)
 
     def change_costs(self):
         os.startfile(self.default_costs)
@@ -95,23 +107,26 @@ class UiAKL(Ui_designer):
         self.text_backup.setText("")
 
     def browse_costs_func(self):
-        filename = QFileDialog.getOpenFileName(directory=self.home_dir)
+        filename = QFileDialog.getOpenFileName(directory=self.get_last_visit())
         file_path = filename[0]
         if file_path:
             self.text_costs.setText(file_path)
+            self.set_last_visit(file_path)
 
     def browse_db_data_func(self):
-        filename = QFileDialog.getOpenFileName(directory=self.home_dir)
+        filename = QFileDialog.getOpenFileName(directory=self.get_last_visit())
         file_path = filename[0]
         if file_path:
             self.text_db_data.setText(file_path)
+            self.set_last_visit(file_path)
 
     def browse_output_func(self):
-        filename = QFileDialog.getSaveFileName(directory=self.home_dir)
+        filename = QFileDialog.getSaveFileName(directory=self.get_last_visit())
         file_path = filename[0]
         if file_path:
-            export_file = file_path + ".xlsx"
+            export_file = validate_proper_and_existent_path(file_path)
             self.text_output.setText(export_file)
+            self.set_last_visit(file_path)
 
     def check_default_box(self):
         if self.tick_default.isChecked():

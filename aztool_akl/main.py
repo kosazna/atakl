@@ -8,10 +8,10 @@
 # Always automate the boring stuff ;)
 
 
-from aztool_akl.validate import *
+from aztool_akl.gui import *
 from aztool_akl.transform import *
 from aztool_akl.utilities import *
-from aztool_akl.gui import *
+from aztool_akl.validate import *
 
 
 transformer_mapper = {
