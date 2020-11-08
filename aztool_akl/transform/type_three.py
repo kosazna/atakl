@@ -38,6 +38,8 @@ class TypeThreeTransformer(TypeTwoTransformer):
         self.data[kivotia] = self.data[kivotia] + np.ceil(
             self.data[upoloipo_se_temaxia] / 6).astype(int)
 
+        self.data[upoloipo_se_temaxia] = 0
+
         self.data[atofia_paleta_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], paleta, x[atofia_paleta]),
             axis=1)
