@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QFileDialog
 import os
 
 
-class UiAKL(Ui_akl_windows):
+class UiAKL(Ui_designer):
     def __init__(self, window):
         self.setupUi(window)
 

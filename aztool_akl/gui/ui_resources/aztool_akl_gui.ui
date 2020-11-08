@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>akl_windows</class>
- <widget class="QMainWindow" name="akl_windows">
+ <class>designer</class>
+ <widget class="QMainWindow" name="designer">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,8 +13,8 @@
   <property name="windowTitle">
    <string>AKL</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <widget class="QFrame" name="frame">
+  <widget class="QWidget" name="widget_main">
+   <widget class="QFrame" name="frame_main">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -368,7 +368,7 @@
       <string>Processing results</string>
      </property>
     </widget>
-    <widget class="Line" name="line">
+    <widget class="Line" name="line_1">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -426,7 +426,6 @@
       <string notr="true">background-color: rgb(209, 209, 209);
 border-width:4px;
 border-color:black;
-border-style:offset;
 border-radius:10px;</string>
      </property>
      <property name="editable">
@@ -473,7 +472,7 @@ border-radius:10px;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgb(72, 72, 72);
-color: rgb(255, 255, 255);
+color: rgb(15, 196, 12);
 border-width:4px;
 border-color:black;
 border-style:offset;
@@ -532,7 +531,7 @@ border-radius:10px;</string>
      <property name="font">
       <font>
        <family>Century Gothic</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -558,7 +557,7 @@ border-radius:10px;</string>
      <property name="font">
       <font>
        <family>Century Gothic</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -581,7 +580,7 @@ border-radius:10px;</string>
      <property name="font">
       <font>
        <family>Century Gothic</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
@@ -602,7 +601,7 @@ border-radius:10px;</string>
      <property name="font">
       <font>
        <family>Century Gothic</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
@@ -788,7 +787,7 @@ border-radius:10px;</string>
      <property name="font">
       <font>
        <family>Century Gothic</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -855,7 +854,7 @@ border-radius:10px;</string>
     <zorder>label_data_paths</zorder>
     <zorder>label_action</zorder>
     <zorder>label_results</zorder>
-    <zorder>line</zorder>
+    <zorder>line_1</zorder>
     <zorder>line_2</zorder>
     <zorder>line_3</zorder>
     <zorder>process_list</zorder>
@@ -882,7 +881,7 @@ border-radius:10px;</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
