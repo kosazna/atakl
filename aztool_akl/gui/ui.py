@@ -66,7 +66,8 @@ class UiAKL(Ui_designer):
         output = self.text_output.text()
 
         transformer = tranformer_process(data_filepath=db_data,
-                                         cost_filepath=costs_path)
+                                         cost_filepath=costs_path,
+                                         output_path=output)
 
         transformer.process()
 

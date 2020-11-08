@@ -4,10 +4,13 @@ from aztool_akl.transform.template import *
 
 
 class TypeOneTransformer(TypeTemplate):
-    def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
+    def __init__(self, data_filepath: (str, Path),
+                 cost_filepath: (str, Path),
+                 output_path: (str, Path) = None):
         super().__init__(data_filepath, cost_filepath)
         self.name = "Concepts"
-        self.output = self.working_dir.joinpath(f"{self.name}.xlsx")
+        self.output = self.wd.joinpath(
+            f"{self.name}.xlsx") if output_path is None else output_path
         self.backup = f"{self.name}.xlsx"
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(

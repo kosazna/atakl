@@ -4,12 +4,14 @@ from aztool_akl.transform.template import *
 
 
 class TypeTwoTransformer(TypeTemplate):
-    def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
+    def __init__(self, data_filepath: (str, Path),
+                 cost_filepath: (str, Path),
+                 output_path: (str, Path) = None):
         super().__init__(data_filepath, cost_filepath)
         self.name = "PT Beverages"
         self.label = "Spirits"
-        self.output = self.working_dir.joinpath(
-            f"{self.name} - {self.label}.xlsx")
+        self.output = self.wd.joinpath(
+            f"{self.name} - {self.label}.xlsx") if output_path is None else output_path
         self.backup = f"{self.name} - {self.label}.xlsx"
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
