@@ -1,3 +1,3 @@
 @echo off
 
-pyuic5 -x aztool_akl_gui.ui -o ..\ui.py
+pyuic5 -x aztool_akl_gui.ui -o ..\designer.py

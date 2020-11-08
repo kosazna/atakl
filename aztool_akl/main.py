@@ -65,10 +65,9 @@ if __name__ == "__main__":
             transformer.export()
     else:
         app = QtWidgets.QApplication(sys.argv)
-        akl_windows = QtWidgets.QMainWindow()
-        ui = Ui_akl_windows()
-        ui.setupUi(akl_windows)
+        main_window = QtWidgets.QMainWindow()
 
+        ui = UiAKL(main_window)
         ui.set_home(paths.akl_home)
         ui.set_default_costs(paths.default_costs)
         ui.set_default_path_mapper(paths.default_path_mapper)
@@ -76,5 +75,5 @@ if __name__ == "__main__":
         ui.set_transformers(transformer_mapper)
         ui.init_paths()
 
-        akl_windows.show()
+        main_window.show()
         sys.exit(app.exec_())
