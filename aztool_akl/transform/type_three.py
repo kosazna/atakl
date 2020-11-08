@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import numpy as np
 from aztool_akl.transform.type_two import *
 
 
@@ -34,8 +35,8 @@ class TypeThreeTransformer(TypeTwoTransformer):
 
         self.validator.validate()
 
-        # self.data[kivotia] = self.data[kivotia] + np.ceil(
-        #     self.data[upoloipo_se_temaxia] / 6).astype(int)
+        self.data[kivotia] = self.data[kivotia] + np.ceil(
+            self.data[upoloipo_se_temaxia] / 6).astype(int)
 
         self.data[atofia_paleta_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], paleta, x[atofia_paleta]),
