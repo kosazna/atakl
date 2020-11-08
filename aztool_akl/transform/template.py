@@ -89,9 +89,13 @@ class TypeTemplate:
     def export(self):
         print("  Creating excel files...")
         self.data.to_excel(self.output, index=False)
-        backup_title = self.wd.joinpath(
+        backup_title = paths.akl_home.joinpath(
             f".history\\{self.backup_count:0>5}-{timestamp()}-{self.backup}")
-        self.data.to_excel(backup_title, index=False)
+
+        try:
+            self.data.to_excel(backup_title, index=False)
+        except FileNotFoundError:
+            display_error("Backup failed")
 
         print(f"  -> Exported file: {self.output}")
         print(f"  -> Backup file: {backup_title}\n\n\n\n")
