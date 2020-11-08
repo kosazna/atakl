@@ -601,7 +601,7 @@ border-radius:10px;</string>
      <property name="font">
       <font>
        <family>Century Gothic</family>
-       <pointsize>9</pointsize>
+       <pointsize>8</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>

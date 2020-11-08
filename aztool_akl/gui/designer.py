@@ -252,7 +252,7 @@ class Ui_designer(object):
         self.text_backup.setGeometry(QtCore.QRect(80, 380, 700, 30))
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
-        font.setPointSize(9)
+        font.setPointSize(8)
         font.setBold(True)
         font.setWeight(75)
         self.text_backup.setFont(font)
