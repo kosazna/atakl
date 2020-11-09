@@ -23,6 +23,7 @@ class Validator:
                      self.data.columns.tolist()])
         init_length = self.validator_map[transformer]["init"]
         init_names = self.validator_map[transformer]["names"]
+        tip = False
 
         if length and names:
             display("Column number and column names validation: OK")
@@ -33,15 +34,21 @@ class Validator:
             print(f'  Correct names for columns:')
             for i in init_names:
                 print(i)
+            tip = True
         elif length and not names:
             display_error("Column names validation: FAILED")
             print(f'  Correct names for columns:')
             for i in init_names:
                 print(i)
+            tip = True
         else:
             display_error("Column number validation: FAILED")
             print(f'  Correct number of columns: {init_length}')
             print(f'  Provided number of columns: {self.data.shape[1]}\n')
+            tip = True
+
+        if tip:
+            display("Verify you selected the correct process for the files")
 
     def missing(self):
         imerominia_missing = self.data[imerominia].isna().sum()
