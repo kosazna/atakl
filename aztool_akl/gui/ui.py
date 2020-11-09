@@ -28,7 +28,7 @@ class UiAKL(Ui_designer):
         self.process_list.currentIndexChanged.connect(
             self.change_paths_per_process)
 
-        self.button_validate_data.clicked.connect()
+        self.button_validate_data.clicked.connect(self.validate_data)
 
         self.button_process.clicked.connect(self.process_execute)
 
