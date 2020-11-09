@@ -10,9 +10,10 @@ class TypeThreeTransformer(TypeTwoTransformer):
                  output_path: (str, Path) = None):
         super().__init__(data_filepath, cost_filepath)
         self.label = "Lavazza"
+        self.o_name = f"{self.name} - {self.label}"
         self.output = self.wd.joinpath(
-            f"{self.name} - {self.label}.xlsx") if output_path is None else output_path
-        self.backup = f"{self.name} - {self.label}.xlsx"
+            f"{self.o_name}.xlsx") if output_path is None else output_path
+        self.backup = f"{self.o_name}.xlsx"
 
     def _preprocess(self):
         self.data.columns = TYPE_THREE_COLUMNS[:14]
@@ -35,7 +36,7 @@ class TypeThreeTransformer(TypeTwoTransformer):
         if not self.preprocessed:
             self._preprocess()
 
-        self.validator.validate()
+        self.validator.missing()
 
         self.data[kivotia] = self.data[kivotia] + np.ceil(
             self.data[upoloipo_se_temaxia] / 6).astype(int)
@@ -69,6 +70,6 @@ class TypeThreeTransformer(TypeTwoTransformer):
 
         self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-        self.data.columns = list(map(undercore2space, TYPE_THREE_COLUMNS))
+        self.data.columns = list(map(c_2space, TYPE_THREE_COLUMNS))
 
         print(f"  -> Data Process Complete: [{self.data.shape[0]}] records\n")

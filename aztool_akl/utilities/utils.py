@@ -4,7 +4,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def undercore2space(text: str):
+def c_2space(text: str):
     return text.replace('_', ' ')
 
 
@@ -14,6 +14,10 @@ def display_error(text: str):
 
 def display_warning(text: str):
     print(f"[WARNING] - {text}")
+
+
+def display(text: str):
+    print(f"[INFO] - {text}")
 
 
 def round2(number):

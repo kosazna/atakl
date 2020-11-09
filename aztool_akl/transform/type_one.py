@@ -9,12 +9,13 @@ class TypeOneTransformer(TypeTemplate):
                  output_path: (str, Path) = None):
         super().__init__(data_filepath, cost_filepath)
         self.name = "Concepts"
+        self.o_name = self.name
         self.output = self.wd.joinpath(
-            f"{self.name}.xlsx") if output_path is None else output_path
-        self.backup = f"{self.name}.xlsx"
+            f"{self.o_name}.xlsx") if output_path is None else output_path
+        self.backup = f"{self.o_name}.xlsx"
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
-            undercore2space(tomeas), drop=True)
+            c_2space(tomeas), drop=True)
 
     def get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
@@ -61,7 +62,7 @@ class TypeOneTransformer(TypeTemplate):
         if not self.preprocessed:
             self._preprocess()
 
-        self.validator.validate()
+        self.validator.missing()
 
         self.data[paletes_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], paleta, x[paletes]), axis=1)
@@ -88,6 +89,6 @@ class TypeOneTransformer(TypeTemplate):
 
         self.data.loc[self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-        self.data.columns = list(map(undercore2space, TYPE_ONE_COLUMNS))
+        self.data.columns = list(map(c_2space, TYPE_ONE_COLUMNS))
 
         print(f"  -> Data Process Complete: [{self.data.shape[0]}] records\n")

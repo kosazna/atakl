@@ -12,9 +12,10 @@ class TypeTemplate:
         self.wd = self.data_file.parent.parent
         self.output = ""
         self.backup = ""
+        self.o_name = ""
         self.preprocessed = False
         self.data = pd.read_excel(self.data_file).dropna(
-            subset=[undercore2space(pelatis)])
+            subset=DATA_DROP, how="all")
         self.backup_count = count_xlsx(self.wd.joinpath(".history"))
         self.costs = pd.DataFrame()
         self.validator = Validator(self.data)

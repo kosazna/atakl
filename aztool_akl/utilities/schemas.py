@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from aztool_akl.utilities.utils import c_2space
+
 # Type ONE columns for processing
 paraggelia = "Παραγγελία"
 imerominia = "Ημερομηνία"
@@ -52,6 +54,7 @@ omprela = "Διαφ Ομπρέλα"
 atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
 
+DATA_DROP = list(map(c_2space, [imerominia, pelatis, tomeas]))
 DATA_SORT = [imerominia, pelatis, tomeas, paradosi]
 DATA_SORT2 = [imerominia, pelatis, tomeas, poli]
 
