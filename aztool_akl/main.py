@@ -46,11 +46,11 @@ if __name__ == "__main__":
     import sys
 
     try:
-        flow = sys.argv[1]
+        mode = sys.argv[1]
     except IndexError:
-        flow = "GUI"
+        mode = "GUI"
 
-    if flow == 'CMD':
+    if mode == 'CMD':
         print("ATTIKH KINISI LOGISTICS S.A.\n")
 
         while True:
