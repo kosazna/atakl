@@ -20,6 +20,10 @@ class UiAKL(Ui_designer):
         self.transformer_mapper = {}
         self.transformer = None
 
+        self.user_costs = None
+        self.user_data = None
+        self.user_output = None
+
         self.browse_costs.clicked.connect(self.browse_costs_func)
         self.browse_db_data.clicked.connect(self.browse_db_data_func)
         self.browse_output.clicked.connect(self.browse_output_func)
@@ -88,12 +92,30 @@ class UiAKL(Ui_designer):
         db_data = self.text_db_data.text()
         output = self.text_output.text()
 
-        self.transformer = tranformer_process(data_filepath=db_data,
-                                              cost_filepath=costs_path,
-                                              output_path=output)
+        if costs_path.endswith(".xlsx") and db_data.endswith(
+                ".xlsx") and output.endswith(".xlsx"):
+            self.transformer = tranformer_process(data_filepath=db_data,
+                                                  cost_filepath=costs_path,
+                                                  output_path=output)
 
-        self.text_records.setText(str(self.transformer.data.shape[0]))
-        self.transformer.validate()
+            self.text_records.setText(str(self.transformer.data.shape[0]))
+            self.transformer.validate()
+
+            if self.transformer.to_process:
+                if self.transformer.has_missing:
+                    self.button_process.setStyleSheet(
+                        "background-color: rgb(227, 209, 48);\n"
+                        "border-width:4px;\n"
+                        "border-color:black;\n"
+                        "border-style:offset;\n"
+                        "border-radius:10px;")
+                else:
+                    self.button_process.setStyleSheet(
+                        "background-color: rgb(15, 196, 12);\n"
+                        "border-width:4px;\n"
+                        "border-color:black;\n"
+                        "border-style:offset;\n"
+                        "border-radius:10px;")
 
     def process_execute(self):
         self.transformer.process()
@@ -112,12 +134,28 @@ class UiAKL(Ui_designer):
                 self.text_db_data.setText("")
                 self.text_output.setText("")
         else:
-            self.text_costs.setText("Paste path here or browse...")
-            self.text_db_data.setText("Paste path here or browse...")
-            self.text_output.setText("Paste path here or browse...")
+            if self.user_costs is None:
+                self.text_costs.setText("Paste path here or browse...")
+            else:
+                self.text_costs.setText(self.user_costs)
+            if self.user_data is None:
+                self.text_db_data.setText("Paste path here or browse...")
+            else:
+                self.text_db_data.setText(self.user_data)
+            if self.user_output is None:
+                self.text_output.setText("Paste path here or browse...")
+            else:
+                self.text_output.setText(self.user_output)
 
         self.text_records.setText("")
         self.text_backup.setText("")
+
+        self.button_process.setStyleSheet(
+            "background-color: rgb(207, 14, 30);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
 
     def browse_costs_func(self):
         filename = QFileDialog.getOpenFileName(directory=self.get_last_visit())
@@ -125,6 +163,7 @@ class UiAKL(Ui_designer):
         if file_path:
             self.text_costs.setText(file_path)
             self.set_last_visit(file_path)
+            self.user_costs = file_path
 
     def browse_db_data_func(self):
         filename = QFileDialog.getOpenFileName(directory=self.get_last_visit())
@@ -132,14 +171,15 @@ class UiAKL(Ui_designer):
         if file_path:
             self.text_db_data.setText(file_path)
             self.set_last_visit(file_path)
+            self.user_data = file_path
 
     def browse_output_func(self):
         filename = QFileDialog.getSaveFileName(directory=self.get_last_visit())
         file_path = filename[0]
         if file_path:
-            export_file = validate_proper_and_existent_path(file_path)
+            export_file = str(validate_proper_and_existent_path(file_path))
             self.text_output.setText(export_file)
-            self.set_last_visit(file_path)
+            self.user_output = export_file
 
     def check_default_box(self):
         if self.tick_default.isChecked():
@@ -197,9 +237,18 @@ class UiAKL(Ui_designer):
                 "border-style:offset;\n"
                 "border-radius:10px;")
 
-            self.text_costs.setText("Paste path here or browse...")
-            self.text_db_data.setText("Paste path here or browse...")
-            self.text_output.setText("Paste path here or browse...")
+            if self.user_costs is None:
+                self.text_costs.setText("Paste path here or browse...")
+            else:
+                self.text_costs.setText(self.user_costs)
+            if self.user_data is None:
+                self.text_db_data.setText("Paste path here or browse...")
+            else:
+                self.text_db_data.setText(self.user_data)
+            if self.user_output is None:
+                self.text_output.setText("Paste path here or browse...")
+            else:
+                self.text_output.setText(self.user_output)
 
 
 if __name__ == '__main__':

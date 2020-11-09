@@ -19,11 +19,12 @@ class TypeTemplate:
         except KeyError:
             display_error("Columns do not follow expected naming schema")
             self.data = pd.DataFrame()
-        self.backup_count = count_files(paths.akl_home.joinpath(".history"))
+        self.prev_count = count_files(paths.akl_home.joinpath(".history"))
         self.costs = pd.DataFrame()
         self.validator = Validator(self.data)
         self.to_process = False
         self.to_export = False
+        self.has_missing = False
 
     def _preprocess(self):
         pass
@@ -53,7 +54,7 @@ class TypeTemplate:
     def validate(self):
         self.to_process = self.validator.columns(self.map_name)
         if self.to_process:
-            self.validator.missing()
+            self.has_missing = self.validator.missing()
 
     def process_per_client(self, last_sort_element=paradosi):
         self.data[final_charge] = 0.0
@@ -104,7 +105,7 @@ class TypeTemplate:
             print("  Creating excel files...")
             self.data.to_excel(self.output, index=False)
             backup_title = paths.akl_home.joinpath(
-                f".history\\{self.backup_count:0>5}-{timestamp()}-{self.backup}")
+                f".history\\{self.prev_count:0>5}-{timestamp()}-{self.backup}")
 
             try:
                 self.data.to_excel(backup_title, index=False)

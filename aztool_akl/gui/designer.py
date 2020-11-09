@@ -187,8 +187,7 @@ class Ui_designer(object):
         font.setWeight(75)
         self.button_process.setFont(font)
         self.button_process.setAutoFillBackground(False)
-        self.button_process.setStyleSheet("background-color: rgb(72, 72, 72);\n"
-                                          "color: rgb(15, 196, 12);\n"
+        self.button_process.setStyleSheet("background-color: rgb(207, 14, 30);\n"
                                           "border-width:4px;\n"
                                           "border-color:black;\n"
                                           "border-style:offset;\n"

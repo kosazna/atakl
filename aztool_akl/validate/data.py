@@ -90,3 +90,5 @@ class Validator:
                 print(f"  -> {c_2space(poli)} : {poli_missing}")
 
             display_warning("Missing values may lead to wrong calculations")
+
+        return any(bool_missing)
