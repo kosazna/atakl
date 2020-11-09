@@ -32,6 +32,7 @@ if __name__ == "__main__":
             action = validate_input("action")
 
             transformer = load_tranformer(action)
+            transformer.validate()
 
             transformer.process()
             transformer.export()

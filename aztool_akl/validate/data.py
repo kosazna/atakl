@@ -10,15 +10,17 @@ class Validator:
         self.data = data
         self.validator_map = {
             "Concepts": {"init": 12,
-                         "names": TYPE_ONE_COLUMNS},
+                         "names": list(map(c_2space, TYPE_ONE_COLUMNS))},
             "PT Beverages - Spirits": {"init": 17,
-                                       "names": TYPE_TWO_COLUMNS},
+                                       "names": list(
+                                           map(c_2space, TYPE_TWO_COLUMNS))},
             "PT Beverages - Lavazza": {"init": 14,
-                                       "names": TYPE_THREE_COLUMNS}
+                                       "names": list(
+                                           map(c_2space, TYPE_THREE_COLUMNS))}
         }
 
     def columns(self, transformer: str):
-        length = self.data.shape[1] != self.validator_map[transformer]["init"]
+        length = self.data.shape[1] == self.validator_map[transformer]["init"]
         names = all([x in self.validator_map[transformer]["names"] for x in
                      self.data.columns.tolist()])
         init_length = self.validator_map[transformer]["init"]
@@ -26,9 +28,9 @@ class Validator:
         tip = False
 
         if length and names:
-            display("Validation: OK")
+            display("Data structure validation: OK")
         elif not length and not names:
-            display_error("Validation: FAILED")
+            display_error("Data structure validation: FAILED")
             print(f'  Correct number of columns: {init_length}')
             print(f'  Provided number of columns: {self.data.shape[1]}\n')
             print(f'  Correct names for columns:')
@@ -36,13 +38,13 @@ class Validator:
                 print(i)
             tip = True
         elif length and not names:
-            display_error("Validation: FAILED")
+            display_error("Data structure validation: FAILED")
             print(f'  Correct names for columns:')
             for i in init_names:
                 print(i)
             tip = True
         else:
-            display_error("Validation: FAILED")
+            display_error("Data structure validation: FAILED")
             print(f'  Correct number of columns: {init_length}')
             print(f'  Provided number of columns: {self.data.shape[1]}\n')
             tip = True
@@ -54,11 +56,11 @@ class Validator:
 
     def missing(self):
         imerominia_missing = self.data[imerominia].isna().sum()
-        pelatis_missing = self.data[pelatis].isna().sum()
-        tomeas_missing = self.data[tomeas].isna().sum()
+        pelatis_missing = self.data[c_2space(pelatis)].isna().sum()
+        tomeas_missing = self.data[c_2space(tomeas)].isna().sum()
 
         try:
-            paradosi_missing = self.data[paradosi].isna().sum()
+            paradosi_missing = self.data[c_2space(paradosi)].isna().sum()
         except KeyError:
             paradosi_missing = 0
 
@@ -74,7 +76,7 @@ class Validator:
                         bool(poli_missing)]
 
         if any(bool_missing):
-            display_warning("Column containing missing values:\n")
+            display_warning("There are columns with missing values:")
 
             if bool(imerominia_missing):
                 print(f"  -> {c_2space(imerominia)} : {imerominia_missing}")
@@ -87,4 +89,4 @@ class Validator:
             if bool(poli_missing):
                 print(f"  -> {c_2space(poli)} : {poli_missing}")
 
-            display_warning("\nData calculations may be wrong")
+            display_warning("Missing values may lead to wrong calculations")

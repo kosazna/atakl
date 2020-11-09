@@ -5,7 +5,7 @@ from aztool_akl.utilities.utils import c_2space
 # Type ONE columns for processing
 paraggelia = "Παραγγελία"
 imerominia = "Ημερομηνία"
-deltio = "Δελτίο Αποστολής"
+deltio = "Δελτίο_Αποστολής"
 pelatis = "Επωνυμία_Πελάτη"
 tomeas = "Γεωγραφικός_Τομέας"
 paradosi = "Περιοχή_Παράδοσης"

@@ -13,12 +13,17 @@ class TypeTemplate:
         self.backup = ""
         self.map_name = ""
         self.preprocessed = False
-        self.data = pd.read_excel(self.data_file).dropna(
-            subset=DATA_DROP, how="all")
+        try:
+            self.data = pd.read_excel(self.data_file).dropna(
+                subset=DATA_DROP, how="all")
+        except KeyError:
+            display_error("Columns do not follow expected naming schema")
+            self.data = pd.DataFrame()
         self.backup_count = count_files(paths.akl_home.joinpath(".history"))
         self.costs = pd.DataFrame()
         self.validator = Validator(self.data)
         self.to_process = False
+        self.to_export = False
 
     def _preprocess(self):
         pass
@@ -47,7 +52,8 @@ class TypeTemplate:
 
     def validate(self):
         self.to_process = self.validator.columns(self.map_name)
-        self.validator.missing()
+        if self.to_process:
+            self.validator.missing()
 
     def process_per_client(self, last_sort_element=paradosi):
         self.data[final_charge] = 0.0
@@ -91,18 +97,21 @@ class TypeTemplate:
                     else:
                         self.data.loc[i.Index, final_charge] = minimum
 
+        self.to_export = True
+
     def export(self):
-        print("  Creating excel files...")
-        self.data.to_excel(self.output, index=False)
-        backup_title = paths.akl_home.joinpath(
-            f".history\\{self.backup_count:0>5}-{timestamp()}-{self.backup}")
+        if self.to_export:
+            print("  Creating excel files...")
+            self.data.to_excel(self.output, index=False)
+            backup_title = paths.akl_home.joinpath(
+                f".history\\{self.backup_count:0>5}-{timestamp()}-{self.backup}")
 
-        try:
-            self.data.to_excel(backup_title, index=False)
-        except FileNotFoundError:
-            display_error("Backup failed")
+            try:
+                self.data.to_excel(backup_title, index=False)
+            except FileNotFoundError:
+                display_error("Backup failed")
 
-        print(f"  -> Exported file: {self.output}")
-        print(f"  -> Backup file: {backup_title}\n\n\n\n")
+            print(f"  -> Exported file: {self.output}")
+            print(f"  -> Backup file: {backup_title}\n\n\n\n")
 
-        return str(backup_title)
+            return str(backup_title)

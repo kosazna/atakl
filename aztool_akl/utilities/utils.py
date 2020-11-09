@@ -9,15 +9,15 @@ def c_2space(text: str):
 
 
 def display_error(text: str):
-    print(f"[ERROR] - {text}")
+    print(f"\n[ERROR] - {text}")
 
 
 def display_warning(text: str):
-    print(f"[WARNING] - {text}")
+    print(f"\n[WARNING] - {text}")
 
 
 def display(text: str):
-    print(f"[INFO] - {text}")
+    print(f"\n[INFO] - {text}")
 
 
 def round2(number):
