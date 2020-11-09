@@ -29,7 +29,15 @@ class UiAKL(Ui_designer):
 
         self.button_process.clicked.connect(self.process_execute)
 
-    def init_paths(self):
+    def set_essential_data(self, paths, transformer_map):
+        self.set_home_dir(paths.akl_home)
+        self.set_default_costs(paths.default_costs)
+        self.set_default_path_mapper(paths.default_path_mapper)
+        self.set_default_export_path_mapper(paths.default_export_path_mapper)
+        self.set_transformers(transformer_map)
+        self.gui_startup_paths()
+
+    def gui_startup_paths(self):
         start_process = "Concepts"
         self.text_costs.setText(self.default_costs)
 
@@ -53,7 +61,7 @@ class UiAKL(Ui_designer):
     def change_costs(self):
         os.startfile(self.default_costs)
 
-    def set_home(self, path):
+    def set_home_dir(self, path):
         self.home_dir = str(path)
 
     def set_default_costs(self, path):

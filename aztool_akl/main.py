@@ -40,12 +40,7 @@ if __name__ == "__main__":
         main_window = QtWidgets.QMainWindow()
 
         ui = UiAKL(main_window)
-        ui.set_home(paths.akl_home)
-        ui.set_default_costs(paths.default_costs)
-        ui.set_default_path_mapper(paths.default_path_mapper)
-        ui.set_default_export_path_mapper(paths.default_export_path_mapper)
-        ui.set_transformers(transformer_mapper)
-        ui.init_paths()
+        ui.set_essential_data(paths=paths, transformer_map=transformer_mapper)
 
         main_window.show()
         sys.exit(app.exec_())
