@@ -18,6 +18,7 @@ class UiAKL(Ui_designer):
         self.default_path_mapper = {}
         self.default_export_path_mapper = {}
         self.transformer_mapper = {}
+        self.transformer = None
 
         self.browse_costs.clicked.connect(self.browse_costs_func)
         self.browse_db_data.clicked.connect(self.browse_db_data_func)
@@ -26,6 +27,8 @@ class UiAKL(Ui_designer):
         self.button_change_costs.clicked.connect(self.change_costs)
         self.process_list.currentIndexChanged.connect(
             self.change_paths_per_process)
+
+        self.button_validate_data.clicked.connect()
 
         self.button_process.clicked.connect(self.process_execute)
 
@@ -78,21 +81,23 @@ class UiAKL(Ui_designer):
     def set_transformers(self, mapper):
         self.transformer_mapper = mapper
 
-    def process_execute(self):
+    def validate_data(self):
         process = self.process_list.currentText()
         tranformer_process = self.transformer_mapper[process]
         costs_path = self.text_costs.text()
         db_data = self.text_db_data.text()
         output = self.text_output.text()
 
-        transformer = tranformer_process(data_filepath=db_data,
-                                         cost_filepath=costs_path,
-                                         output_path=output)
+        self.transformer = tranformer_process(data_filepath=db_data,
+                                              cost_filepath=costs_path,
+                                              output_path=output)
 
-        transformer.process()
+        self.text_records.setText(str(self.transformer.data.shape[0]))
+        self.transformer.validate()
 
-        self.text_records.setText(str(transformer.data.shape[0]))
-        self.text_backup.setText(transformer.export())
+    def process_execute(self):
+        self.transformer.process()
+        self.text_backup.setText(self.transformer.export())
 
     def change_paths_per_process(self):
         process = self.process_list.currentText()

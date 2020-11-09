@@ -29,7 +29,7 @@ def timestamp(obj=False):
     return datetime_now if obj else datetime_now.strftime("%d%m%Y")
 
 
-def count_xlsx(path: (str, Path), pattern="*.xlsx"):
+def count_files(path: (str, Path), pattern="*.xlsx"):
     path_to_count = Path(path)
     xlsx_count = list(path_to_count.glob(pattern))
     return len(xlsx_count)

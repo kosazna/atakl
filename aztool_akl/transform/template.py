@@ -9,16 +9,16 @@ class TypeTemplate:
     def __init__(self, data_filepath: (str, Path), cost_filepath: (str, Path)):
         self.data_file = Path(data_filepath)
         self.cost_file = Path(cost_filepath)
-        self.wd = self.data_file.parent.parent
         self.output = ""
         self.backup = ""
-        self.o_name = ""
+        self.map_name = ""
         self.preprocessed = False
         self.data = pd.read_excel(self.data_file).dropna(
             subset=DATA_DROP, how="all")
-        self.backup_count = count_xlsx(self.wd.joinpath(".history"))
+        self.backup_count = count_files(paths.akl_home.joinpath(".history"))
         self.costs = pd.DataFrame()
         self.validator = Validator(self.data)
+        self.to_process = False
 
     def _preprocess(self):
         pass
@@ -44,6 +44,10 @@ class TypeTemplate:
                 return round2(self.costs.loc[region, elaxisti])
         except KeyError:
             return 0.00
+
+    def validate(self):
+        self.to_process = self.validator.columns(self.map_name)
+        self.validator.missing()
 
     def process_per_client(self, last_sort_element=paradosi):
         self.data[final_charge] = 0.0
