@@ -187,11 +187,13 @@ class Ui_designer(object):
         font.setWeight(75)
         self.button_process.setFont(font)
         self.button_process.setAutoFillBackground(False)
-        self.button_process.setStyleSheet("background-color: rgb(207, 14, 30);\n"
-                                          "border-width:4px;\n"
-                                          "border-color:black;\n"
-                                          "border-style:offset;\n"
-                                          "border-radius:10px;")
+        self.button_process.setStyleSheet(
+            "background-color: rgba(207, 14, 30, 0.8);\n"
+            "color: rgb(72, 72, 72);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
         self.button_process.setCheckable(False)
         self.button_process.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
         self.button_process.setAutoRaise(False)

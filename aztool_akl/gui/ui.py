@@ -104,14 +104,16 @@ class UiAKL(Ui_designer):
             if self.transformer.to_process:
                 if self.transformer.has_missing:
                     self.button_process.setStyleSheet(
-                        "background-color: rgb(227, 209, 48);\n"
+                        "background-color: rgba(227, 209, 48, 0.8);\n"
+                        "color: rgb(72, 72, 72);\n"
                         "border-width:4px;\n"
                         "border-color:black;\n"
                         "border-style:offset;\n"
                         "border-radius:10px;")
                 else:
                     self.button_process.setStyleSheet(
-                        "background-color: rgb(15, 196, 12);\n"
+                        "background-color: rgba(15, 196, 12, 0.8);\n"
+                        "color: rgb(72, 72, 72);\n"
                         "border-width:4px;\n"
                         "border-color:black;\n"
                         "border-style:offset;\n"
@@ -135,15 +137,21 @@ class UiAKL(Ui_designer):
                 self.text_output.setText("")
         else:
             if self.user_costs is None:
-                self.text_costs.setText("Paste path here or browse...")
+                self.text_costs.setText("")
+                self.text_costs.setPlaceholderText(
+                    "Paste path here or browse...")
             else:
                 self.text_costs.setText(self.user_costs)
             if self.user_data is None:
-                self.text_db_data.setText("Paste path here or browse...")
+                self.text_db_data.setText("")
+                self.text_db_data.setPlaceholderText(
+                    "Paste path here or browse...")
             else:
                 self.text_db_data.setText(self.user_data)
             if self.user_output is None:
-                self.text_output.setText("Paste path here or browse...")
+                self.text_output.setText("")
+                self.text_output.setPlaceholderText(
+                    "Paste path here or browse...")
             else:
                 self.text_output.setText(self.user_output)
 
@@ -151,7 +159,8 @@ class UiAKL(Ui_designer):
         self.text_backup.setText("")
 
         self.button_process.setStyleSheet(
-            "background-color: rgb(207, 14, 30);\n"
+            "background-color: rgba(207, 14, 30, 0.8);\n"
+            "color: rgb(72, 72, 72);\n"
             "border-width:4px;\n"
             "border-color:black;\n"
             "border-style:offset;\n"
@@ -238,15 +247,21 @@ class UiAKL(Ui_designer):
                 "border-radius:10px;")
 
             if self.user_costs is None:
-                self.text_costs.setText("Paste path here or browse...")
+                self.text_costs.setText("")
+                self.text_costs.setPlaceholderText(
+                    "Paste path here or browse...")
             else:
                 self.text_costs.setText(self.user_costs)
             if self.user_data is None:
-                self.text_db_data.setText("Paste path here or browse...")
+                self.text_db_data.setText("")
+                self.text_db_data.setPlaceholderText(
+                    "Paste path here or browse...")
             else:
                 self.text_db_data.setText(self.user_data)
             if self.user_output is None:
-                self.text_output.setText("Paste path here or browse...")
+                self.text_output.setText("")
+                self.text_output.setPlaceholderText(
+                    "Paste path here or browse...")
             else:
                 self.text_output.setText(self.user_output)
 
