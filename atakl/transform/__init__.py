@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from aztool_akl.validate import *
-from aztool_akl.utilities import *
-from aztool_akl.transform.type_one import TypeOneTransformer
-from aztool_akl.transform.type_two import TypeTwoTransformer
-from aztool_akl.transform.type_three import TypeThreeTransformer
+from atakl.validate import *
+from atakl.utilities import *
+from atakl.transform.type_one import TypeOneTransformer
+from atakl.transform.type_two import TypeTwoTransformer
+from atakl.transform.type_three import TypeThreeTransformer
 
 transformer_mapper = {
     "Concepts": TypeOneTransformer,

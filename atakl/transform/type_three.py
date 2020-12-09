@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from aztool_akl.transform.type_two import *
+from atakl.transform.type_two import *
 
 
 class TypeThreeTransformer(TypeTwoTransformer):

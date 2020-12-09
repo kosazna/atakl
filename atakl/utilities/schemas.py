@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from aztool_akl.utilities.utils import c_2space
+from atakl.utilities.utils import c_2space
 
 # Type ONE columns for processing
 paraggelia = "Παραγγελία"

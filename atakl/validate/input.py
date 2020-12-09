@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from aztool_akl.utilities.utils import *
+from atakl.utilities.utils import *
 from pathlib import Path
 
 

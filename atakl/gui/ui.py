@@ -4,8 +4,8 @@ import os
 from pathlib import Path
 
 from PyQt5.QtWidgets import QFileDialog
-from aztool_akl.gui.designer import *
-from aztool_akl.validate.input import validate_proper_and_existent_path
+from atakl.gui.designer import *
+from atakl.validate.input import validate_proper_and_existent_path
 
 
 class UiAKL(Ui_designer):

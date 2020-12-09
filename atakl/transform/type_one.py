@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from aztool_akl.transform.template import *
+from atakl.transform.template import *
 
 
 class TypeOneTransformer(TypeTemplate):

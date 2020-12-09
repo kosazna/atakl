@@ -8,10 +8,10 @@
 # Always automate the boring stuff ;)
 
 
-from aztool_akl.gui import *
-from aztool_akl.transform import *
-from aztool_akl.utilities import *
-from aztool_akl.validate import *
+from atakl.gui import *
+from atakl.transform import *
+from atakl.utilities import *
+from atakl.validate import *
 
 
 if __name__ == "__main__":
