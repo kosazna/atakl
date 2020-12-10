@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import numpy as np
+# import numpy as np
+from numpy import ceil
 from atakl.transform.type_two import *
 
 
@@ -38,7 +39,7 @@ class TypeThreeTransformer(TypeTwoTransformer):
         if self.preprocessed:
             print("  Processing...")
 
-            self.data[kivotia] = self.data[kivotia] + np.ceil(
+            self.data[kivotia] = self.data[kivotia] + ceil(
                 self.data[upoloipo_se_temaxia] / 6).astype(int)
 
             self.data[upoloipo_se_temaxia] = 0

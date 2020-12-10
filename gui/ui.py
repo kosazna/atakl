@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import os
+# import os
+from os import startfile
 from pathlib import Path
 
 from PyQt5.QtWidgets import QFileDialog
@@ -66,7 +67,7 @@ class UiAKL(Ui_designer):
         self.last_visited = str(Path(chosen_path).parent)
 
     def change_costs(self):
-        os.startfile(self.default_costs)
+        startfile(self.default_costs)
 
     def set_home_dir(self, path):
         self.home_dir = str(path)

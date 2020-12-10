@@ -14,7 +14,7 @@ class TypeTwoTransformer(TypeTemplate):
         self.output = paths.akl_home.joinpath(
             f"{self.map_name}.xlsx") if output_path is None else output_path
         self.backup = f"{self.map_name}.xlsx"
-        self.costs = pd.read_excel(self.cost_file,
+        self.costs = read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             c_2space(tomeas), drop=True)
 

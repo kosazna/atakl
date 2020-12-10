@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
 from datetime import datetime
 from pathlib import Path
+from os import startfile
 
 
 def c_2space(text: str):
@@ -36,4 +36,4 @@ def count_files(path: (str, Path), pattern="*.xlsx"):
 
 
 def open_excel(path):
-    os.startfile(path)
+    startfile(path)
