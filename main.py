@@ -29,16 +29,27 @@ if __name__ == "__main__":
 
             action = validate_input("action")
 
-            transformer = load_tranformer(action)
+            transformer = load_tranformer(action, mode='CMD')
             transformer.validate()
 
             transformer.process()
             transformer.export()
     elif mode == 'POR':
-        process = sys.argv[2]
-        costs = sys.argv[3]
-        db_data = sys.argv[4]
-        out = sys.argv[5]
+        process = str(sys.argv[2])
+
+        costs = Path(sys.argv[3])
+        db_data = Path(sys.argv[4])
+        out = Path(sys.argv[5])
+
+        transformer = load_tranformer(process,
+                                      mode='POR',
+                                      path_list=[costs,
+                                                 db_data,
+                                                 out])
+        transformer.validate()
+
+        transformer.process()
+        transformer.export()
     elif mode == "GUI":
         from atakl.gui import *
 
