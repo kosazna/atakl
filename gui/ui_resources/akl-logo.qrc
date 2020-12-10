@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="akl-logo">
+    <file>akl_logo.png</file>
+  </qresource>
+</RCC>
