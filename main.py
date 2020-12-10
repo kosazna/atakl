@@ -18,7 +18,7 @@ if __name__ == "__main__":
     try:
         mode = sys.argv[1]
     except IndexError:
-        mode = "CMD"
+        mode = "GUI"
 
     if mode == 'CMD':
         print("ATTIKH KINISI LOGISTICS S.A.\n")
