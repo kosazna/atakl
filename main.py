@@ -7,8 +7,6 @@
 # This accounting automation was developed for ATTIKH KINISI LOGISTICS S.A.
 # Always automate the boring stuff ;)
 
-
-from atakl.gui import *
 from atakl.transform import *
 from atakl.utilities import *
 from atakl.validate import *
@@ -20,7 +18,7 @@ if __name__ == "__main__":
     try:
         mode = sys.argv[1]
     except IndexError:
-        mode = "GUI"
+        mode = "CMD"
 
     if mode == 'CMD':
         print("ATTIKH KINISI LOGISTICS S.A.\n")
@@ -41,7 +39,9 @@ if __name__ == "__main__":
         costs = sys.argv[3]
         db_data = sys.argv[4]
         out = sys.argv[5]
-    else:
+    elif mode == "GUI":
+        from atakl.gui import *
+
         app = QtWidgets.QApplication(sys.argv)
         main_window = QtWidgets.QMainWindow()
 
@@ -50,3 +50,5 @@ if __name__ == "__main__":
 
         main_window.show()
         sys.exit(app.exec_())
+    else:
+        pass
