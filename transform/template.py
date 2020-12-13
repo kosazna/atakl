@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# import pandas as pd
-from pandas import DataFrame,  read_excel
+import pandas as pd
 from atakl.utilities import *
 from atakl.validate.data import Validator
 
@@ -15,13 +14,13 @@ class TypeTemplate:
         self.map_name = ""
         self.preprocessed = False
         try:
-            self.data = read_excel(self.data_file).dropna(
+            self.data = pd.read_excel(self.data_file).dropna(
                 subset=DATA_DROP, how="all")
         except KeyError:
             display_error("Columns do not follow expected naming schema")
-            self.data = DataFrame()
+            self.data = pd.DataFrame()
         self.prev_count = count_files(paths.akl_home.joinpath(".history"))
-        self.costs = DataFrame()
+        self.costs = pd.DataFrame()
         self.validator = Validator(self.data)
         self.to_process = False
         self.to_export = False

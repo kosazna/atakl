@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# import pandas as pd
-from pandas import DataFrame
+import pandas as pd
 from atakl.utilities.schemas import *
 from atakl.utilities.utils import *
 
 
 class Validator:
-    def __init__(self, data: DataFrame):
+    def __init__(self, data: pd.DataFrame):
         self.data = data
         self.validator_map = {
             "Concepts": {"init": 12,

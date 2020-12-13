@@ -16,7 +16,7 @@ if __name__ == "__main__":
     import sys
 
     try:
-        mode = sys.argv[1]
+        mode = str(sys.argv[1])
     except IndexError:
         mode = "GUI"
 
