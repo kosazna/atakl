@@ -173,8 +173,6 @@ class UiAKL(Ui_designer):
             except KeyError:
                 self.text_db_data.setText("")
                 self.text_output.setText("")
-
-            self.text_general.setText("")
         else:
             if self.user_costs is None:
                 self.text_costs.setText("")
@@ -195,8 +193,7 @@ class UiAKL(Ui_designer):
             else:
                 self.text_output.setText(self.user_output)
 
-            self.text_general.setText("")
-
+        self.text_general.setText("")
         self.text_records.setText("")
         self.text_backup.setText("")
 
@@ -325,6 +322,7 @@ class UiAKL(Ui_designer):
             "border-style:offset;\n"
             "border-radius:10px;")
 
+        self.text_general.setText("")
         self.transformer = None
 
 
