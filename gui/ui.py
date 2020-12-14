@@ -71,7 +71,12 @@ class UiAKL(Ui_designer):
         self.last_visited = str(Path(chosen_path).parent)
 
     def change_costs(self):
-        startfile(self.default_costs)
+        if Path(self.default_costs).exists():
+            startfile(self.default_costs)
+        else:
+            to_display = "Can't open costs file.\n" \
+                         "AKL home directory is missing."
+            self.text_general.setText(to_display)
 
     def set_home_dir(self, path):
         self.home_dir = str(path)
@@ -99,51 +104,62 @@ class UiAKL(Ui_designer):
 
         costs_exists = Path(costs_path).exists()
         db_exists = Path(db_data).exists()
-        out_exists = Path(output).exists()
 
-        if all([costs_exists, db_exists]):
+        costs_ext = Path(costs_path).suffix
+        db_ext = Path(costs_path).suffix
+        accepted_exts = ['.xls', '.xlsx']
 
-            self.transformer = tranformer_process(data_filepath=db_data,
-                                                  cost_filepath=costs_path,
-                                                  output_path=output)
+        if costs_ext in accepted_exts and db_ext in accepted_exts:
 
-            self.text_records.setText(str(self.transformer.data.shape[0]))
-            self.transformer.validate()
+            if all([costs_exists, db_exists]):
 
-            if self.transformer.to_process:
-                if self.transformer.has_missing:
-                    self.button_process.setStyleSheet(
-                        "background-color: rgba(227, 209, 48, 0.8);\n"
-                        "color: rgb(72, 72, 72);\n"
-                        "border-width:4px;\n"
-                        "border-color:black;\n"
-                        "border-style:offset;\n"
-                        "border-radius:10px;")
-                else:
-                    self.button_process.setStyleSheet(
-                        "background-color: rgba(15, 196, 12, 0.8);\n"
-                        "color: rgb(72, 72, 72);\n"
-                        "border-width:4px;\n"
-                        "border-color:black;\n"
-                        "border-style:offset;\n"
-                        "border-radius:10px;")
+                self.transformer = tranformer_process(data_filepath=db_data,
+                                                      cost_filepath=costs_path,
+                                                      output_path=output)
 
-            self.text_general.setText(self.transformer.log.get_content())
+                self.text_records.setText(str(self.transformer.data.shape[0]))
+                self.transformer.validate()
+
+                if self.transformer.to_process:
+                    if self.transformer.has_missing:
+                        self.button_process.setStyleSheet(
+                            "background-color: rgba(227, 209, 48, 0.8);\n"
+                            "color: rgb(72, 72, 72);\n"
+                            "border-width:4px;\n"
+                            "border-color:black;\n"
+                            "border-style:offset;\n"
+                            "border-radius:10px;")
+                    else:
+                        self.button_process.setStyleSheet(
+                            "background-color: rgba(15, 196, 12, 0.8);\n"
+                            "color: rgb(72, 72, 72);\n"
+                            "border-width:4px;\n"
+                            "border-color:black;\n"
+                            "border-style:offset;\n"
+                            "border-radius:10px;")
+
+                self.text_general.setText(self.transformer.log.get_content())
+            else:
+                to_display = f"Some of the input files are missing!\n" \
+                             f"Check 'Costs' and 'DB_Data' files."
+                self.text_general.setText(to_display)
         else:
-            to_display = f"Some of the input files are missing!\n" \
-                         f"Check 'Costs' and 'DB_Data' files."
+            to_display = "Input files should end with either '.xls' or '.xlsx'"
             self.text_general.setText(to_display)
 
     def process_execute(self):
-        _old_txt = self.transformer.log.get_content()
+        if self.transformer is not None:
+            _old_txt = self.transformer.log.get_content()
 
-        self.transformer.process()
+            self.transformer.process()
 
-        _final_txt = _old_txt + "[Process Finished]"
-        self.text_general.setText(_final_txt)
-        self.transformer.log.erase()
+            _final_txt = _old_txt + "[Process Finished]"
+            self.text_general.setText(_final_txt)
+            self.transformer.log.erase()
 
-        self.text_backup.setText(self.transformer.export())
+            self.text_backup.setText(self.transformer.export())
+        else:
+            pass
 
     def change_paths_per_process(self):
         process = self.process_list.currentText()
@@ -191,6 +207,8 @@ class UiAKL(Ui_designer):
             "border-color:black;\n"
             "border-style:offset;\n"
             "border-radius:10px;")
+
+        self.transformer = None
 
     def browse_costs_func(self):
         filename = QFileDialog.getOpenFileName(directory=self.get_last_visit())
@@ -250,6 +268,14 @@ class UiAKL(Ui_designer):
                 self.text_db_data.setText("")
                 self.text_output.setText("")
 
+            self.button_process.setStyleSheet(
+                "background-color: rgba(207, 14, 30, 0.8);\n"
+                "color: rgb(72, 72, 72);\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
+
         else:
             self.text_costs.setStyleSheet(
                 "background-color: white;\n"
@@ -290,6 +316,16 @@ class UiAKL(Ui_designer):
                     "Paste path here or browse...")
             else:
                 self.text_output.setText(self.user_output)
+
+        self.button_process.setStyleSheet(
+            "background-color: rgba(207, 14, 30, 0.8);\n"
+            "color: rgb(72, 72, 72);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
+
+        self.transformer = None
 
 
 if __name__ == '__main__':
