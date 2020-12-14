@@ -16,7 +16,7 @@ def display_warning(text: str):
     print(f"\n[WARNING] - {text}")
 
 
-def display(text: str):
+def display_info(text: str):
     print(f"\n[INFO] - {text}")
 
 

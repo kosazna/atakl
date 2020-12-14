@@ -36,6 +36,7 @@ def load_tranformer(_action: str, mode, path_list=None):
 
     _tranformer = transformer_mapper[_action](data_filepath=data_path,
                                               cost_filepath=costs_path,
-                                              output_path=_out)
+                                              output_path=_out,
+                                              mode=mode)
 
     return _tranformer

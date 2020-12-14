@@ -8,7 +8,6 @@
 # Always automate the boring stuff ;)
 
 from atakl.transform import *
-from atakl.utilities import *
 from atakl.validate import *
 
 
@@ -29,7 +28,7 @@ if __name__ == "__main__":
 
             action = validate_input("action")
 
-            transformer = load_tranformer(action, mode='CMD')
+            transformer = load_tranformer(action, mode=mode)
             transformer.validate()
 
             transformer.process()
@@ -42,7 +41,7 @@ if __name__ == "__main__":
         out = Path(sys.argv[5])
 
         transformer = load_tranformer(process,
-                                      mode='POR',
+                                      mode=mode,
                                       path_list=[costs,
                                                  db_data,
                                                  out])

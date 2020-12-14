@@ -43,20 +43,24 @@ class UiAKL(Ui_designer):
         self.set_default_path_mapper(paths.default_path_mapper)
         self.set_default_export_path_mapper(paths.default_export_path_mapper)
         self.set_transformers(transformer_map)
-        self.gui_startup_paths()
+        self.gui_startup_paths(paths)
 
-    def gui_startup_paths(self):
+    def gui_startup_paths(self, paths):
         start_process = "Concepts"
-        self.text_costs.setText(self.default_costs)
 
-        try:
-            self.text_db_data.setText(
-                self.default_path_mapper[start_process])
-            self.text_output.setText(
-                self.default_export_path_mapper[start_process])
-        except KeyError:
-            self.text_db_data.setText("")
-            self.text_output.setText("")
+        if paths.akl_home.exists():
+            self.text_costs.setText(self.default_costs)
+
+            try:
+                self.text_db_data.setText(
+                    self.default_path_mapper[start_process])
+                self.text_output.setText(
+                    self.default_export_path_mapper[start_process])
+            except KeyError:
+                self.text_db_data.setText("")
+                self.text_output.setText("")
+        else:
+            self.tick_default.toggle()
 
     def get_last_visit(self):
         if self.last_visited is None:
@@ -93,8 +97,12 @@ class UiAKL(Ui_designer):
         db_data = self.text_db_data.text()
         output = self.text_output.text()
 
-        if costs_path.endswith(".xlsx") and db_data.endswith(
-                ".xlsx") and output.endswith(".xlsx"):
+        costs_exists = Path(costs_path).exists()
+        db_exists = Path(db_data).exists()
+        out_exists = Path(output).exists()
+
+        if all([costs_exists, db_exists]):
+
             self.transformer = tranformer_process(data_filepath=db_data,
                                                   cost_filepath=costs_path,
                                                   output_path=output)
@@ -120,8 +128,21 @@ class UiAKL(Ui_designer):
                         "border-style:offset;\n"
                         "border-radius:10px;")
 
+            self.text_general.setText(self.transformer.log.get_content())
+        else:
+            to_display = f"Some of the input files are missing!\n" \
+                         f"Check 'Costs' and 'DB_Data' files."
+            self.text_general.setText(to_display)
+
     def process_execute(self):
+        _old_txt = self.transformer.log.get_content()
+
         self.transformer.process()
+
+        _final_txt = _old_txt + "[Process Finished]"
+        self.text_general.setText(_final_txt)
+        self.transformer.log.erase()
+
         self.text_backup.setText(self.transformer.export())
 
     def change_paths_per_process(self):
@@ -136,6 +157,8 @@ class UiAKL(Ui_designer):
             except KeyError:
                 self.text_db_data.setText("")
                 self.text_output.setText("")
+
+            self.text_general.setText("")
         else:
             if self.user_costs is None:
                 self.text_costs.setText("")
@@ -155,6 +178,8 @@ class UiAKL(Ui_designer):
                     "Paste path here or browse...")
             else:
                 self.text_output.setText(self.user_output)
+
+            self.text_general.setText("")
 
         self.text_records.setText("")
         self.text_backup.setText("")

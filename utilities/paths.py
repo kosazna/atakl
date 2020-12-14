@@ -6,6 +6,7 @@ from pathlib import Path
 class Paths:
     def __init__(self):
         self.home = Path.home()
+
         self.akl_home = self.home.joinpath("Desktop\\AKL_Auto")
 
         self.default_costs = self.akl_home.joinpath(

@@ -121,3 +121,12 @@ TYPE_THREE_COLUMNS = [paraggelia,
                       mixanes_charge,
                       total_charge,
                       final_charge]
+
+data_integrity_map = {
+    "Concepts": {"init": 12,
+                 "names": list(map(c_2space, TYPE_ONE_COLUMNS))},
+    "PT Beverages - Spirits": {"init": 17,
+                               "names": list(map(c_2space, TYPE_TWO_COLUMNS))},
+    "PT Beverages - Lavazza": {"init": 14,
+                               "names": list(map(c_2space, TYPE_THREE_COLUMNS))}
+}
