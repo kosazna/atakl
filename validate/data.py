@@ -49,6 +49,7 @@ class Validator:
             return True
         else:
             self.log("Validator data are not set", Display.ERROR)
+            return False
 
     def missing(self):
         if self.data is not None:

@@ -19,20 +19,32 @@ class TypeTemplate:
         self.data = None
         self.prev_count = count_files(paths.akl_home.joinpath(".history"))
         self.costs = pd.DataFrame()
-        self.validator = Validator(self.data, mode)
+        self.validator = Validator(mode=mode)
         self.to_process = False
         self.to_export = False
         self.has_missing = False
 
-    @staticmethod
-    def set_data(data_filepath, process_name, sheet_name=0):
+    def set_data(self, data_filepath, process_name, sheet_name=0):
         keep_cols = data_integrity_map[process_name]['init']
-        _data = pd.read_excel(data_filepath,
-                              sheet_name=sheet_name).iloc[:, :keep_cols]
-        _data.columns = data_integrity_map[process_name]['names'][:keep_cols]
-        _data = _data.dropna(subset=DATA_DROP, how="all")
+        _data = pd.read_excel(data_filepath, sheet_name=sheet_name)
 
-        return _data
+        if _data.shape[1] != 0:
+            if _data.shape[1] >= keep_cols:
+                _data = _data.iloc[:, :keep_cols]
+                _data.columns = data_integrity_map[process_name]['names'][
+                                :keep_cols]
+                _data = _data.dropna(subset=DATA_DROP, how="all")
+                return _data
+            else:
+                self.log("There are less than necessary columns in data.",
+                         Display.ERROR)
+                return None
+        else:
+            self.log("There are no data in the specified sheet.",
+                     Display.ERROR)
+            self.log("Make sure you enter the correct sheet name.",
+                     Display.INFO)
+            return None
 
     def _preprocess(self):
         pass

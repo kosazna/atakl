@@ -7,6 +7,7 @@ from pathlib import Path
 from PyQt5.QtWidgets import QFileDialog
 from atakl.gui.designer import *
 from atakl.validate.input import validate_proper_and_existent_path
+from atakl.utilities.schemas import split_char
 
 
 class UiAKL(Ui_designer):
@@ -102,22 +103,37 @@ class UiAKL(Ui_designer):
         db_data = self.text_db_data.text()
         output = self.text_output.text()
 
-        costs_exists = Path(costs_path).exists()
-        db_exists = Path(db_data).exists()
+        splitted_db = db_data.split(split_char)
 
+        if len(splitted_db) == 1:
+            db_file = Path(splitted_db[0])
+            sheet = 0
+        else:
+            db_file = Path(splitted_db[0])
+            sheet = str(splitted_db[1])
+
+        db_exists = db_file.exists()
+        db_ext = db_file.suffix
+
+        costs_exists = Path(costs_path).exists()
         costs_ext = Path(costs_path).suffix
-        db_ext = Path(costs_path).suffix
+
         accepted_exts = ['.xls', '.xlsx']
 
         if costs_ext in accepted_exts and db_ext in accepted_exts:
 
             if all([costs_exists, db_exists]):
-
-                self.transformer = tranformer_process(data_filepath=db_data,
+                self.transformer = tranformer_process(data_filepath=db_file,
                                                       cost_filepath=costs_path,
-                                                      output_path=output)
+                                                      output_path=output,
+                                                      data_sheet=sheet)
 
-                self.text_records.setText(str(self.transformer.data.shape[0]))
+                if self.transformer.data is None:
+                    self.text_records.setText('0')
+                else:
+                    self.text_records.setText(
+                        str(self.transformer.data.shape[0]))
+
                 self.transformer.validate()
 
                 if self.transformer.to_process:

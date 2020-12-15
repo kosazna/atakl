@@ -7,6 +7,7 @@ class TypeTwoTransformer(TypeTemplate):
     def __init__(self, data_filepath: (str, Path),
                  cost_filepath: (str, Path),
                  output_path: (str, Path) = None,
+                 data_sheet=0,
                  mode='GUI'):
         super().__init__(data_filepath, cost_filepath, mode)
         self.name = "PT Beverages"
@@ -18,7 +19,7 @@ class TypeTwoTransformer(TypeTemplate):
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             c_2space(tomeas), drop=True)
-        self.data = self.set_data(data_filepath, self.map_name)
+        self.data = self.set_data(data_filepath, self.map_name, data_sheet)
         self.validator.set_data(self.data)
 
     def get_cost(self, region: str, material: str, quantity: int = None):

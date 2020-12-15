@@ -2,6 +2,8 @@
 
 from atakl.utilities.utils import c_2space
 
+split_char = '@'
+
 # Type ONE columns for processing
 paraggelia = "Παραγγελία"
 imerominia = "Ημερομηνία"
