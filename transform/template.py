@@ -129,15 +129,17 @@ class TypeTemplate:
         if self.to_export:
             self.log("Creating excel files...", Display.INFO)
             self.data.to_excel(self.output, index=False)
-            backup_title = paths.akl_home.joinpath(
-                f".history\\{self.prev_count:0>5}-{timestamp()}-{self.backup}")
-
-            try:
-                self.data.to_excel(backup_title, index=False)
-            except FileNotFoundError:
-                display_error("Backup failed")
 
             self.log(f"Exported file: {self.output}", Display.INFO)
-            self.log(f"Backup file: {backup_title}\n", Display.INFO)
 
-            return str(backup_title)
+            backup_dir = paths.akl_home.joinpath(".history")
+            backup_title = backup_dir.joinpath(
+                f"{self.prev_count: 0 > 5} - {timestamp()} - {self.backup}")
+
+            if backup_dir.exists():
+                self.data.to_excel(backup_title, index=False)
+
+                self.log(f"Backup file: {backup_title}\n", Display.INFO)
+
+                return str(backup_title)
+            return 'None'
