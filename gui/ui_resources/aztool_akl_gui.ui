@@ -246,14 +246,14 @@
       </rect>
      </property>
      <property name="text">
-      <string>DB Data</string>
+      <string>Data</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_records">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>330</y>
+       <y>320</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -266,7 +266,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>370</y>
+       <y>360</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -385,14 +385,16 @@
       <rect>
        <x>69</x>
        <y>100</y>
-       <width>311</width>
+       <width>291</width>
        <height>30</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="styleSheet">
@@ -495,9 +497,9 @@ border-radius:10px;</string>
     <widget class="QLineEdit" name="text_costs">
      <property name="geometry">
       <rect>
-       <x>69</x>
+       <x>59</x>
        <y>180</y>
-       <width>691</width>
+       <width>701</width>
        <height>30</height>
       </rect>
      </property>
@@ -521,9 +523,9 @@ border-radius:10px;</string>
     <widget class="QLineEdit" name="text_db_data">
      <property name="geometry">
       <rect>
-       <x>69</x>
+       <x>59</x>
        <y>220</y>
-       <width>691</width>
+       <width>701</width>
        <height>30</height>
       </rect>
      </property>
@@ -545,7 +547,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>69</x>
-       <y>330</y>
+       <y>320</y>
        <width>711</width>
        <height>30</height>
       </rect>
@@ -554,8 +556,8 @@ border-radius:10px;</string>
       <font>
        <family>Segoe UI</family>
        <pointsize>9</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="text">
@@ -566,7 +568,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>69</x>
-       <y>370</y>
+       <y>360</y>
        <width>711</width>
        <height>30</height>
       </rect>
@@ -575,8 +577,8 @@ border-radius:10px;</string>
       <font>
        <family>Segoe UI</family>
        <pointsize>9</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="text">
@@ -690,15 +692,15 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>410</y>
+       <y>400</y>
        <width>631</width>
-       <height>141</height>
+       <height>151</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -712,16 +714,18 @@ border-radius:10px;</string>
     <widget class="QCheckBox" name="tick_default">
      <property name="geometry">
       <rect>
-       <x>420</x>
+       <x>430</x>
        <y>100</y>
-       <width>201</width>
+       <width>161</width>
        <height>30</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="autoFillBackground">
@@ -756,9 +760,9 @@ border-radius:10px;</string>
     <widget class="QLineEdit" name="text_output">
      <property name="geometry">
       <rect>
-       <x>69</x>
+       <x>59</x>
        <y>260</y>
-       <width>691</width>
+       <width>701</width>
        <height>30</height>
       </rect>
      </property>
@@ -800,7 +804,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>650</x>
-       <y>410</y>
+       <y>400</y>
        <width>140</width>
        <height>51</height>
       </rect>
