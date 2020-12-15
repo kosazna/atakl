@@ -133,8 +133,9 @@ class TypeTemplate:
             self.log(f"Exported file: {self.output}", Display.INFO)
 
             backup_dir = paths.akl_home.joinpath(".history")
+            backup_id = str(self.prev_count).zfill(5)
             backup_title = backup_dir.joinpath(
-                f"{self.prev_count: 0 > 5} - {timestamp()} - {self.backup}")
+                f"{backup_id} - {timestamp()} - {self.backup}")
 
             if backup_dir.exists():
                 self.data.to_excel(backup_title, index=False)

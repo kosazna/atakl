@@ -8,6 +8,7 @@ class Paths:
         self.home = Path.home()
 
         self.akl_home = Path.cwd()
+        # self.akl_home = self.home.joinpath("Desktop\\AKL_Auto")
 
         self.default_costs = self.akl_home.joinpath(
             ".templates\\Region_Costs.xlsx")
