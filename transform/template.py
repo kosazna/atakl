@@ -24,9 +24,13 @@ class TypeTemplate:
         self.to_export = False
         self.has_missing = False
 
-    def set_data(self, data_filepath, process_name, sheet_name=0):
+    def set_data(self, data_filepath, process_name):
         keep_cols = data_integrity_map[process_name]['init']
-        _data = pd.read_excel(data_filepath, sheet_name=sheet_name)
+
+        _db, _sheet = parse_xlsx(data_filepath)
+        print(_db, _sheet)
+
+        _data = pd.read_excel(_db, sheet_name=_sheet)
 
         if _data.shape[1] != 0 and _data.shape[0] != 0:
             if _data.shape[1] >= keep_cols:

@@ -3,6 +3,8 @@ from datetime import datetime
 from pathlib import Path
 from os import startfile
 
+split_char = '@'
+
 
 def c_2space(text: str):
     return text.replace('_', ' ')
@@ -37,3 +39,14 @@ def count_files(path: (str, Path), pattern="*.xlsx"):
 
 def open_excel(path):
     startfile(path)
+
+
+def parse_xlsx(text):
+    _text = str(text)
+    if split_char in _text:
+        _split = _text.split(split_char)
+        _path = _split[0]
+        _sheet = _split[1]
+        return Path(_path), _sheet
+    else:
+        return Path(_text), 0
