@@ -28,7 +28,7 @@ class TypeTemplate:
         keep_cols = data_integrity_map[process_name]['init']
         _data = pd.read_excel(data_filepath, sheet_name=sheet_name)
 
-        if _data.shape[1] != 0:
+        if _data.shape[1] != 0 and _data.shape[0] != 0:
             if _data.shape[1] >= keep_cols:
                 _data = _data.iloc[:, :keep_cols]
                 _data.columns = data_integrity_map[process_name]['names'][
@@ -41,7 +41,8 @@ class TypeTemplate:
                 return None
         else:
             self.log("There are no data in the specified sheet.",
-                     Display.ERROR)
+                     Display.INFO)
+            self.log("Check the data file again or", Display.INFO)
             self.log("Make sure you enter the correct sheet name.",
                      Display.INFO)
             return None

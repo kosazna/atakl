@@ -164,7 +164,7 @@ class UiAKL(Ui_designer):
             self.text_general.setText(to_display)
 
     def process_execute(self):
-        if self.transformer is not None:
+        if self.transformer.to_process:
             _old_txt = self.transformer.log.get_content()
             self.text_general.setText(_old_txt)
 
@@ -176,7 +176,7 @@ class UiAKL(Ui_designer):
 
             self.text_backup.setText(self.transformer.export())
         else:
-            self.text_backup.setText("Can't process data.")
+            self.text_general.setText("Can't process data.")
 
     def change_paths_per_process(self):
         process = self.process_list.currentText()
