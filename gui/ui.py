@@ -282,6 +282,17 @@ class UiAKL(Ui_designer):
             self.text_output.setText('')
             self.text_output.setPlaceholderText("")
 
+        self.button_process.setStyleSheet(
+            "background-color: rgba(207, 14, 30, 0.8);\n"
+            "color: rgb(72, 72, 72);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
+
+        self.text_general.setText("")
+        self.transformer = None
+
     def check_default_box(self):
         process = self.process_list.currentText()
         if self.tick_default.isChecked():
