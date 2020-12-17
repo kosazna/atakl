@@ -142,6 +142,7 @@ class UiAKL(Ui_designer):
                             "border-radius:10px;")
 
                 self.text_general.setText(self.transformer.log.get_content())
+                self.transformer.log.erase()
             else:
                 to_display = f"Some of the input files are missing!\n" \
                              f"Check 'Costs' and 'DB_Data' files."
@@ -174,8 +175,12 @@ class UiAKL(Ui_designer):
 
             try:
                 self.text_db_data.setText(self.default_path_mapper[process])
-                self.text_output.setText(
-                    self.default_export_path_mapper[process])
+                if self.tick_export_new.isChecked():
+                    self.text_output.setText(
+                        self.default_export_path_mapper[process])
+                else:
+                    self.text_output.setText("")
+                    self.text_output.setPlaceholderText("")
             except KeyError:
                 self.text_db_data.setText("")
                 self.text_output.setText("")
