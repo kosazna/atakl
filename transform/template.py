@@ -6,7 +6,10 @@ from atakl.validate.data import Validator
 
 
 class TypeTemplate:
-    def __init__(self, cost_filepath: (str, Path), mode='GUI'):
+    def __init__(self, data_filepath,
+                 cost_filepath: (str, Path),
+                 mode='GUI'):
+        self.data_file = Path(parse_xlsx(data_filepath)[0])
         self.cost_file = Path(cost_filepath)
         self.costs = pd.DataFrame()
 
@@ -17,9 +20,9 @@ class TypeTemplate:
 
         self.data = None
 
-        self.output = ""
-        self.backup = ""
-        self.map_name = ""
+        self.output = None
+        self.backup = None
+        self.map_name = None
 
         self.preprocessed = False
         self.to_process = False
@@ -46,9 +49,9 @@ class TypeTemplate:
                          Display.ERROR)
                 return None
         else:
-            self.log("There are no data in the specified excel or sheet."
-                     "Check the data file again or make sure"
-                     "you entered the correct sheet name.",
+            self.log("There are no data in the specified excel or sheet.\n"
+                     "      Check the data file again or make sure\n"
+                     "      you entered the correct sheet name.",
                      Display.INFO)
             return None
 
@@ -129,20 +132,34 @@ class TypeTemplate:
 
     def export(self):
         if self.to_export:
-            self.log("Creating excel files...", Display.INFO)
-            self.data.to_excel(self.output, index=False)
+            self.log("Saving data...", Display.INFO)
 
-            self.log(f"Exported file: {self.output}", Display.INFO)
+            if not self.output:
+                sheet_name = 'Τιμολόγηση'
+                with pd.ExcelWriter(self.data_file,
+                                    engine='openpyxl',
+                                    mode='a') as xlsx:
+                    self.data.to_excel(xlsx, sheet_name=sheet_name, index=False)
 
-            backup_dir = paths.akl_home.joinpath(".history")
-            backup_id = str(self.prev_count).zfill(5)
-            backup_title = backup_dir.joinpath(
-                f"{backup_id} - {timestamp()} - {self.backup}")
+                self.log(f"Appended new sheet '{sheet_name}' to original data",
+                         Display.INFO)
+            else:
+                self.data.to_excel(self.output, index=False)
+                self.log(f"Exported file: {self.output}", Display.INFO)
+        else:
+            self.log("Can't export data. No processing was performed",
+                     Display.INFO)
 
-            if backup_dir.exists():
-                self.data.to_excel(backup_title, index=False)
+    def create_backup(self):
+        backup_dir = paths.akl_home.joinpath(".history")
+        backup_id = str(self.prev_count).zfill(5)
+        backup_title = backup_dir.joinpath(
+            f"{backup_id} - {datestamp()} - {self.backup}")
 
-                self.log(f"Backup file: {backup_title}\n", Display.INFO)
+        if backup_dir.exists():
+            self.data.to_excel(backup_title, index=False)
 
-                return str(backup_title)
-            return 'None'
+            self.log(f"Backup file: {backup_title}\n", Display.INFO)
+
+            return str(backup_title)
+        return 'None'

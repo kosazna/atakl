@@ -26,9 +26,14 @@ def round2(number):
     return round(float(number), 2)
 
 
-def timestamp(obj=False):
+def datestamp(obj=False):
     datetime_now = datetime.now()
     return datetime_now if obj else datetime_now.strftime("%d%m%Y")
+
+
+def dtstamp(obj=False):
+    datetime_now = datetime.now()
+    return datetime_now if obj else datetime_now.strftime("%Y-%m-%d %H:%M:%S")
 
 
 def count_files(path: (str, Path), pattern="*.xlsx"):

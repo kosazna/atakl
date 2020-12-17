@@ -9,7 +9,7 @@ class TypeOneTransformer(TypeTemplate):
                  cost_filepath: (str, Path),
                  output_path: (str, Path) = None,
                  mode='GUI'):
-        super().__init__(cost_filepath, mode)
+        super().__init__(data_filepath, cost_filepath, mode)
 
         self.name = "Concepts"
         self.map_name = self.name

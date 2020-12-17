@@ -33,25 +33,38 @@ if __name__ == "__main__":
 
             transformer.process()
             transformer.export()
+            backup_file = transformer.create_backup()
+            print(backup_file)
     elif mode == 'POR':
+        por_log = Display(mode)
+
         process = str(sys.argv[2])
 
         costs = Path(sys.argv[3])
-        db_data = Path(sys.argv[4])
+        db_data = sys.argv[4]
         out = Path(sys.argv[5])
 
-        transformer = load_tranformer(process,
-                                      mode=mode,
-                                      path_list=[costs,
-                                                 db_data,
-                                                 out])
-        transformer.validate()
+        try:
+            transformer = load_tranformer(process,
+                                          mode=mode,
+                                          path_list=[costs,
+                                                     db_data,
+                                                     out])
+            transformer.validate()
 
-        transformer.process()
-        transformer.export()
+            transformer.process()
+            transformer.export()
+        except Exception as e:
+            por_log(e)
+            text = por_log.get_content()
+        else:
+            text = f"AKL v{AKL_VERSION}\n" \
+                   f"Datetime: {dtstamp()}\n" \
+                   f"Process called: {transformer.map_name}\n\n" \
+                   f"{transformer.log.get_content()}"
 
         with open(paths.logger, 'w') as f:
-            f.write(timestamp())
+            f.write(text)
 
     elif mode == "GUI":
         from atakl.gui import *

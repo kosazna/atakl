@@ -1,14 +1,17 @@
-from pathlib import Path
-import pandas as pd
+from atakl.utilities import *
 
-split_char = '@'
-text = Path("C:\\Users\\aznavouridis.k\\Desktop\\AKL_Auto\\DB_Data\\PT Beverages - Lavazza.xlsx@test")
+dst = Path("C:\\Users\\aznavouridis.k\\Desktop\\AKL_Auto\\log.txt")
+dt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+d1 = Display("GUI")
 
-splitted = str(text).split(split_char)
-filepath = Path(splitted[0])
-# print(filepath)
-# sheet_name = splitted[1]
+d1('kostas')
+d1('azna')
+d1('IS AWESOME')
 
+text = f"AKL v{AKL_VERSION}\n\n" \
+       f"{dt}\n" \
+       f"{d1.get_content()}"
 
-print(text)
+with open(dst, 'w') as f:
+    f.write(text)

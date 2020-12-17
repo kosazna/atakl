@@ -29,6 +29,7 @@ class UiAKL(Ui_designer):
         self.button_change_costs.clicked.connect(self.change_costs)
         self.process_list.currentIndexChanged.connect(
             self.change_paths_per_process)
+        self.tick_export_new.stateChanged.connect(self.check_export_new)
 
         self.button_validate_data.clicked.connect(self.validate_data)
 
@@ -51,8 +52,6 @@ class UiAKL(Ui_designer):
             try:
                 self.text_db_data.setText(
                     self.default_path_mapper[start_process])
-                self.text_output.setText(
-                    self.default_export_path_mapper[start_process])
             except KeyError:
                 self.text_db_data.setText("")
                 self.text_output.setText("")
@@ -153,16 +152,18 @@ class UiAKL(Ui_designer):
 
     def process_execute(self):
         if self.transformer.to_process:
+
             _old_txt = self.transformer.log.get_content()
             self.text_general.setText(_old_txt)
 
             self.transformer.process()
+            self.transformer.export()
 
             _final_txt = _old_txt + "\n[Process Finished]"
             self.text_general.setText(_final_txt)
-            self.transformer.log.erase()
 
-            self.text_backup.setText(self.transformer.export())
+            self.text_backup.setText(self.transformer.create_backup())
+            self.transformer.log.erase()
         else:
             self.text_general.setText("Can't process data.")
 
@@ -192,9 +193,12 @@ class UiAKL(Ui_designer):
             else:
                 self.text_db_data.setText(self.user_data)
             if self.user_output is None:
-                self.text_output.setText("")
-                self.text_output.setPlaceholderText(
-                    "Paste path here or browse...")
+                if self.tick_export_new.isChecked():
+                    self.text_output.setText("")
+                    self.text_output.setPlaceholderText(
+                        "Paste path here or browse...")
+                else:
+                    self.text_output.setText("")
             else:
                 self.text_output.setText(self.user_output)
 
@@ -236,7 +240,45 @@ class UiAKL(Ui_designer):
             self.text_output.setText(export_file)
             self.user_output = export_file
 
+    def check_export_new(self):
+        process = self.process_list.currentText()
+        if self.tick_export_new.isChecked():
+            if self.tick_default.isChecked():
+                self.text_output.setStyleSheet(
+                    "background-color: rgb(209, 209, 209);\n"
+                    "border-width:4px;\n"
+                    "border-color:black;\n"
+                    "border-style:offset;\n"
+                    "border-radius:10px;")
+                self.text_output.setText(
+                    self.default_export_path_mapper[process])
+            else:
+                self.text_output.setStyleSheet(
+                    "background-color: white;\n"
+                    "border-width:4px;\n"
+                    "border-color:black;\n"
+                    "border-style:offset;\n"
+                    "border-radius:10px;")
+
+                if self.user_output is None:
+                    self.text_output.setText("")
+                    self.text_output.setPlaceholderText(
+                        "Paste path here or browse...")
+                else:
+                    self.text_output.setText(self.user_output)
+
+        else:
+            self.text_output.setStyleSheet(
+                "background-color: rgb(109, 109, 109);\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
+            self.text_output.setText('')
+            self.text_output.setPlaceholderText("")
+
     def check_default_box(self):
+        process = self.process_list.currentText()
         if self.tick_default.isChecked():
             self.text_costs.setStyleSheet(
                 "background-color: rgb(209, 209, 209);\n"
@@ -252,23 +294,34 @@ class UiAKL(Ui_designer):
                 "border-style:offset;\n"
                 "border-radius:10px;")
 
-            self.text_output.setStyleSheet(
-                "background-color: rgb(209, 209, 209);\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
+            if self.tick_export_new.isChecked():
+                self.text_output.setStyleSheet(
+                    "background-color: rgb(209, 209, 209);\n"
+                    "border-width:4px;\n"
+                    "border-color:black;\n"
+                    "border-style:offset;\n"
+                    "border-radius:10px;")
+                try:
+                    self.text_output.setText(
+                        self.default_export_path_mapper[process])
+                except KeyError:
+                    self.text_output.setText("")
+            else:
+                self.text_output.setStyleSheet(
+                    "background-color: rgb(109, 109, 109);\n"
+                    "border-width:4px;\n"
+                    "border-color:black;\n"
+                    "border-style:offset;\n"
+                    "border-radius:10px;")
 
-            process = self.process_list.currentText()
+                self.text_output.setText("")
+
             self.text_costs.setText(self.default_costs)
 
             try:
                 self.text_db_data.setText(self.default_path_mapper[process])
-                self.text_output.setText(
-                    self.default_export_path_mapper[process])
             except KeyError:
                 self.text_db_data.setText("")
-                self.text_output.setText("")
 
             self.button_process.setStyleSheet(
                 "background-color: rgba(207, 14, 30, 0.8);\n"
@@ -293,12 +346,29 @@ class UiAKL(Ui_designer):
                 "border-style:offset;\n"
                 "border-radius:10px;")
 
-            self.text_output.setStyleSheet(
-                "background-color: white;\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
+            if self.tick_export_new.isChecked():
+                self.text_output.setStyleSheet(
+                    "background-color: white;\n"
+                    "border-width:4px;\n"
+                    "border-color:black;\n"
+                    "border-style:offset;\n"
+                    "border-radius:10px;")
+
+                if self.user_output is None:
+                    self.text_output.setText("")
+                    self.text_output.setPlaceholderText(
+                        "Paste path here or browse...")
+                else:
+                    self.text_output.setText(self.user_output)
+            else:
+                self.text_output.setStyleSheet(
+                    "background-color: rgb(109, 109, 109);\n"
+                    "border-width:4px;\n"
+                    "border-color:black;\n"
+                    "border-style:offset;\n"
+                    "border-radius:10px;")
+
+                self.text_output.setText("")
 
             if self.user_costs is None:
                 self.text_costs.setText("")
@@ -312,12 +382,6 @@ class UiAKL(Ui_designer):
                     "Paste path here or browse...")
             else:
                 self.text_db_data.setText(self.user_data)
-            if self.user_output is None:
-                self.text_output.setText("")
-                self.text_output.setPlaceholderText(
-                    "Paste path here or browse...")
-            else:
-                self.text_output.setText(self.user_output)
 
         self.button_process.setStyleSheet(
             "background-color: rgba(207, 14, 30, 0.8);\n"

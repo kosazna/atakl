@@ -22,7 +22,8 @@ class Ui_designer(object):
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText,
+                         brush)
         brush = QtGui.QBrush(QtGui.QColor(195, 195, 195))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
@@ -37,10 +38,12 @@ class Ui_designer(object):
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText,
+                         brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText,
+                         brush)
         brush = QtGui.QBrush(QtGui.QColor(195, 195, 195))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
@@ -55,10 +58,12 @@ class Ui_designer(object):
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText,
+                         brush)
         brush = QtGui.QBrush(QtGui.QColor(195, 195, 195))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText,
+                         brush)
         brush = QtGui.QBrush(QtGui.QColor(195, 195, 195))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
@@ -73,7 +78,8 @@ class Ui_designer(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
         brush = QtGui.QBrush(QtGui.QColor(195, 195, 195))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText,
+                         brush)
         self.frame_main.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily("Century Gothic")
@@ -151,10 +157,11 @@ class Ui_designer(object):
         font.setBold(True)
         font.setWeight(75)
         self.process_list.setFont(font)
-        self.process_list.setStyleSheet("background-color: rgb(209, 209, 209);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-radius:10px;")
+        self.process_list.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-radius:10px;")
         self.process_list.setEditable(False)
         self.process_list.setFrame(False)
         self.process_list.setObjectName("process_list")
@@ -170,12 +177,13 @@ class Ui_designer(object):
         font.setWeight(75)
         self.button_process.setFont(font)
         self.button_process.setAutoFillBackground(False)
-        self.button_process.setStyleSheet("background-color: rgba(207, 14, 30, 0.8);\n"
-"color: rgb(72, 72, 72);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-style:offset;\n"
-"border-radius:10px;")
+        self.button_process.setStyleSheet(
+            "background-color: rgba(207, 14, 30, 0.8);\n"
+            "color: rgb(72, 72, 72);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
         self.button_process.setCheckable(False)
         self.button_process.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
         self.button_process.setAutoRaise(False)
@@ -188,11 +196,12 @@ class Ui_designer(object):
         font.setBold(True)
         font.setWeight(75)
         self.button_change_costs.setFont(font)
-        self.button_change_costs.setStyleSheet("background-color: rgb(209, 209, 209);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-style:offset;\n"
-"border-radius:10px;")
+        self.button_change_costs.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
         self.button_change_costs.setObjectName("button_change_costs")
         self.text_costs = QtWidgets.QLineEdit(self.frame_main)
         self.text_costs.setGeometry(QtCore.QRect(69, 180, 691, 30))
@@ -201,10 +210,10 @@ class Ui_designer(object):
         font.setPointSize(9)
         self.text_costs.setFont(font)
         self.text_costs.setStyleSheet("background-color: rgb(209, 209, 209);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-style:offset;\n"
-"border-radius:10px;")
+                                      "border-width:4px;\n"
+                                      "border-color:black;\n"
+                                      "border-style:offset;\n"
+                                      "border-radius:10px;")
         self.text_costs.setFrame(True)
         self.text_costs.setObjectName("text_costs")
         self.text_db_data = QtWidgets.QLineEdit(self.frame_main)
@@ -213,11 +222,12 @@ class Ui_designer(object):
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.text_db_data.setFont(font)
-        self.text_db_data.setStyleSheet("background-color: rgb(209, 209, 209);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-style:offset;\n"
-"border-radius:10px;")
+        self.text_db_data.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
         self.text_db_data.setObjectName("text_db_data")
         self.text_records = QtWidgets.QLabel(self.frame_main)
         self.text_records.setGeometry(QtCore.QRect(79, 320, 701, 30))
@@ -259,19 +269,21 @@ class Ui_designer(object):
         self.akl_logo.setObjectName("akl_logo")
         self.browse_costs = QtWidgets.QToolButton(self.frame_main)
         self.browse_costs.setGeometry(QtCore.QRect(760, 180, 30, 30))
-        self.browse_costs.setStyleSheet("background-color: rgb(209, 209, 209);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-style:offset;\n"
-"border-radius:10px;")
+        self.browse_costs.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
         self.browse_costs.setObjectName("browse_costs")
         self.browse_db_data = QtWidgets.QToolButton(self.frame_main)
         self.browse_db_data.setGeometry(QtCore.QRect(760, 220, 30, 30))
-        self.browse_db_data.setStyleSheet("background-color: rgb(209, 209, 209);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-style:offset;\n"
-"border-radius:10px;")
+        self.browse_db_data.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
         self.browse_db_data.setObjectName("browse_db_data")
         self.text_general = QtWidgets.QTextEdit(self.frame_main)
         self.text_general.setGeometry(QtCore.QRect(10, 400, 631, 151))
@@ -279,19 +291,20 @@ class Ui_designer(object):
         font.setFamily("Segoe UI")
         font.setPointSize(10)
         self.text_general.setFont(font)
-        self.text_general.setStyleSheet("background-color: rgb(209, 209, 209);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-style:offset;\n"
-"border-radius:10px;")
+        self.text_general.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
         self.text_general.setObjectName("text_general")
         self.tick_default = QtWidgets.QCheckBox(self.frame_main)
-        self.tick_default.setGeometry(QtCore.QRect(410, 100, 221, 30))
+        self.tick_default.setGeometry(QtCore.QRect(380, 100, 171, 30))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setBold(False)
+        font.setWeight(50)
         self.tick_default.setFont(font)
         self.tick_default.setAutoFillBackground(False)
         self.tick_default.setStyleSheet("")
@@ -307,19 +320,20 @@ class Ui_designer(object):
         font.setFamily("Segoe UI")
         font.setPointSize(9)
         self.text_output.setFont(font)
-        self.text_output.setStyleSheet("background-color: rgb(209, 209, 209);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-style:offset;\n"
-"border-radius:10px;")
+        self.text_output.setStyleSheet("background-color: rgb(109, 109, 109);\n"
+                                       "border-width:4px;\n"
+                                       "border-color:black;\n"
+                                       "border-style:offset;\n"
+                                       "border-radius:10px;")
         self.text_output.setObjectName("text_output")
         self.browse_output = QtWidgets.QToolButton(self.frame_main)
         self.browse_output.setGeometry(QtCore.QRect(760, 260, 30, 30))
-        self.browse_output.setStyleSheet("background-color: rgb(209, 209, 209);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-style:offset;\n"
-"border-radius:10px;")
+        self.browse_output.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
         self.browse_output.setObjectName("browse_output")
         self.button_validate_data = QtWidgets.QToolButton(self.frame_main)
         self.button_validate_data.setGeometry(QtCore.QRect(650, 400, 140, 51))
@@ -329,12 +343,26 @@ class Ui_designer(object):
         font.setBold(True)
         font.setWeight(75)
         self.button_validate_data.setFont(font)
-        self.button_validate_data.setStyleSheet("background-color: rgb(209, 209, 209);\n"
-"border-width:4px;\n"
-"border-color:black;\n"
-"border-style:offset;\n"
-"border-radius:10px;")
+        self.button_validate_data.setStyleSheet(
+            "background-color: rgb(209, 209, 209);\n"
+            "border-width:4px;\n"
+            "border-color:black;\n"
+            "border-style:offset;\n"
+            "border-radius:10px;")
         self.button_validate_data.setObjectName("button_validate_data")
+        self.tick_export_new = QtWidgets.QCheckBox(self.frame_main)
+        self.tick_export_new.setGeometry(QtCore.QRect(550, 100, 101, 30))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.tick_export_new.setFont(font)
+        self.tick_export_new.setAutoFillBackground(False)
+        self.tick_export_new.setStyleSheet("")
+        self.tick_export_new.setChecked(False)
+        self.tick_export_new.setTristate(False)
+        self.tick_export_new.setObjectName("tick_export_new")
         self.label_process.raise_()
         self.label_costs.raise_()
         self.label_db_data.raise_()
@@ -362,9 +390,10 @@ class Ui_designer(object):
         self.text_output.raise_()
         self.browse_output.raise_()
         self.button_validate_data.raise_()
+        self.tick_export_new.raise_()
         designer.setCentralWidget(self.widget_main)
         self.menubar = QtWidgets.QMenuBar(designer)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName("menubar")
         designer.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(designer)
@@ -382,29 +411,38 @@ class Ui_designer(object):
         self.label_db_data.setText(_translate("designer", "Data"))
         self.label_records.setText(_translate("designer", "Records"))
         self.label_backup.setText(_translate("designer", "Backup"))
-        self.label_data_paths.setText(_translate("designer", "Choose data paths"))
-        self.label_action.setText(_translate("designer", "Choose process action"))
+        self.label_data_paths.setText(
+            _translate("designer", "Choose data paths"))
+        self.label_action.setText(
+            _translate("designer", "Choose process action"))
         self.label_results.setText(_translate("designer", "Processing results"))
         self.process_list.setItemText(0, _translate("designer", "Concepts"))
-        self.process_list.setItemText(1, _translate("designer", "PT Beverages - Spirits"))
-        self.process_list.setItemText(2, _translate("designer", "PT Beverages - Lavazza"))
+        self.process_list.setItemText(1, _translate("designer",
+                                                    "PT Beverages - Spirits"))
+        self.process_list.setItemText(2, _translate("designer",
+                                                    "PT Beverages - Lavazza"))
         self.button_process.setText(_translate("designer", "Process"))
         self.button_change_costs.setText(_translate("designer", "Change Costs"))
-        self.akl_logo.setHtml(_translate("designer", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Century Gothic\'; font-size:18pt; color:#434343;\">Attiki Kinisi Logistics SA</span></p></body></html>"))
+        self.akl_logo.setHtml(_translate("designer",
+                                         "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                         "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                         "p, li { white-space: pre-wrap; }\n"
+                                         "</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+                                         "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Century Gothic\'; font-size:18pt; color:#434343;\">Attiki Kinisi Logistics SA</span></p></body></html>"))
         self.browse_costs.setText(_translate("designer", "..."))
         self.browse_db_data.setText(_translate("designer", "..."))
-        self.tick_default.setText(_translate("designer", "Use default file paths"))
+        self.tick_default.setText(
+            _translate("designer", "Use default file paths"))
         self.label_output.setText(_translate("designer", "Output"))
         self.browse_output.setText(_translate("designer", "..."))
-        self.button_validate_data.setText(_translate("designer", "Validate data"))
+        self.button_validate_data.setText(
+            _translate("designer", "Validate data"))
+        self.tick_export_new.setText(_translate("designer", "Export new"))
 
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     designer = QtWidgets.QMainWindow()
     ui = Ui_designer()
