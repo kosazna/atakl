@@ -9,16 +9,20 @@ class TypeThreeTransformer(TypeTemplate):
                  cost_filepath: (str, Path),
                  output_path: (str, Path) = None,
                  mode='GUI'):
-        super().__init__(data_filepath, cost_filepath, mode)
+        super().__init__(cost_filepath, mode)
+
         self.name = "PT Beverages"
         self.label = "Lavazza"
         self.map_name = f"{self.name} - {self.label}"
+        self.backup = f"{self.map_name}.xlsx"
+
         self.output = paths.akl_home.joinpath(
             f"{self.map_name}.xlsx") if output_path is None else output_path
-        self.backup = f"{self.map_name}.xlsx"
+
         self.costs = pd.read_excel(self.cost_file,
                                    sheet_name=self.name).set_index(
             c_2space(tomeas), drop=True)
+
         self.data = self.set_data(data_filepath, self.map_name)
         self.validator.set_data(self.data)
 
@@ -112,3 +116,7 @@ class TypeThreeTransformer(TypeTemplate):
 
             self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
                      Display.INFO)
+
+            self.to_export = True
+        else:
+            self.log("Process did not execute due to errors.", Display.INFO)

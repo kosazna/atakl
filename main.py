@@ -49,6 +49,10 @@ if __name__ == "__main__":
 
         transformer.process()
         transformer.export()
+
+        with open(paths.logger, 'w') as f:
+            f.write(timestamp())
+
     elif mode == "GUI":
         from atakl.gui import *
 

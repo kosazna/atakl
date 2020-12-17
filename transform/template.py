@@ -6,20 +6,22 @@ from atakl.validate.data import Validator
 
 
 class TypeTemplate:
-    def __init__(self, data_filepath: (str, Path),
-                 cost_filepath: (str, Path),
-                 mode='GUI'):
-        self.data_file = Path(data_filepath)
+    def __init__(self, cost_filepath: (str, Path), mode='GUI'):
         self.cost_file = Path(cost_filepath)
+        self.costs = pd.DataFrame()
+
         self.log = Display(mode)
+        self.validator = Validator(mode=mode)
+
+        self.prev_count = count_files(paths.akl_home.joinpath(".history"))
+
+        self.data = None
+
         self.output = ""
         self.backup = ""
         self.map_name = ""
+
         self.preprocessed = False
-        self.data = None
-        self.prev_count = count_files(paths.akl_home.joinpath(".history"))
-        self.costs = pd.DataFrame()
-        self.validator = Validator(mode=mode)
         self.to_process = False
         self.to_export = False
         self.has_missing = False
@@ -28,12 +30,12 @@ class TypeTemplate:
         keep_cols = data_integrity_map[process_name]['init']
 
         _db, _sheet = parse_xlsx(data_filepath)
-        print(_db, _sheet)
 
         _data = pd.read_excel(_db, sheet_name=_sheet)
+        nrows, ncols = _data.shape
 
-        if _data.shape[1] != 0 and _data.shape[0] != 0:
-            if _data.shape[1] >= keep_cols:
+        if nrows != 0 and ncols != 0:
+            if ncols >= keep_cols:
                 _data = _data.iloc[:, :keep_cols]
                 _data.columns = data_integrity_map[process_name]['names'][
                                 :keep_cols]
@@ -44,10 +46,9 @@ class TypeTemplate:
                          Display.ERROR)
                 return None
         else:
-            self.log("There are no data in the specified sheet.",
-                     Display.INFO)
-            self.log("Check the data file again or", Display.INFO)
-            self.log("Make sure you enter the correct sheet name.",
+            self.log("There are no data in the specified excel or sheet."
+                     "Check the data file again or make sure"
+                     "you entered the correct sheet name.",
                      Display.INFO)
             return None
 
@@ -80,8 +81,6 @@ class TypeTemplate:
         self.to_process = self.validator.columns(self.map_name)
         if self.to_process:
             self.has_missing = self.validator.missing()
-
-        self.log.add_message(self.validator.log.get_raw())
 
     def process_per_client(self, last_sort_element=paradosi):
         self.data[final_charge] = 0.0
@@ -127,8 +126,6 @@ class TypeTemplate:
                             i.Index, final_charge] = i.Συνολική_Χρέωση
                     else:
                         self.data.loc[i.Index, final_charge] = minimum
-
-        self.to_export = True
 
     def export(self):
         if self.to_export:

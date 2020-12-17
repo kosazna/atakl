@@ -1,8 +1,16 @@
 # -*- coding: utf-8 -*-
-# from atakl.utilities.utils import *
+
+class Singleton(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
 
 
-class Display:
+class Display(metaclass=Singleton):
     INFO = 'INFO'
     WARNING = 'WARNING'
     ERROR = 'ERROR'
@@ -28,16 +36,8 @@ class Display:
     def erase(self):
         self._content = []
 
-    def get_raw(self):
-        return self._content
-
-    def add_message(self, message):
-        self._content.extend(message)
-
     def __call__(self, content, kind=None):
         if self._mode == 'CMD':
             print(self._display(content, kind))
-        elif self._mode == 'GUI':
-            self._content.append(self._display(content, kind))
         else:
-            pass
+            self._content.append(self._display(content, kind))
