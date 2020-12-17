@@ -42,7 +42,15 @@ if __name__ == "__main__":
 
         costs = Path(sys.argv[3])
         db_data = sys.argv[4]
-        out = Path(sys.argv[5])
+
+        try:
+            _out = sys.argv[5]
+            if _out:
+                out = Path(sys.argv[5])
+            else:
+                out = ""
+        except IndexError:
+            out = ""
 
         try:
             transformer = load_tranformer(process,
