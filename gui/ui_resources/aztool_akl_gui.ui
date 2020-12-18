@@ -216,7 +216,7 @@
        <x>10</x>
        <y>99</y>
        <width>60</width>
-       <height>41</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="text">
@@ -227,7 +227,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>180</y>
+       <y>170</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -240,7 +240,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>220</y>
+       <y>210</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -253,7 +253,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>320</y>
+       <y>310</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -266,7 +266,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>360</y>
+       <y>340</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -279,7 +279,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>140</y>
+       <y>130</y>
        <width>200</width>
        <height>30</height>
       </rect>
@@ -323,7 +323,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>290</y>
+       <y>280</y>
        <width>200</width>
        <height>30</height>
       </rect>
@@ -358,7 +358,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>170</y>
+       <y>160</y>
        <width>780</width>
        <height>3</height>
       </rect>
@@ -371,7 +371,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>320</y>
+       <y>310</y>
        <width>780</width>
        <height>3</height>
       </rect>
@@ -386,7 +386,7 @@
        <x>79</x>
        <y>100</y>
        <width>301</width>
-       <height>41</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="font">
@@ -429,9 +429,9 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>650</x>
-       <y>470</y>
+       <y>490</y>
        <width>140</width>
-       <height>81</height>
+       <height>61</height>
       </rect>
      </property>
      <property name="font">
@@ -470,7 +470,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>650</x>
-       <y>100</y>
+       <y>380</y>
        <width>140</width>
        <height>41</height>
       </rect>
@@ -498,7 +498,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>180</y>
+       <y>170</y>
        <width>681</width>
        <height>30</height>
       </rect>
@@ -524,7 +524,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>220</y>
+       <y>210</y>
        <width>681</width>
        <height>30</height>
       </rect>
@@ -547,7 +547,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>320</y>
+       <y>310</y>
        <width>701</width>
        <height>30</height>
       </rect>
@@ -568,7 +568,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>360</y>
+       <y>340</y>
        <width>701</width>
        <height>30</height>
       </rect>
@@ -651,7 +651,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>760</x>
-       <y>180</y>
+       <y>170</y>
        <width>30</width>
        <height>30</height>
       </rect>
@@ -671,7 +671,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>760</x>
-       <y>220</y>
+       <y>210</y>
        <width>30</width>
        <height>30</height>
       </rect>
@@ -691,9 +691,9 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>400</y>
+       <y>380</y>
        <width>631</width>
-       <height>151</height>
+       <height>171</height>
       </rect>
      </property>
      <property name="font">
@@ -713,9 +713,9 @@ border-radius:10px;</string>
     <widget class="QCheckBox" name="tick_default">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>90</y>
-       <width>201</width>
+       <x>400</x>
+       <y>100</y>
+       <width>191</width>
        <height>30</height>
       </rect>
      </property>
@@ -747,7 +747,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>260</y>
+       <y>250</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -760,7 +760,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>260</y>
+       <y>250</y>
        <width>681</width>
        <height>30</height>
       </rect>
@@ -783,7 +783,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>760</x>
-       <y>260</y>
+       <y>250</y>
        <width>30</width>
        <height>30</height>
       </rect>
@@ -803,7 +803,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>650</x>
-       <y>400</y>
+       <y>430</y>
        <width>140</width>
        <height>51</height>
       </rect>
@@ -830,9 +830,9 @@ border-radius:10px;</string>
     <widget class="QCheckBox" name="tick_export_new">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>120</y>
-       <width>201</width>
+       <x>600</x>
+       <y>100</y>
+       <width>191</width>
        <height>30</height>
       </rect>
      </property>
