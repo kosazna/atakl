@@ -29,6 +29,9 @@ class Display(metaclass=Singleton):
     def set_mode(self, mode):
         self._mode = mode
 
+    def get_mode(self):
+        return self._mode
+
     def get_content(self):
         to_show = '\n'.join(self._content)
         return to_show

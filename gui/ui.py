@@ -152,21 +152,24 @@ class UiAKL(Ui_designer):
             self.text_general.setText(to_display)
 
     def process_execute(self):
-        if self.transformer.to_process:
+        if self.transformer is not None:
+            if self.transformer.to_process:
 
-            _old_txt = self.transformer.log.get_content()
-            self.text_general.setText(_old_txt)
+                _old_txt = self.transformer.log.get_content()
+                self.text_general.setText(_old_txt)
 
-            self.transformer.process()
-            self.transformer.export()
+                self.transformer.process()
+                self.transformer.export()
 
-            _final_txt = _old_txt + "\n[Process Finished]"
-            self.text_general.setText(_final_txt)
+                _final_txt = _old_txt + "\n[Process Finished]"
+                self.text_general.setText(_final_txt)
 
-            self.text_backup.setText(self.transformer.create_backup())
-            self.transformer.log.erase()
+                self.text_backup.setText(self.transformer.create_backup())
+                self.transformer.log.erase()
+            else:
+                self.text_general.setText("Can't process data.")
         else:
-            self.text_general.setText("Can't process data.")
+            self.text_general.setText("Validate data first!")
 
     def change_paths_per_process(self):
         process = self.process_list.currentText()
