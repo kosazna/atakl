@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import numpy as np
 from atakl.transform.template import *
 
 
-class TypeTwoTransformer(TypeTemplate):
+class PTBLavazza(TypeTemplate):
     def __init__(self, data_filepath: (str, Path),
                  cost_filepath: (str, Path),
                  output_path: (str, Path) = None,
@@ -11,7 +12,7 @@ class TypeTwoTransformer(TypeTemplate):
         super().__init__(data_filepath, cost_filepath, mode)
 
         self.name = "PT Beverages"
-        self.label = "Spirits"
+        self.label = "Lavazza"
         self.map_name = f"{self.name} - {self.label}"
         self.backup = f"{self.map_name}.xlsx"
 
@@ -56,20 +57,20 @@ class TypeTwoTransformer(TypeTemplate):
 
     def _preprocess(self):
         if self.to_process:
-            keep = data_integrity_map[self.map_name]['init']
-            self.data.columns = TYPE_TWO_COLUMNS[:keep]
-            self.data = self.data.sort_values(DATA_SORT).reset_index(drop=True)
-            self.data[paletes] = self.data[paletes].fillna(0).astype(int)
+            keep = info_map[self.map_name]['init_ncols']
+            self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
+            self.data = self.data.sort_values(DATA_SORT2).reset_index(drop=True)
+            self.data[sunolika_temaxia] = self.data[sunolika_temaxia].fillna(
+                0).astype(int)
+            self.data[atofia_paleta] = self.data[atofia_paleta].fillna(
+                0).astype(int)
             self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
-            self.data[tsantes] = self.data[tsantes].fillna(0).astype(int)
-            self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)
-            self.data[varelia] = self.data[varelia].fillna(0).astype(int)
-            self.data[ompreles] = self.data[ompreles].fillna(0).astype(int)
-            self.data[paletes_san] = self.data[paletes_san].fillna(0).astype(
-                int)
-            self.data[kola] = self.data[kola].fillna(0).astype(int)
+            self.data[upoloipo_se_temaxia] = self.data[
+                upoloipo_se_temaxia].fillna(
+                0).astype(int)
+            self.data[mixanes] = self.data[mixanes].fillna(0).astype(int)
 
-            self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
+            self.data[poli] = self.data[poli].fillna("<NULL>")
 
             self.preprocessed = True
 
@@ -78,51 +79,40 @@ class TypeTwoTransformer(TypeTemplate):
         if self.preprocessed:
             self.log("Processing...", Display.INFO)
 
-            self.data[paletes_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], paleta, x[paletes]), axis=1)
+            self.data[kivotia] = self.data[kivotia] + np.ceil(
+                self.data[upoloipo_se_temaxia] / 6).astype(int)
 
-            self.data[kivotia_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
+            self.data[upoloipo_se_temaxia] = 0
 
-            self.data[tsantes_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], tsanta, x[tsantes]), axis=1)
-
-            self.data[varelia_dist_charge] = 0.0
-
-            self.data[ompreles_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], omprela, x[ompreles]),
+            self.data[atofia_paleta_charge] = self.data.apply(
+                lambda x: self.get_cost(x[tomeas], paleta, x[atofia_paleta]),
                 axis=1)
 
-            self.data[kivotia_dist_charge] = self.data.apply(
-                lambda x: self._finalize_cost(x[tomeas],
-                                              x[kivotia_dist_charge]),
+            self.data[kivotia_charge] = self.data.apply(
+                lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
                 axis=1)
 
-            self.data[tsantes_dist_charge] = self.data.apply(
-                lambda x: self._finalize_cost(x[tomeas],
-                                              x[tsantes_dist_charge]),
+            self.data[mixanes_charge] = self.data.apply(
+                lambda x: self.get_cost(x[tomeas], mixani, x[mixanes]),
                 axis=1)
 
-            self.data[ompreles_dist_charge] = self.data.apply(
-                lambda x: self._finalize_cost(x[tomeas],
-                                              x[ompreles_dist_charge]),
+            self.data[kivotia_charge] = self.data.apply(
+                lambda x: self._finalize_cost(x[tomeas], x[kivotia_charge]),
                 axis=1)
 
             self.data[total_charge] = sum(
-                [self.data[paletes_dist_charge],
-                 self.data[kivotia_dist_charge],
-                 self.data[varelia_dist_charge],
-                 self.data[tsantes_dist_charge],
-                 self.data[ompreles_dist_charge]])
+                [self.data[atofia_paleta_charge],
+                 self.data[kivotia_charge],
+                 self.data[mixanes_charge]])
 
-            self.process_per_client()
+            self.process_per_client(last_sort_element=poli)
 
-            self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+            self.data[poli] = self.data[poli].replace("<NULL>", "")
 
             self.data.loc[
                 self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.data.columns = list(map(c_2space, TYPE_TWO_COLUMNS))
+            self.data.columns = info_map[self.map_name]['formal_cols']
 
             self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
                      Display.INFO)

@@ -4,7 +4,7 @@ import numpy as np
 from atakl.transform.template import *
 
 
-class TypeOneTransformer(TypeTemplate):
+class Concepts(TypeTemplate):
     def __init__(self, data_filepath: (str, Path),
                  cost_filepath: (str, Path),
                  output_path: (str, Path) = None,
@@ -50,8 +50,8 @@ class TypeOneTransformer(TypeTemplate):
 
     def _preprocess(self):
         if self.to_process:
-            keep = data_integrity_map[self.map_name]['init']
-            self.data.columns = TYPE_ONE_COLUMNS[:keep]
+            keep = info_map[self.map_name]['init_ncols']
+            self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
             self.data = self.data.sort_values(DATA_SORT).reset_index(drop=True)
             self.data[paletes] = self.data[paletes].fillna(0).astype(int)
             self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
@@ -100,7 +100,7 @@ class TypeOneTransformer(TypeTemplate):
             self.data.loc[
                 self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.data.columns = list(map(c_2space, TYPE_ONE_COLUMNS))
+            self.data.columns = info_map[self.map_name]['formal_cols']
 
             self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
                      Display.INFO)

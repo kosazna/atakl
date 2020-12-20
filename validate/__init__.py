@@ -2,4 +2,3 @@
 
 from atakl.validate.data import *
 from atakl.validate.input import *
-

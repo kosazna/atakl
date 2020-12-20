@@ -8,16 +8,17 @@ class Validator:
     def __init__(self, data: pd.DataFrame = None, mode=None):
         self.data = data
         self.log = Display(mode)
-        self.validator_map = data_integrity_map
+        self.validator_map = info_map
 
     def columns(self, transformer: str):
         if self.data is not None:
             length = self.data.shape[1] == self.validator_map[transformer][
                 "init"]
-            names = all([x in self.validator_map[transformer]["names"] for x in
-                         self.data.columns.tolist()])
-            init_length = self.validator_map[transformer]["init"]
-            init_names = self.validator_map[transformer]["names"]
+            names = all(
+                [x in self.validator_map[transformer]["formal_cols"] for x in
+                 self.data.columns.tolist()])
+            init_length = self.validator_map[transformer]["init_ncols"]
+            init_names = self.validator_map[transformer]["formal_cols"]
             tip = False
 
             if length and names:

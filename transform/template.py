@@ -30,7 +30,7 @@ class TypeTemplate:
         self.has_missing = False
 
     def set_data(self, data_filepath, process_name):
-        keep_cols = data_integrity_map[process_name]['init']
+        keep_cols = info_map[process_name]['init_ncols']
 
         _db, _sheet = parse_xlsx(data_filepath)
 
@@ -40,7 +40,7 @@ class TypeTemplate:
         if nrows != 0 and ncols != 0:
             if ncols >= keep_cols:
                 _data = _data.iloc[:, :keep_cols]
-                _data.columns = data_integrity_map[process_name]['names'][
+                _data.columns = info_map[process_name]['formal_cols'][
                                 :keep_cols]
                 _data = _data.dropna(subset=DATA_DROP, how="all")
                 return _data

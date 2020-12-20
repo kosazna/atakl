@@ -45,6 +45,12 @@ atofia_paleta_charge = "Χρέωση_Ατόφιας_Παλέτας"
 kivotia_charge = "Χρέωση_Κιβωτίων"
 mixanes_charge = "Χρέωση_Μηχανών"
 
+kodikos_paraggelias = "Κωδικός_Παραγγελίας"
+kodikos_arxikis_paraggelias = "Κωδικός_Αρχικής_Παραγγελίας"
+imerominia_apostolis = "Ημερομηνία_Αποστολής"
+paratiriseis = "Παρατηρήσεις"
+
+
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
 vareli = "Βαρέλι"
@@ -61,75 +67,99 @@ DATA_DROP = list(map(c_2space, [imerominia, pelatis, tomeas]))
 DATA_SORT = [imerominia, pelatis, tomeas, paradosi]
 DATA_SORT2 = [imerominia, pelatis, tomeas, poli]
 
-TYPE_ONE_COLUMNS = [paraggelia,
-                    imerominia,
-                    deltio,
-                    pelatis,
-                    tomeas,
-                    paradosi,
-                    paletes,
-                    kivotia,
-                    kola,
-                    varelia,
-                    kena_varelia,
-                    apostoli,
-                    paletes_dist_charge,
-                    kivotia_dist_charge,
-                    varelia_dist_charge,
-                    kena_varelia_dist_charge,
-                    total_charge,
-                    final_charge]
+CONCEPTS = [paraggelia,
+            imerominia,
+            deltio,
+            pelatis,
+            tomeas,
+            paradosi,
+            paletes,
+            kivotia,
+            kola,
+            varelia,
+            kena_varelia,
+            apostoli,
+            paletes_dist_charge,
+            kivotia_dist_charge,
+            varelia_dist_charge,
+            kena_varelia_dist_charge,
+            total_charge,
+            final_charge]
 
-TYPE_TWO_COLUMNS = [paraggelia,
-                    imerominia,
-                    parastatiko,
-                    pelatis,
-                    tomeas,
-                    paradosi,
-                    apostoli,
-                    kodikos,
-                    perigrafi,
-                    paletes,
-                    kivotia,
-                    tsantes,
-                    temaxia,
-                    varelia,
-                    ompreles,
-                    paletes_san,
-                    kola,
-                    paletes_dist_charge,
-                    kivotia_dist_charge,
-                    tsantes_dist_charge,
-                    varelia_dist_charge,
-                    ompreles_dist_charge,
-                    total_charge,
-                    final_charge]
+PTB_SPIRITS = [paraggelia,
+               imerominia,
+               parastatiko,
+               pelatis,
+               tomeas,
+               paradosi,
+               apostoli,
+               kodikos,
+               perigrafi,
+               paletes,
+               kivotia,
+               tsantes,
+               temaxia,
+               varelia,
+               ompreles,
+               paletes_san,
+               kola,
+               paletes_dist_charge,
+               kivotia_dist_charge,
+               tsantes_dist_charge,
+               varelia_dist_charge,
+               ompreles_dist_charge,
+               total_charge,
+               final_charge]
 
-TYPE_THREE_COLUMNS = [paraggelia,
-                      imerominia,
-                      parastatiko,
-                      pelatis,
-                      tomeas,
-                      poli,
-                      apostoli,
-                      kodikos,
-                      perigrafi,
-                      sunolika_temaxia,
-                      atofia_paleta,
-                      kivotia,
-                      upoloipo_se_temaxia,
-                      mixanes,
-                      atofia_paleta_charge,
-                      kivotia_charge,
-                      mixanes_charge,
-                      total_charge,
-                      final_charge]
+PTB_LAVAZZA = [paraggelia,
+               imerominia,
+               parastatiko,
+               pelatis,
+               tomeas,
+               poli,
+               apostoli,
+               kodikos,
+               perigrafi,
+               sunolika_temaxia,
+               atofia_paleta,
+               kivotia,
+               upoloipo_se_temaxia,
+               mixanes,
+               atofia_paleta_charge,
+               kivotia_charge,
+               mixanes_charge,
+               total_charge,
+               final_charge]
 
-data_integrity_map = {
-    "Concepts": {"init": 12,
-                 "names": list(map(c_2space, TYPE_ONE_COLUMNS))},
-    "PT Beverages - Spirits": {"init": 17,
-                               "names": list(map(c_2space, TYPE_TWO_COLUMNS))},
-    "PT Beverages - Lavazza": {"init": 14,
-                               "names": list(map(c_2space, TYPE_THREE_COLUMNS))}
+CAVINO = [kodikos_paraggelias,
+          kodikos_arxikis_paraggelias,
+          imerominia_apostolis,
+          parastatiko,
+          pelatis,
+          tomeas,
+          paradosi,
+          apostoli,
+          paletes,
+          kivotia,
+          temaxia,
+          kola,
+          paratiriseis]
+
+info_map = {
+    "Concepts":
+        {"init_ncols": 12,
+         "formal_cols": list(map(c_2space, CONCEPTS)),
+         "akl_cols": CONCEPTS},
+    "PT Beverages - Spirits":
+        {"init_ncols": 17,
+         "formal_cols": list(map(c_2space, PTB_SPIRITS)),
+         "akl_cols": PTB_SPIRITS},
+    "PT Beverages - Lavazza":
+        {"init_ncols": 14,
+         "formal_cols": list(map(c_2space, PTB_LAVAZZA)),
+         "akl_cols": PTB_LAVAZZA},
+    "Cavino":
+        {"init_ncols": 13,
+         "formal_cols": list(map(c_2space, CAVINO)),
+         "akl_cols": CAVINO}
 }

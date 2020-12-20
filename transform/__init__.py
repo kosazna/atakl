@@ -2,14 +2,14 @@
 
 from atakl.validate import *
 from atakl.utilities import *
-from atakl.transform.type_one import TypeOneTransformer
-from atakl.transform.type_two import TypeTwoTransformer
-from atakl.transform.type_three import TypeThreeTransformer
+from atakl.transform.concepts import Concepts
+from atakl.transform.ptb_spirits import PTBSpirits
+from atakl.transform.ptb_lavazza import PTBLavazza
 
 transformer_mapper = {
-    "Concepts": TypeOneTransformer,
-    "PT Beverages - Spirits": TypeTwoTransformer,
-    "PT Beverages - Lavazza": TypeThreeTransformer}
+    "Concepts": Concepts,
+    "PT Beverages - Spirits": PTBSpirits,
+    "PT Beverages - Lavazza": PTBLavazza}
 
 
 def load_tranformer(_action: str, mode, path_list=None):
