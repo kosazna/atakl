@@ -2,7 +2,7 @@
 
 from atakl.utilities.utils import c_2space
 
-AKL_VERSION = '1.0'
+AKL_VERSION = '2.0'
 split_char = '@'
 
 # Type ONE columns for processing
