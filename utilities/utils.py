@@ -1,7 +1,18 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from pathlib import Path
-from os import startfile
+import sys
+
+if sys.platform == 'win32':
+    from os import startfile
+
+
+    def open_excel(path):
+        startfile(path)
+else:
+    def open_excel(path):
+        print("Platform does not support os.startfile")
+        print(f"{path} is not used.")
 
 split_char = '@'
 
@@ -40,10 +51,6 @@ def count_files(path: (str, Path), pattern="*.xlsx"):
     path_to_count = Path(path)
     xlsx_count = list(path_to_count.glob(pattern))
     return len(xlsx_count)
-
-
-def open_excel(path):
-    startfile(path)
 
 
 def parse_xlsx(text):
