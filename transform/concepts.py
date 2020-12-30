@@ -5,9 +5,9 @@ from atakl.transform.template import *
 
 
 class Concepts(TypeTemplate):
-    def __init__(self, data_filepath: (str, Path),
-                 cost_filepath: (str, Path),
-                 output_path: (str, Path) = None,
+    def __init__(self, data_filepath: Union[str, Path],
+                 cost_filepath: Union[str, Path],
+                 output_path: Union[str, Path] = None,
                  mode='GUI'):
         super().__init__(data_filepath, cost_filepath, mode)
 

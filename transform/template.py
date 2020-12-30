@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from typing import Union
 import pandas as pd
 from atakl.utilities import *
 from atakl.validate.data import Validator
@@ -7,7 +8,7 @@ from atakl.validate.data import Validator
 
 class TypeTemplate:
     def __init__(self, data_filepath,
-                 cost_filepath: (str, Path),
+                 cost_filepath: Union[str, Path],
                  mode='GUI'):
         self.data_file = Path(parse_xlsx(data_filepath)[0])
         self.cost_file = Path(cost_filepath)
