@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+import sys
 from datetime import datetime
 from pathlib import Path
-import sys
+from typing import Union
 
 if sys.platform == 'win32':
     from os import startfile
@@ -47,7 +48,7 @@ def dtstamp(obj=False):
     return datetime_now if obj else datetime_now.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def count_files(path: (str, Path), pattern="*.xlsx"):
+def count_files(path: Union[str, Path], pattern="*.xlsx"):
     path_to_count = Path(path)
     xlsx_count = list(path_to_count.glob(pattern))
     return len(xlsx_count)
