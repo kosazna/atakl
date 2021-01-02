@@ -30,7 +30,8 @@ class Cavino(TypeTemplate):
         else:
             try:
                 return round2(self.costs.loc[region, material] * quantity)
-            except KeyError:
+            except KeyError as e:
+                self.log(e, Display.ERROR)
                 return 0.00
 
     def _finalize_cost(self, region: str, charge: float):
@@ -41,19 +42,64 @@ class Cavino(TypeTemplate):
 
     def _preprocess(self):
         if self.to_process:
-            keep = info_map[self.map_name]['init']
+            keep = info_map[self.map_name]['init_ncols']
             self.data.columns = CAVINO[:keep]
-            self.data = self.data.sort_values(DATA_SORT2).reset_index(drop=True)
-            self.data[sunolika_temaxia] = self.data[sunolika_temaxia].fillna(
-                0).astype(int)
-            self.data[atofia_paleta] = self.data[atofia_paleta].fillna(
-                0).astype(int)
-            self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
-            self.data[upoloipo_se_temaxia] = self.data[
-                upoloipo_se_temaxia].fillna(
-                0).astype(int)
-            self.data[mixanes] = self.data[mixanes].fillna(0).astype(int)
+            sort_rule = info_map[self.map_name]['sort']
+            self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
 
-            self.data[poli] = self.data[poli].fillna("<NULL>")
+            self.data[paletes] = self.data[paletes].fillna(0).astype(int)
+            self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
+            self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)
+            self.data[kola] = self.data[kola].fillna(0).astype(int)
+
+            if any(self.data[kola] != 0):
+                self.log(f"{kola} column contains non-zero value.",
+                         Display.WARNING)
+
+            self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
 
             self.preprocessed = True
+
+    def process(self):
+        self._preprocess()
+        if self.preprocessed:
+            self.log("Processing...", Display.INFO)
+
+            self.data[paletes_dist_charge] = self.data.apply(
+                lambda x: self.get_cost(x[tomeas], paleta, x[paletes]),
+                axis=1)
+
+            self.data[kivotia_dist_charge] = self.data.apply(
+                lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
+                axis=1)
+
+            self.data[total_charge] = sum([self.data[paletes_dist_charge],
+                                           self.data[kivotia_dist_charge]])
+
+            self.data[total_charge] = self.data.apply(
+                lambda x: self._finalize_cost(x[tomeas], x[total_charge]),
+                axis=1)
+
+            self.process_per_client()
+
+            self.data.loc[self.data[kodikos_arxikis_paraggelias].notna(),
+                          final_charge] = 0
+
+            self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+
+            self.data.loc[
+                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+
+            self.data[kola_dist_charge] = self.data[final_charge]
+            self.data[strech] = ""
+
+            self.data = self.data[info_map[self.map_name]['akl_cols']]
+
+            self.data.columns = info_map[self.map_name]['formal_cols']
+
+            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                     Display.INFO)
+
+            self.to_export = True
+        else:
+            self.log("Process did not execute due to errors.", Display.INFO)

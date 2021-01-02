@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from typing import Union
 import pandas as pd
 from atakl.utilities import *
 from atakl.validate.data import Validator
@@ -43,7 +42,8 @@ class TypeTemplate:
                 _data = _data.iloc[:, :keep_cols]
                 _data.columns = info_map[process_name]['formal_cols'][
                                 :keep_cols]
-                _data = _data.dropna(subset=DATA_DROP, how="all")
+                _data = _data.dropna(subset=info_map[self.map_name]['drop'],
+                                     how="all")
                 return _data
             else:
                 self.log("There are less than necessary columns in data.",

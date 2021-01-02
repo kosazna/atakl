@@ -13,7 +13,7 @@ class Validator:
     def columns(self, transformer: str):
         if self.data is not None:
             length = self.data.shape[1] == self.validator_map[transformer][
-                "init"]
+                "init_ncols"]
             names = all(
                 [x in self.validator_map[transformer]["formal_cols"] for x in
                  self.data.columns.tolist()])
@@ -54,7 +54,15 @@ class Validator:
 
     def missing(self):
         if self.data is not None:
-            imerominia_missing = self.data[imerominia].isna().sum()
+            try:
+                imerominia_missing = self.data[imerominia].isna().sum()
+            except KeyError:
+                try:
+                    imerominia_missing = self.data[
+                        imerominia_apostolis].isna().sum()
+                except KeyError:
+                    imerominia_missing = 0
+
             pelatis_missing = self.data[c_2space(pelatis)].isna().sum()
             tomeas_missing = self.data[c_2space(tomeas)].isna().sum()
 

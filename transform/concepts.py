@@ -45,14 +45,16 @@ class Concepts(TypeTemplate):
                             return 0.00
                 else:
                     return round2(self.costs.loc[region, material] * quantity)
-            except KeyError:
+            except KeyError as e:
+                self.log(e, Display.ERROR)
                 return 0.00
 
     def _preprocess(self):
         if self.to_process:
             keep = info_map[self.map_name]['init_ncols']
             self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-            self.data = self.data.sort_values(DATA_SORT).reset_index(drop=True)
+            sort_rule = info_map[self.map_name]['sort']
+            self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
             self.data[paletes] = self.data[paletes].fillna(0).astype(int)
             self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
             self.data[kola] = self.data[kola].fillna(0).astype(int)

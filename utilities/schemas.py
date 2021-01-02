@@ -49,6 +49,8 @@ kodikos_paraggelias = "Κωδικός_Παραγγελίας"
 kodikos_arxikis_paraggelias = "Κωδικός_Αρχικής_Παραγγελίας"
 imerominia_apostolis = "Ημερομηνία_Αποστολής"
 paratiriseis = "Παρατηρήσεις"
+kola_dist_charge = "Χρέωση_Διανομής_Κόλα"
+strech = "Stretch_Filming"
 
 
 paleta = "Παλέτα"
@@ -64,8 +66,6 @@ atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
 
 DATA_DROP = list(map(c_2space, [imerominia, pelatis, tomeas]))
-DATA_SORT = [imerominia, pelatis, tomeas, paradosi]
-DATA_SORT2 = [imerominia, pelatis, tomeas, poli]
 
 CONCEPTS = [paraggelia,
             imerominia,
@@ -143,23 +143,33 @@ CAVINO = [kodikos_paraggelias,
           kivotia,
           temaxia,
           kola,
-          paratiriseis]
+          paratiriseis,
+          kola_dist_charge,
+          strech]
 
 info_map = {
     "Concepts":
         {"init_ncols": 12,
          "formal_cols": list(map(c_2space, CONCEPTS)),
-         "akl_cols": CONCEPTS},
+         "akl_cols": CONCEPTS,
+         "sort": [imerominia, pelatis, tomeas, paradosi],
+         "drop": list(map(c_2space, [imerominia, pelatis, tomeas]))},
     "PT Beverages - Spirits":
         {"init_ncols": 17,
          "formal_cols": list(map(c_2space, PTB_SPIRITS)),
-         "akl_cols": PTB_SPIRITS},
+         "akl_cols": PTB_SPIRITS,
+         "sort": [imerominia, pelatis, tomeas, paradosi],
+         "drop": list(map(c_2space, [imerominia, pelatis, tomeas]))},
     "PT Beverages - Lavazza":
         {"init_ncols": 14,
          "formal_cols": list(map(c_2space, PTB_LAVAZZA)),
-         "akl_cols": PTB_LAVAZZA},
+         "akl_cols": PTB_LAVAZZA,
+         "sort": [imerominia, pelatis, tomeas, poli],
+         "drop": list(map(c_2space, [imerominia, pelatis, tomeas]))},
     "Cavino":
         {"init_ncols": 13,
          "formal_cols": list(map(c_2space, CAVINO)),
-         "akl_cols": CAVINO}
+         "akl_cols": CAVINO,
+         "sort": [imerominia_apostolis, pelatis, tomeas, paradosi],
+         "drop": list(map(c_2space, [imerominia_apostolis, pelatis, tomeas]))}
 }

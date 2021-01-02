@@ -46,7 +46,8 @@ class PTBLavazza(TypeTemplate):
                             return 0.0
                 else:
                     return round2(self.costs.loc[region, material] * quantity)
-            except KeyError:
+            except KeyError as e:
+                self.log(e, Display.ERROR)
                 return 0.00
 
     def _finalize_cost(self, region: str, charge: float):
@@ -59,7 +60,8 @@ class PTBLavazza(TypeTemplate):
         if self.to_process:
             keep = info_map[self.map_name]['init_ncols']
             self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-            self.data = self.data.sort_values(DATA_SORT2).reset_index(drop=True)
+            sort_rule = info_map[self.map_name]['sort']
+            self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
             self.data[sunolika_temaxia] = self.data[sunolika_temaxia].fillna(
                 0).astype(int)
             self.data[atofia_paleta] = self.data[atofia_paleta].fillna(
