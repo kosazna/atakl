@@ -86,7 +86,7 @@ class TypeTemplate:
         if self.to_process:
             self.has_missing = self.validator.missing()
 
-    def process_per_client(self, last_sort_element=paradosi):
+    def process_rows(self, last_sort_element=paradosi, insert_into='last'):
         self.data[final_charge] = 0.0
 
         hold_idx = []
@@ -95,7 +95,10 @@ class TypeTemplate:
         for i in self.data.itertuples():
             same_name = self._check_next_idx(i.Index, pelatis)
 
-            same_date = self._check_next_idx(i.Index, imerominia)
+            if imerominia in self.data.columns:
+                same_date = self._check_next_idx(i.Index, imerominia)
+            else:
+                same_date = self._check_next_idx(i.Index, imerominia_apostolis)
 
             same_region = self._check_next_idx(i.Index, tomeas)
 
@@ -120,7 +123,12 @@ class TypeTemplate:
                         for idx, value in zip(hold_idx, hold):
                             self.data.loc[idx, final_charge] = value
                     else:
-                        self.data.loc[i.Index, final_charge] = minimum
+                        if insert_into == 'last':
+                            self.data.loc[i.Index, final_charge] = minimum
+                        else:
+                            _position = hold.index(max(hold))
+                            _df_index = hold_idx[_position]
+                            self.data.loc[_df_index, final_charge] = minimum
 
                     hold_idx = []
                     hold = []

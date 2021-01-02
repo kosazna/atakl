@@ -62,6 +62,10 @@ class PTBLavazza(TypeTemplate):
             self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
             sort_rule = info_map[self.map_name]['sort']
             self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
+
+            self.data.loc[
+                self.data[pelatis] == "ΤΡΟΦΟΔΟΣΙΑ ΙΚΕ", tomeas] = "ΜΑΚΕΔΟΝΙΑ"
+
             self.data[sunolika_temaxia] = self.data[sunolika_temaxia].fillna(
                 0).astype(int)
             self.data[atofia_paleta] = self.data[atofia_paleta].fillna(
@@ -107,7 +111,7 @@ class PTBLavazza(TypeTemplate):
                  self.data[kivotia_charge],
                  self.data[mixanes_charge]])
 
-            self.process_per_client(last_sort_element=poli)
+            self.process_rows(last_sort_element=poli)
 
             self.data[poli] = self.data[poli].replace("<NULL>", "")
 

@@ -65,6 +65,17 @@ class Cavino(TypeTemplate):
         if self.preprocessed:
             self.log("Processing...", Display.INFO)
 
+            _temp1 = self.data[
+                self.data[kodikos_arxikis_paraggelias].notna()].copy()
+            _temp1[paletes_dist_charge] = 0.0
+            _temp1[kivotia_dist_charge] = 0.0
+            _temp1[total_charge] = 0.0
+            _temp1[final_charge] = 0.0
+
+            self.data = self.data[
+                self.data[
+                    kodikos_arxikis_paraggelias].isna()].copy().reset_index()
+
             self.data[paletes_dist_charge] = self.data.apply(
                 lambda x: self.get_cost(x[tomeas], paleta, x[paletes]),
                 axis=1)
@@ -80,10 +91,14 @@ class Cavino(TypeTemplate):
                 lambda x: self._finalize_cost(x[tomeas], x[total_charge]),
                 axis=1)
 
-            self.process_per_client()
+            self.process_rows(insert_into='max')
 
-            self.data.loc[self.data[kodikos_arxikis_paraggelias].notna(),
-                          final_charge] = 0
+            # self.data.loc[self.data[kodikos_arxikis_paraggelias].notna(),
+            #               final_charge] = 0
+
+            self.data = self.data.set_index('index')
+
+            self.data = pd.concat([self.data, _temp1]).sort_index()
 
             self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 

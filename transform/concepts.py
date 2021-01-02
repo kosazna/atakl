@@ -95,7 +95,7 @@ class Concepts(TypeTemplate):
                  self.data[varelia_dist_charge],
                  self.data[kena_varelia_dist_charge]])
 
-            self.process_per_client()
+            self.process_rows()
 
             self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
