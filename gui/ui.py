@@ -44,7 +44,7 @@ class UiAKL(Ui_designer):
         self.gui_startup_paths(paths)
 
     def gui_startup_paths(self, paths):
-        start_process = "Concepts"
+        start_process = "Cavino"
 
         if paths.akl_home.exists():
             self.text_costs.setText(self.default_costs)

@@ -411,6 +411,11 @@ border-radius:10px;</string>
      </property>
      <item>
       <property name="text">
+       <string>Cavino</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>Concepts</string>
       </property>
      </item>
@@ -896,7 +901,7 @@ border-radius:10px;</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
