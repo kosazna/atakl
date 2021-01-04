@@ -52,6 +52,16 @@ paratiriseis = "Παρατηρήσεις"
 kola_dist_charge = "Χρέωση_Διανομής_Κόλα"
 strech = "Stretch_Filming"
 
+paradosi_address = "Διεύθυνση_Παράδοσης"
+kivotia_paixnidia = "Κιβώτια_Παιχνίδια"
+kivotia_ogkou = "Κιβώτια_Μεγάλου_Όγκου"
+ogkos = "Όγκος"
+kivotia_lampades_dist_charge = "Χρέωση_Διανομής_Κιβωτίων_Λαμπάδες"
+kivotia_paixnidia_dist_charge = "Χρέωση_Διανομής_Κιβωτίων_Παιχνίδια"
+ogkos_dist_charge = "Χρέωση_Διανομής_Όγκου"
+final_dist_charge = "Σύνολο_Χρέωσης_Διανομής"
+
+# Cost file keys
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
 vareli = "Βαρέλι"
@@ -60,6 +70,7 @@ elaxisti = "Ελάχιστη Χρέωση Παραγγελίας"
 mixani = "Μηχανή"
 tsanta = "Τσάντα"
 omprela = "Διαφ Ομπρέλα"
+kuviko = "Κυβικό"
 
 atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
@@ -146,7 +157,24 @@ CAVINO = [kodikos_paraggelias,
           kola_dist_charge,
           strech]
 
-GIOCHI = []
+GIOCHI = [paraggelia,
+          imerominia,
+          parastatiko,
+          pelatis,
+          tomeas,
+          paradosi,
+          paradosi_address,
+          apostoli,
+          paletes,
+          kivotia_paixnidia,
+          kivotia_ogkou,
+          temaxia,
+          ogkos,
+          paletes_dist_charge,
+          kivotia_lampades_dist_charge,
+          kivotia_paixnidia_dist_charge,
+          ogkos_dist_charge,
+          final_dist_charge]
 
 info_map = {
     "Concepts":
@@ -176,7 +204,7 @@ info_map = {
     "Giochi":
         {"init_ncols": 13,
          "formal_cols": list(map(c_2space, GIOCHI)),
-         "akl_cols": CAVINO,
+         "akl_cols": GIOCHI,
          "sort": [imerominia_apostolis, pelatis, tomeas, paradosi],
          "drop": list(map(c_2space, [imerominia_apostolis, pelatis, tomeas]))}
 }
