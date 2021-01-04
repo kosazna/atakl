@@ -93,14 +93,26 @@ class Cavino(TypeTemplate):
 
             self.process_rows(insert_into='max')
 
-            # self.data.loc[self.data[kodikos_arxikis_paraggelias].notna(),
-            #               final_charge] = 0
-
             self.data = self.data.set_index('index')
 
             self.data = pd.concat([self.data, _temp1]).sort_index()
 
             self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+
+            order = self.data[kodikos_paraggelias].str.split('-').str[
+                    :-1].str.join('-')
+            og_orger = self.data[kodikos_arxikis_paraggelias].str.split(
+                '-').str[:-1].str.join('-')
+
+            order_idsx = order.loc[order.isin(og_orger)].index
+            og_orger_idxs = og_orger.loc[og_orger.isin(order)].index
+
+            _charge = self.data.loc[order_idsx, final_charge]
+            _multiplier = self.data.loc[og_orger_idxs, temaxia].values
+
+            to_replace = _charge * _multiplier
+
+            self.data.loc[order_idsx, final_charge] = to_replace
 
             self.data.loc[
                 self.data[apostoli] == idiofortosi, final_charge] = 0.00
