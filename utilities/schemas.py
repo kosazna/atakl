@@ -52,7 +52,6 @@ paratiriseis = "Παρατηρήσεις"
 kola_dist_charge = "Χρέωση_Διανομής_Κόλα"
 strech = "Stretch_Filming"
 
-
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
 vareli = "Βαρέλι"
@@ -147,6 +146,8 @@ CAVINO = [kodikos_paraggelias,
           kola_dist_charge,
           strech]
 
+GIOCHI = []
+
 info_map = {
     "Concepts":
         {"init_ncols": 12,
@@ -169,6 +170,12 @@ info_map = {
     "Cavino":
         {"init_ncols": 13,
          "formal_cols": list(map(c_2space, CAVINO)),
+         "akl_cols": CAVINO,
+         "sort": [imerominia_apostolis, pelatis, tomeas, paradosi],
+         "drop": list(map(c_2space, [imerominia_apostolis, pelatis, tomeas]))},
+    "Giochi":
+        {"init_ncols": 13,
+         "formal_cols": list(map(c_2space, GIOCHI)),
          "akl_cols": CAVINO,
          "sort": [imerominia_apostolis, pelatis, tomeas, paradosi],
          "drop": list(map(c_2space, [imerominia_apostolis, pelatis, tomeas]))}
