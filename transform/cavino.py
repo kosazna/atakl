@@ -108,7 +108,7 @@ class Cavino(TypeTemplate):
             og_orger_idxs = og_orger.loc[og_orger.isin(order)].index
 
             _charge = self.data.loc[order_idsx, final_charge]
-            _multiplier = self.data.loc[og_orger_idxs, temaxia].values
+            _multiplier = self.data.loc[og_orger_idxs, temaxia]
 
             to_replace = _charge * _multiplier
 
