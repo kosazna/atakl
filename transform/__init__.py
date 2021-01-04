@@ -6,12 +6,14 @@ from atakl.transform.concepts import Concepts
 from atakl.transform.ptb_spirits import PTBSpirits
 from atakl.transform.ptb_lavazza import PTBLavazza
 from atakl.transform.cavino import Cavino
+from atakl.transform.giochi import Giochi
 
 transformer_mapper = {
     "Concepts": Concepts,
     "PT Beverages - Spirits": PTBSpirits,
     "PT Beverages - Lavazza": PTBLavazza,
-    "Cavino": Cavino}
+    "Cavino": Cavino,
+    "Giochi": Giochi}
 
 
 def load_tranformer(_action: str, mode, path_list=None):

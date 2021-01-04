@@ -21,13 +21,15 @@ class Paths:
             "DB_Data\\PT Beverages - Lavazza.xlsx")
         self.default_cavino = self.akl_home.joinpath(
             "DB_Data\\Cavino.xlsx")
+        self.default_giochi = self.akl_home.joinpath(
+            "DB_Data\\Giochi.xlsx")
 
         self.default_path_mapper = {
             "Concepts": self.default_concepts,
             "PT Beverages - Spirits": self.default_pt_spirits,
             "PT Beverages - Lavazza": self.default_pt_lavazza,
-            "Cavino": self.default_cavino
-        }
+            "Cavino": self.default_cavino,
+            "Giochi": self.default_giochi}
 
         self.default_export_concepts = self.akl_home.joinpath(
             "Concepts.xlsx")
@@ -37,26 +39,29 @@ class Paths:
             "PT Beverages - Lavazza.xlsx")
         self.default_export_cavino = self.akl_home.joinpath(
             "Cavino.xlsx")
+        self.default_export_giochi = self.akl_home.joinpath(
+            "Giochi.xlsx")
 
         self.default_export_path_mapper = {
             "Concepts": self.default_export_concepts,
             "PT Beverages - Spirits": self.default_export_pt_spirits,
             "PT Beverages - Lavazza": self.default_export_pt_lavazza,
-            "Cavino": self.default_export_cavino
-        }
+            "Cavino": self.default_export_cavino,
+            "Giochi": self.default_export_giochi}
 
         self.user_costs = ""
         self.user_concepts = ""
         self.user_pt_spirits = ""
         self.user_pt_lavazza = ""
         self.user_cavino = ""
+        self.user_giochi = ""
 
         self.user_path_mapper = {
             "Concepts": self.user_concepts,
             "PT Beverages - Spirits": self.user_pt_spirits,
             "PT Beverages - Lavazza": self.user_pt_lavazza,
-            "Cavino": self.user_cavino
-        }
+            "Cavino": self.user_cavino,
+            "Giochi": self.user_giochi}
 
     def get_path(self, process: str):
         return self.default_path_mapper[process]
