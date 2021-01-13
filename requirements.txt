@@ -3,3 +3,5 @@ numpy==1.19.2
 openpyxl==3.0.5
 xlrd==1.2.0
 pyqt5
+pyinstaller
+pypiwin32

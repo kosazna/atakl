@@ -6,10 +6,4 @@ dependencies:
   - python=3.7
   - pip
   - pip:
-      - pandas==1.1.5
-      - numpy==1.19.2
-      - openpyxl==3.0.5
-      - xlrd==1.2.0
-      - pyqt5
-      - pyinstaller
-      - pypiwin32
+      - -r file:requirements.txt
