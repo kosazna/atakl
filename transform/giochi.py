@@ -23,3 +23,39 @@ class Giochi(TypeTemplate):
 
         self.data = self.set_data(data_filepath, self.map_name)
         self.validator.set_data(self.data)
+
+    def get_cost(self, region: str, material: str, quantity: int = None):
+        if region == "ΕΞΑΓΩΓΗ":
+            return 0.00
+        else:
+            try:
+                return round2(self.costs.loc[region, material] * quantity)
+            except KeyError as e:
+                self.log(e, Display.ERROR)
+                return 0.00
+
+    def _finalize_cost(self, region: str, charge: float):
+        wall = round2(self.get_cost(region, paleta, 1))
+        if charge > wall:
+            return wall
+        return charge
+
+    def _preprocess(self):
+        if self.to_process:
+            keep = info_map[self.map_name]['init_ncols']
+            self.data.columns = CAVINO[:keep]
+            sort_rule = info_map[self.map_name]['sort']
+            self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
+
+            self.data[paletes] = self.data[paletes].fillna(0).astype(int)
+            self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
+            self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)
+            self.data[kola] = self.data[kola].fillna(0).astype(int)
+
+            if any(self.data[kola] != 0):
+                self.log(f"{kola} column contains non-zero value.",
+                         Display.WARNING)
+
+            self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
+
+            self.preprocessed = True
