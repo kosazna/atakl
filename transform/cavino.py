@@ -43,7 +43,7 @@ class Cavino(TypeTemplate):
     def _preprocess(self):
         if self.to_process:
             keep = info_map[self.map_name]['init_ncols']
-            self.data.columns = CAVINO[:keep]
+            self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
             sort_rule = info_map[self.map_name]['sort']
             self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
 
