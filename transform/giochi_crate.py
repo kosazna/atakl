@@ -55,7 +55,7 @@ class GiochiCrate(TypeTemplate):
             self.log("Processing...", Display.INFO)
 
             self.data[total_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], kuviko, x[sinolikos_ogkos]),
+                lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
                 axis=1)
 
             self.process_rows()

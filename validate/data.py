@@ -57,7 +57,9 @@ class Validator:
         if self.data is not None:
             has_missing = False
             bools = []
-            for i in self.validator_map[self.map_name]['sort']:
+            check_cols = list(map(c_2space,
+                                  self.validator_map[self.map_name]['sort']))
+            for i in check_cols:
                 _missing = self.data[i].isna().sum()
                 bools.append(bool(_missing))
 

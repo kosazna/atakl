@@ -145,3 +145,49 @@ class Giochi(TypeTemplate):
             self.to_export = True
         else:
             self.log("Process did not execute due to errors.", Display.INFO)
+
+    def export(self, output=None):
+        if self.to_export:
+            self.log("Saving data...", Display.INFO)
+
+            mask1 = (self.data[c_2space(tomeas)] == 'ΑΤΤΙΚΗ') & (
+                    self.data[c_2space(apostoli)] == atlog)
+            mask2 = self.data[c_2space(apostoli)] == idiofortosi
+            mask3 = (self.data[c_2space(pelatis)] == 'JUMBO Α.Ε.Ε') & (
+                    self.data[c_2space(tomeas)] == 'ΣΤ.ΕΛΛΑΔΑ – ΕΥΒΟΙΑ') & (
+                            self.data[c_2space(apostoli)] == atlog)
+
+            _kuviko = self.data.loc[mask1 | mask2 | mask3].copy().drop(
+                columns=[c_2space(paletes_dist_charge),
+                         c_2space(kivotia_lampades_dist_charge),
+                         c_2space(kivotia_paixnidia_dist_charge)])
+
+            if self.sheet_name == 0 or self.sheet_name is None:
+                sheet_name = 'Τιμολόγηση'
+            else:
+                sheet_name = f'Τιμολόγηση_{self.sheet_name}'
+
+            if not self.output:
+                with pd.ExcelWriter(self.data_file,
+                                    engine='openpyxl',
+                                    mode='a') as xlsx:
+                    self.data.to_excel(xlsx, sheet_name=sheet_name, index=False)
+                    _kuviko.to_excel(xlsx,
+                                     sheet_name='Διανομή_Κυβικού',
+                                     index=False)
+
+                self.log(f"Appended new sheet '{sheet_name}' to original data",
+                         Display.INFO)
+            else:
+                with pd.ExcelWriter(self.output,
+                                    engine='xlsxwriter') as xlsx:
+                    self.data.to_excel(xlsx,
+                                       sheet_name=sheet_name,
+                                       index=False)
+                    _kuviko.to_excel(xlsx,
+                                     sheet_name='Διανομή_Κυβικού',
+                                     index=False)
+                self.log(f"Exported file: {self.output}", Display.INFO)
+        else:
+            self.log("Can't export data. No processing was performed",
+                     Display.INFO)

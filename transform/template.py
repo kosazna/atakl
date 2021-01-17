@@ -23,6 +23,7 @@ class TypeTemplate:
         self.output = None
         self.backup = None
         self.map_name = None
+        self.sheet_name = None
 
         self.preprocessed = False
         self.to_process = False
@@ -33,6 +34,7 @@ class TypeTemplate:
         keep_cols = info_map[process_name]['init_ncols']
 
         _db, _sheet = parse_xlsx(data_filepath)
+        self.sheet_name = _sheet
 
         _data = pd.read_excel(_db, sheet_name=_sheet)
         nrows, ncols = _data.shape
@@ -138,22 +140,41 @@ class TypeTemplate:
                     else:
                         self.data.loc[i.Index, final_charge] = minimum
 
-    def export(self):
+    def export(self, output=None):
         if self.to_export:
             self.log("Saving data...", Display.INFO)
 
-            if not self.output:
+            if self.sheet_name == 0 or self.sheet_name is None:
                 sheet_name = 'Τιμολόγηση'
-                with pd.ExcelWriter(self.data_file,
+            else:
+                sheet_name = f'Τιμολόγηση_{self.sheet_name}'
+
+            if output is None:
+                if not self.output:
+                    with pd.ExcelWriter(self.data_file,
+                                        engine='openpyxl',
+                                        mode='a') as xlsx:
+                        self.data.to_excel(xlsx, sheet_name=sheet_name,
+                                           index=False)
+
+                    self.log(
+                        f"Appended new sheet '{sheet_name}' to original data",
+                        Display.INFO)
+                else:
+                    self.data.to_excel(self.output,
+                                       sheet_name=sheet_name,
+                                       index=False)
+                    self.log(f"Exported file: {self.output}", Display.INFO)
+            else:
+                with pd.ExcelWriter(output,
                                     engine='openpyxl',
                                     mode='a') as xlsx:
-                    self.data.to_excel(xlsx, sheet_name=sheet_name, index=False)
+                    self.data.to_excel(xlsx, sheet_name=sheet_name,
+                                       index=False)
 
-                self.log(f"Appended new sheet '{sheet_name}' to original data",
-                         Display.INFO)
-            else:
-                self.data.to_excel(self.output, index=False)
-                self.log(f"Exported file: {self.output}", Display.INFO)
+                self.log(
+                    f"Appended new sheet '{sheet_name}' to original data",
+                    Display.INFO)
         else:
             self.log("Can't export data. No processing was performed",
                      Display.INFO)
