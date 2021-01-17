@@ -24,6 +24,7 @@ class PTBLavazza(TypeTemplate):
             c_2space(tomeas), drop=True)
 
         self.data = self.set_data(data_filepath, self.map_name)
+        self.validator.set_process_name(self.map_name)
         self.validator.set_data(self.data)
 
     def get_cost(self, region: str, material: str, quantity: int = None):
@@ -111,7 +112,7 @@ class PTBLavazza(TypeTemplate):
                  self.data[kivotia_charge],
                  self.data[mixanes_charge]])
 
-            self.process_rows(last_sort_element=poli)
+            self.process_rows()
 
             self.data[poli] = self.data[poli].replace("<NULL>", "")
 

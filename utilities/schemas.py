@@ -61,6 +61,12 @@ kivotia_paixnidia_dist_charge = "Χρέωση_Διανομής_Κιβωτίων_
 ogkos_dist_charge = "Χρέωση_Διανομής_Όγκου"
 final_dist_charge = "Σύνολο_Χρέωσης_Διανομής"
 
+imerominia_paradosis = "Ημερομηνία_Παράδοσης"
+poli_paradosis = "Πόλη_Παράδοσης"
+lampades = "Λαμπάδες"
+sinolikos_ogkos = "Συνολικός_Όγκος_(m3)"
+kivotio_charge = "Χρέωση_Κιβωτίου"
+
 # Cost file keys
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
@@ -176,6 +182,19 @@ GIOCHI = [paraggelia,
           ogkos_dist_charge,
           final_dist_charge]
 
+GIOCHI_CRATE = [paraggelia,
+                imerominia_paradosis,
+                deltio,
+                pelatis,
+                tomeas,
+                poli_paradosis,
+                apostoli,
+                kivotia,
+                lampades,
+                temaxia,
+                sinolikos_ogkos,
+                kivotio_charge]
+
 info_map = {
     "Concepts":
         {"init_ncols": 12,
@@ -185,7 +204,14 @@ info_map = {
                   pelatis,
                   tomeas,
                   paradosi],
-         "drop": list(map(c_2space, [imerominia, pelatis, tomeas]))},
+         "drop": list(map(c_2space, [imerominia,
+                                     pelatis,
+                                     tomeas])),
+         "check_idxs": [imerominia,
+                        pelatis,
+                        tomeas,
+                        paradosi,
+                        apostoli]},
     "PT Beverages - Spirits":
         {"init_ncols": 17,
          "formal_cols": list(map(c_2space, PTB_SPIRITS)),
@@ -194,7 +220,14 @@ info_map = {
                   pelatis,
                   tomeas,
                   paradosi],
-         "drop": list(map(c_2space, [imerominia, pelatis, tomeas]))},
+         "drop": list(map(c_2space, [imerominia,
+                                     pelatis,
+                                     tomeas])),
+         "check_idxs": [imerominia,
+                        pelatis,
+                        tomeas,
+                        paradosi,
+                        apostoli]},
     "PT Beverages - Lavazza":
         {"init_ncols": 14,
          "formal_cols": list(map(c_2space, PTB_LAVAZZA)),
@@ -203,7 +236,14 @@ info_map = {
                   pelatis,
                   tomeas,
                   poli],
-         "drop": list(map(c_2space, [imerominia, pelatis, tomeas]))},
+         "drop": list(map(c_2space, [imerominia,
+                                     pelatis,
+                                     tomeas])),
+         "check_idxs": [imerominia,
+                        pelatis,
+                        tomeas,
+                        poli,
+                        apostoli]},
     "Cavino":
         {"init_ncols": 13,
          "formal_cols": list(map(c_2space, CAVINO)),
@@ -212,7 +252,14 @@ info_map = {
                   pelatis,
                   tomeas,
                   paradosi],
-         "drop": list(map(c_2space, [imerominia_apostolis, pelatis, tomeas]))},
+         "drop": list(map(c_2space, [imerominia_apostolis,
+                                     pelatis,
+                                     tomeas])),
+         "check_idxs": [imerominia_apostolis,
+                        pelatis,
+                        tomeas,
+                        paradosi,
+                        apostoli]},
     "Giochi":
         {"init_ncols": 13,
          "formal_cols": list(map(c_2space, GIOCHI)),
@@ -222,10 +269,29 @@ info_map = {
                   tomeas,
                   paradosi,
                   paradosi_address],
-         "drop": list(map(c_2space, [imerominia, pelatis, tomeas])),
+         "drop": list(map(c_2space, [imerominia,
+                                     pelatis,
+                                     tomeas])),
          "check_idxs": [imerominia,
                         pelatis,
                         tomeas,
                         paradosi,
-                        paradosi_address]}
+                        paradosi_address,
+                        apostoli]},
+    "Giochi - Crate":
+        {"init_ncols": 11,
+         "formal_cols": list(map(c_2space, GIOCHI_CRATE)),
+         "akl_cols": GIOCHI_CRATE,
+         "sort": [imerominia,
+                  pelatis,
+                  tomeas,
+                  poli],
+         "drop": list(map(c_2space, [imerominia,
+                                     pelatis,
+                                     tomeas])),
+         "check_idxs": [imerominia,
+                        pelatis,
+                        tomeas,
+                        poli,
+                        apostoli]}
 }

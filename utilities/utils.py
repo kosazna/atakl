@@ -63,3 +63,17 @@ def parse_xlsx(text):
         return Path(_path), _sheet
     else:
         return Path(_text), 0
+
+
+def check_idxs(data, index, cols: list):
+    bools = []
+    for col in cols:
+        idx1 = data.loc[index, col]
+        try:
+            idx2 = data.loc[index + 1, col]
+        except KeyError:
+            idx2 = None
+
+        bools.append(idx1 == idx2)
+
+    return all(bools)

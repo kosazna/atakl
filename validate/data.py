@@ -8,6 +8,7 @@ class Validator:
     def __init__(self, data: pd.DataFrame = None, mode=None):
         self.data = data
         self.log = Display(mode)
+        self.map_name = None
         self.validator_map = info_map
 
     def columns(self, transformer: str):
@@ -54,62 +55,26 @@ class Validator:
 
     def missing(self):
         if self.data is not None:
-            try:
-                imerominia_missing = self.data[imerominia].isna().sum()
-            except KeyError:
-                try:
-                    imerominia_missing = self.data[
-                        imerominia_apostolis].isna().sum()
-                except KeyError:
-                    imerominia_missing = 0
+            has_missing = False
+            bools = []
+            for i in self.validator_map[self.map_name]['sort']:
+                _missing = self.data[i].isna().sum()
+                bools.append(bool(_missing))
 
-            pelatis_missing = self.data[c_2space(pelatis)].isna().sum()
-            tomeas_missing = self.data[c_2space(tomeas)].isna().sum()
+                if _missing:
+                    has_missing = True
+                    self.log(f"Missing values - {c_2space(i)} : {_missing}")
 
-            try:
-                paradosi_missing = self.data[c_2space(paradosi)].isna().sum()
-            except KeyError:
-                paradosi_missing = 0
-
-            try:
-                poli_missing = self.data[poli].isna().sum()
-            except KeyError:
-                poli_missing = 0
-
-            bool_missing = [bool(imerominia_missing),
-                            bool(pelatis_missing),
-                            bool(tomeas_missing),
-                            bool(paradosi_missing),
-                            bool(poli_missing)]
-
-            if any(bool_missing):
-                self.log("There are columns with missing values:",
-                         Display.WARNING)
-
-                if bool(imerominia_missing):
-                    pad = ' ' * 10
-                    self.log(
-                        f"{pad}- {c_2space(imerominia)} : {imerominia_missing}")
-                if bool(pelatis_missing):
-                    pad = ' ' * 10
-                    self.log(f"{pad}- {c_2space(pelatis)} : {pelatis_missing}")
-                if bool(tomeas_missing):
-                    pad = ' ' * 10
-                    self.log(f"{pad}- {c_2space(tomeas)} : {tomeas_missing}")
-                if bool(paradosi_missing):
-                    pad = ' ' * 10
-                    self.log(
-                        f"{pad}- {c_2space(paradosi):} : {paradosi_missing}")
-                if bool(poli_missing):
-                    pad = ' ' * 10
-                    self.log(f"{pad}- {c_2space(poli)} : {poli_missing}")
-
+            if has_missing:
                 self.log("Missing values may lead to wrong calculations\n",
                          Display.WARNING)
 
-            return any(bool_missing)
+            return any(bools)
         else:
             self.log("Validator data are not set", Display.ERROR)
 
     def set_data(self, data: pd.DataFrame):
         self.data = data
+
+    def set_process_name(self, name):
+        self.map_name = name

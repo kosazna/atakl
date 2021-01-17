@@ -426,6 +426,11 @@ border-radius:10px;</string>
      </item>
      <item>
       <property name="text">
+       <string>Giochi - Crate</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>PT Beverages - Lavazza</string>
       </property>
      </item>

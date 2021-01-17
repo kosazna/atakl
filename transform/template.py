@@ -82,8 +82,6 @@ class TypeTemplate:
                 idx2 = None
 
             bools.append(idx1 == idx2)
-            # bools = [self.data.loc[index, col] == self.data.loc[
-            # index + 1, col] for col in args]
 
         return all(bools)
 
@@ -101,30 +99,16 @@ class TypeTemplate:
         if self.to_process:
             self.has_missing = self.validator.missing()
 
-    def process_rows(self, last_sort_element=paradosi, insert_into='last'):
+    def process_rows(self, insert_into='last'):
         self.data[final_charge] = 0.0
 
         hold_idx = []
         hold = []
 
         for i in self.data.itertuples():
-            same_name = self._check_next_idx(i.Index, pelatis)
-
-            if imerominia in self.data.columns:
-                same_date = self._check_next_idx(i.Index, imerominia)
-            else:
-                same_date = self._check_next_idx(i.Index, imerominia_apostolis)
-
-            same_region = self._check_next_idx(i.Index, tomeas)
-
-            same_delivery = self._check_next_idx(i.Index, last_sort_element)
-
-            same_loading = self._check_next_idx(i.Index, apostoli)
-
             minimum = self.get_minimum(i.Γεωγραφικός_Τομέας)
 
-            if all([same_name, same_date, same_region,
-                    same_delivery, same_loading]):
+            if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
                 hold_idx.append(i.Index)
                 hold.append(i.Συνολική_Χρέωση)
             else:
