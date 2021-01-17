@@ -9,6 +9,9 @@
 
 from atakl.transform import *
 from atakl.validate import *
+import warnings
+
+warnings.filterwarnings('ignore')
 
 
 if __name__ == "__main__":

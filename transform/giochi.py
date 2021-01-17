@@ -24,18 +24,24 @@ class Giochi(TypeTemplate):
         self.data = self.set_data(data_filepath, self.map_name)
         self.validator.set_data(self.data)
 
-    def get_cost(self, region: str, material: str, quantity: int = None):
+    def get_cost(self,
+                 client: str,
+                 region: str,
+                 material: str,
+                 quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
             return 0.00
         else:
             try:
+                if client == 'JUMBO Α.Ε.Ε' and region == 'ΣΤ.ΕΛΛΑΔΑ - ΕΥΒΟΙΑ':
+                    return round2(self.costs.loc['ΑΤΤΙΚΗ', material] * quantity)
                 return round2(self.costs.loc[region, material] * quantity)
             except KeyError as e:
                 self.log(e, Display.ERROR)
                 return 0.00
 
-    def _finalize_cost(self, region: str, charge: float):
-        wall = round2(self.get_cost(region, paleta, 1))
+    def _finalize_cost(self, client: str, region: str, charge: float):
+        wall = round2(self.get_cost(client, region, paleta, 1))
         if charge > wall:
             return wall
         return charge
@@ -54,52 +60,83 @@ class Giochi(TypeTemplate):
 
             self.preprocessed = True
 
+    def process_volume(self, insert_into='last'):
+        loc_attiki = self.data[tomeas] == 'ΑΤΤΙΚΗ'
+        attiki = self.data.loc[loc_attiki]
+
+        attiki[final_charge] = 0.0
+
+        hold_idx = []
+        hold_volume = []
+        hold_charge = []
+
+        minimum_volume = 0.4
+        minimum_charge = self.get_minimum('ΑΤΤΙΚΗ')
+
+        for i in attiki.itertuples():
+            if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
+                hold_idx.append(i.Index)
+                hold_volume.append(i.Όγκος)
+                hold_charge.append(i.Συνολική_Χρέωση)
+            else:
+                if hold_charge:
+                    hold_idx.append(i.Index)
+                    hold_volume.append(i.Όγκος)
+                    hold_charge.append(i.Συνολική_Χρέωση)
+
+                    whole_volume = round2(sum(hold_volume))
+
+                    if whole_volume > minimum_volume:
+                        for idx, value in zip(hold_idx, hold_charge):
+                            self.data.loc[idx, final_charge] = value
+                    else:
+                        if insert_into == 'last':
+                            self.data.loc[
+                                i.Index, final_charge] = minimum_charge
+                        else:
+                            _position = hold_charge.index(max(hold_charge))
+                            _df_index = hold_idx[_position]
+                            self.data.loc[
+                                _df_index, final_charge] = minimum_charge
+
+                    hold_idx = []
+                    hold_charge = []
+                    hold_volume = []
+                else:
+                    if i.Όγκος > minimum_volume:
+                        self.data.loc[
+                            i.Index, final_charge] = i.Συνολική_Χρέωση
+                    else:
+                        self.data.loc[i.Index, final_charge] = minimum_charge
+
     def process(self):
         self._preprocess()
         if self.preprocessed:
             self.log("Processing...", Display.INFO)
 
             self.data[paletes_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], paleta, x[paletes]),
-                axis=1)
+                lambda x: self.get_cost(x[pelatis], x[tomeas], paleta,
+                                        x[paletes]), axis=1)
 
             self.data[kivotia_lampades_dist_charge] = ''
             self.data[kivotia_paixnidia_dist_charge] = ''
 
             self.data[ogkos_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], kuviko, x[ogkos]),
-                axis=1)
+                lambda x: self.get_cost(x[pelatis], x[tomeas], kuviko,
+                                        x[ogkos]), axis=1).round(2)
 
             self.data[total_charge] = sum([self.data[paletes_dist_charge],
                                            self.data[ogkos_dist_charge]])
 
             self.process_rows()
-
-
-
+            self.process_volume()
 
             self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
-
-            order = self.data[kodikos_paraggelias].str.split('-').str[
-                    :-1].str.join('-')
-            og_orger = self.data[kodikos_arxikis_paraggelias].str.split(
-                '-').str[:-1].str.join('-')
-
-            order_idsx = order.loc[order.isin(og_orger)].index
-            og_orger_idxs = og_orger.loc[og_orger.isin(order)].index
-
-            _charge = self.data.loc[order_idsx, final_charge]
-            _multiplier = self.data.loc[og_orger_idxs, temaxia]
-
-            to_replace = _charge * _multiplier
-
-            self.data.loc[order_idsx, final_charge] = to_replace
 
             self.data.loc[
                 self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.data[kola_dist_charge] = self.data[final_charge]
-            self.data[strech] = ""
+            self.data[final_dist_charge] = self.data[final_charge]
 
             self.data = self.data[info_map[self.map_name]['akl_cols']]
 

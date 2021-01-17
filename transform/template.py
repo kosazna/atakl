@@ -59,7 +59,7 @@ class TypeTemplate:
     def _preprocess(self):
         pass
 
-    def get_cost(self, region: str, material: str, quantity: int = None):
+    def get_cost(self, *args, **kwargs):
         pass
 
     def process(self):
@@ -71,6 +71,21 @@ class TypeTemplate:
                 index + 1, column]
         except KeyError:
             return False
+
+    def _check_idxs(self, index, cols: list):
+        bools = []
+        for col in cols:
+            idx1 = self.data.loc[index, col]
+            try:
+                idx2 = self.data.loc[index + 1, col]
+            except KeyError:
+                idx2 = None
+
+            bools.append(idx1 == idx2)
+            # bools = [self.data.loc[index, col] == self.data.loc[
+            # index + 1, col] for col in args]
+
+        return all(bools)
 
     def get_minimum(self, region: str):
         try:

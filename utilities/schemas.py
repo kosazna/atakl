@@ -217,10 +217,15 @@ info_map = {
         {"init_ncols": 13,
          "formal_cols": list(map(c_2space, GIOCHI)),
          "akl_cols": GIOCHI,
-         "sort": [imerominia_apostolis,
+         "sort": [imerominia,
                   pelatis,
                   tomeas,
                   paradosi,
                   paradosi_address],
-         "drop": list(map(c_2space, [imerominia_apostolis, pelatis, tomeas]))}
+         "drop": list(map(c_2space, [imerominia, pelatis, tomeas])),
+         "check_idxs": [imerominia,
+                        pelatis,
+                        tomeas,
+                        paradosi,
+                        paradosi_address]}
 }
