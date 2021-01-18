@@ -167,7 +167,6 @@ class TypeTemplate:
                     self.log(f"Exported file: {self.output}", Display.INFO)
             else:
                 with pd.ExcelWriter(output,
-                                    engine='openpyxl',
                                     mode='a') as xlsx:
                     self.data.to_excel(xlsx, sheet_name=sheet_name,
                                        index=False)

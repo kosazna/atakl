@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from atakl.transform.template import *
+from atakl.transform.giochi_crate import GiochiCrate
 
 
 class Giochi(TypeTemplate):
@@ -24,6 +25,11 @@ class Giochi(TypeTemplate):
         self.data = self.set_data(data_filepath, self.map_name)
         self.validator.set_process_name(self.map_name)
         self.validator.set_data(self.data)
+        self.giochi_crate = GiochiCrate(
+            str(self.data_file) + "@Διανομή_Κιβωτίου",
+            self.cost_file,
+            output_path,
+            mode)
 
     def get_cost(self,
                  client: str,
@@ -143,11 +149,15 @@ class Giochi(TypeTemplate):
                      Display.INFO)
 
             self.to_export = True
+
+            self.giochi_crate.validate()
+            self.giochi_crate.process()
+
         else:
             self.log("Process did not execute due to errors.", Display.INFO)
 
     def export(self, output=None):
-        if self.to_export:
+        if self.to_export and self.giochi_crate.to_export:
             self.log("Saving data...", Display.INFO)
 
             mask1 = (self.data[c_2space(tomeas)] == 'ΑΤΤΙΚΗ') & (
@@ -167,26 +177,34 @@ class Giochi(TypeTemplate):
             else:
                 sheet_name = f'Τιμολόγηση_{self.sheet_name}'
 
+            crate_sheet = "Τιμολόγηση_Διανομή_Κιβωτίου"
+            kuviko_sheet = "Τιμολόγηση_Διανομή_Κυβικού"
+
             if not self.output:
                 with pd.ExcelWriter(self.data_file,
                                     engine='openpyxl',
                                     mode='a') as xlsx:
                     self.data.to_excel(xlsx, sheet_name=sheet_name, index=False)
                     _kuviko.to_excel(xlsx,
-                                     sheet_name='Διανομή_Κυβικού',
+                                     sheet_name=kuviko_sheet,
                                      index=False)
+                    self.giochi_crate.data.to_excel(xlsx,
+                                                    sheet_name=crate_sheet,
+                                                    index=False)
 
-                self.log(f"Appended new sheet '{sheet_name}' to original data",
+                self.log(f"Appended new sheets to original data",
                          Display.INFO)
             else:
-                with pd.ExcelWriter(self.output,
-                                    engine='xlsxwriter') as xlsx:
+                with pd.ExcelWriter(self.output) as xlsx:
                     self.data.to_excel(xlsx,
                                        sheet_name=sheet_name,
                                        index=False)
                     _kuviko.to_excel(xlsx,
-                                     sheet_name='Διανομή_Κυβικού',
+                                     sheet_name=kuviko_sheet,
                                      index=False)
+                    self.giochi_crate.data.to_excel(xlsx,
+                                                    sheet_name=crate_sheet,
+                                                    index=False)
                 self.log(f"Exported file: {self.output}", Display.INFO)
         else:
             self.log("Can't export data. No processing was performed",
