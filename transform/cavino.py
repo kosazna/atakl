@@ -101,19 +101,20 @@ class Cavino(TypeTemplate):
             self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
             order = self.data[kodikos_paraggelias].str.split('-').str[
-                    :-1].str.join('-')
-            og_orger = self.data[kodikos_arxikis_paraggelias].str.split(
-                '-').str[:-1].str.join('-')
+                    :3].str.join('-')
+            og_order = self.data[kodikos_arxikis_paraggelias].str.split(
+                '-').str[:3].str.join('-')
 
-            order_idsx = order.loc[order.isin(og_orger)].index
-            og_orger_idxs = og_orger.loc[og_orger.isin(order)].index
+            order_idxs = order.loc[order.isin(og_order)].index
+            og_order_idxs = og_order.loc[og_order.isin(order)].index
 
-            _charge = self.data.loc[order_idsx, final_charge]
-            _multiplier = self.data.loc[og_orger_idxs, temaxia]
+            _charge = self.data.loc[order_idxs, final_charge].values
+
+            _multiplier = self.data.loc[og_order_idxs, temaxia].values
 
             to_replace = _charge * _multiplier
 
-            self.data.loc[order_idsx, final_charge] = to_replace
+            self.data.loc[order_idxs, final_charge] = to_replace
 
             self.data.loc[
                 self.data[apostoli] == idiofortosi, final_charge] = 0.00
