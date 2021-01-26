@@ -71,7 +71,7 @@ class Giochi(TypeTemplate):
         hold_volume = []
         hold_charge = []
 
-        minimum_volume = 0.4
+        minimum_volume = 0.45
         minimum_charge = self.get_minimum('ΑΤΤΙΚΗ')
 
         for i in attiki.itertuples():
