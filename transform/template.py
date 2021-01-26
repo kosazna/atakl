@@ -87,12 +87,16 @@ class TypeTemplate:
 
         return all(bools)
 
-    def get_minimum(self, region: str):
+    def get_minimum(self, region: str,
+                    area: str = '', cities: tuple = (), default: float = 0.0):
         try:
             if region == "ΕΞΑΓΩΓΗ":
                 return 0.00
-            else:
-                return round2(self.costs.loc[region, elaxisti])
+            elif area != '':
+                if any([_area in area for _area in cities]):
+                    return default
+
+            return round2(self.costs.loc[region, elaxisti])
         except KeyError:
             return 0.00
 

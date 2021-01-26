@@ -167,7 +167,7 @@ class Giochi(TypeTemplate):
                     self.data[c_2space(tomeas)] == 'ΣΤ.ΕΛΛΑΔΑ – ΕΥΒΟΙΑ') & (
                             self.data[c_2space(apostoli)] == atlog)
 
-            _kuviko = self.data.loc[mask1 | mask2 | mask3].copy().drop(
+            _kuviko = self.data.loc[~(mask1 | mask2 | mask3)].copy().drop(
                 columns=[c_2space(paletes_dist_charge),
                          c_2space(kivotia_lampades_dist_charge),
                          c_2space(kivotia_paixnidia_dist_charge)])
