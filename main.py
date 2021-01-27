@@ -83,7 +83,7 @@ if __name__ == "__main__":
         app = QtWidgets.QApplication(sys.argv)
         main_window = QtWidgets.QMainWindow()
 
-        ui = UiAKL(main_window)
+        ui = AKLUI(main_window)
         ui.set_essential_data(paths=paths, transformer_map=transformer_mapper)
 
         main_window.show()

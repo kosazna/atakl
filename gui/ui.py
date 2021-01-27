@@ -17,7 +17,7 @@ def show_popup(main_text, info='', icon=QMessageBox.Information):
     msg.exec_()
 
 
-class UiAKL(Ui_designer):
+class AKLUI(Ui_designer):
     def __init__(self, window):
         self.setupUi(window)
 
@@ -420,6 +420,6 @@ if __name__ == '__main__':
 
     app = QtWidgets.QApplication(sys.argv)
     main_window = QtWidgets.QMainWindow()
-    ui = UiAKL(main_window)
+    ui = AKLUI(main_window)
     main_window.show()
     sys.exit(app.exec_())
