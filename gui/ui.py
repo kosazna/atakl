@@ -1,9 +1,20 @@
 # -*- coding: utf-8 -*-
 
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from atakl.gui.designer import *
 from atakl.validate.input import validate_proper_and_existent_path
 from atakl.utilities.utils import *
+
+
+def show_popup(main_text, info='', icon=QMessageBox.Information):
+    msg = QMessageBox()
+    msg.setWindowTitle("AKL Dialog")
+    msg.setText(main_text)
+    msg.setIcon(icon)
+    msg.setStandardButtons(QMessageBox.Ok)
+    msg.setDefaultButton(QMessageBox.Ok)
+    msg.setInformativeText(info)
+    msg.exec_()
 
 
 class UiAKL(Ui_designer):
@@ -34,6 +45,32 @@ class UiAKL(Ui_designer):
         self.button_validate_data.clicked.connect(self.validate_data)
 
         self.button_process.clicked.connect(self.process_execute)
+
+    def change_process_color(self, color):
+        if color == 'yellow':
+            self.button_process.setStyleSheet(
+                "background-color: rgba(227, 209, 48, 0.8);\n"
+                "color: rgb(72, 72, 72);\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
+        elif color == 'green':
+            self.button_process.setStyleSheet(
+                "background-color: rgba(15, 196, 12, 0.8);\n"
+                "color: rgb(72, 72, 72);\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
+        else:
+            self.button_process.setStyleSheet(
+                "background-color: rgba(207, 14, 30, 0.8);\n"
+                "color: rgb(72, 72, 72);\n"
+                "border-width:4px;\n"
+                "border-color:black;\n"
+                "border-style:offset;\n"
+                "border-radius:10px;")
 
     def set_essential_data(self, paths, transformer_map):
         self.set_home_dir(paths.akl_home)
@@ -125,21 +162,9 @@ class UiAKL(Ui_designer):
 
                 if self.transformer.to_process:
                     if self.transformer.has_missing:
-                        self.button_process.setStyleSheet(
-                            "background-color: rgba(227, 209, 48, 0.8);\n"
-                            "color: rgb(72, 72, 72);\n"
-                            "border-width:4px;\n"
-                            "border-color:black;\n"
-                            "border-style:offset;\n"
-                            "border-radius:10px;")
+                        self.change_process_color('yellow')
                     else:
-                        self.button_process.setStyleSheet(
-                            "background-color: rgba(15, 196, 12, 0.8);\n"
-                            "color: rgb(72, 72, 72);\n"
-                            "border-width:4px;\n"
-                            "border-color:black;\n"
-                            "border-style:offset;\n"
-                            "border-radius:10px;")
+                        self.change_process_color('green')
 
                 self.text_general.setText(self.transformer.log.get_content())
                 self.transformer.log.erase()
@@ -214,13 +239,7 @@ class UiAKL(Ui_designer):
         self.text_records.setText("")
         self.text_backup.setText("")
 
-        self.button_process.setStyleSheet(
-            "background-color: rgba(207, 14, 30, 0.8);\n"
-            "color: rgb(72, 72, 72);\n"
-            "border-width:4px;\n"
-            "border-color:black;\n"
-            "border-style:offset;\n"
-            "border-radius:10px;")
+        self.change_process_color('red')
 
         self.transformer = None
 
@@ -285,13 +304,7 @@ class UiAKL(Ui_designer):
             self.text_output.setText('')
             self.text_output.setPlaceholderText("")
 
-        self.button_process.setStyleSheet(
-            "background-color: rgba(207, 14, 30, 0.8);\n"
-            "color: rgb(72, 72, 72);\n"
-            "border-width:4px;\n"
-            "border-color:black;\n"
-            "border-style:offset;\n"
-            "border-radius:10px;")
+        self.change_process_color('red')
 
         self.text_general.setText("")
         self.transformer = None
@@ -342,13 +355,7 @@ class UiAKL(Ui_designer):
             except KeyError:
                 self.text_db_data.setText("")
 
-            self.button_process.setStyleSheet(
-                "background-color: rgba(207, 14, 30, 0.8);\n"
-                "color: rgb(72, 72, 72);\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
+            self.change_process_color('red')
 
         else:
             self.text_costs.setStyleSheet(
@@ -402,13 +409,7 @@ class UiAKL(Ui_designer):
             else:
                 self.text_db_data.setText(self.user_data)
 
-        self.button_process.setStyleSheet(
-            "background-color: rgba(207, 14, 30, 0.8);\n"
-            "color: rgb(72, 72, 72);\n"
-            "border-width:4px;\n"
-            "border-color:black;\n"
-            "border-style:offset;\n"
-            "border-radius:10px;")
+        self.change_process_color('red')
 
         self.text_general.setText("")
         self.transformer = None
