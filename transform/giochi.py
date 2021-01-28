@@ -5,6 +5,9 @@ from atakl.transform.giochi_crate import GiochiCrate
 
 
 class Giochi(TypeTemplate):
+    except_areas = ("ΡΑΦΗΝΑ", "ΜΕΓΑΡΑ", "ΛΑΥΡΙΟ", "ΣΟΥΝΙΟ", "ΑΝΑΒΥΣΣΟ")
+    except_value = 30.0
+
     def __init__(self, data_filepath: Union[str, Path],
                  cost_filepath: Union[str, Path],
                  output_path: Union[str, Path] = None,
