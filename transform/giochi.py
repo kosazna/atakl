@@ -64,7 +64,49 @@ class Giochi(TypeTemplate):
 
             self.preprocessed = True
 
-    def process_volume(self, insert_into='last'):
+    def process_rows(self, insert_into='last'):
+        self.data[final_charge] = 0.0
+
+        hold_idx = []
+        hold = []
+
+        for i in self.data.itertuples():
+            minimum = self.get_minimum(i.Γεωγραφικός_Τομέας,
+                                       i.Περιοχή_Παράδοσης,
+                                       self.except_areas,
+                                       self.except_value)
+
+            if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
+                hold_idx.append(i.Index)
+                hold.append(i.Συνολική_Χρέωση)
+            else:
+                if hold:
+                    hold_idx.append(i.Index)
+                    hold.append(i.Συνολική_Χρέωση)
+
+                    whole = round2(sum(hold))
+
+                    if whole > minimum:
+                        for idx, value in zip(hold_idx, hold):
+                            self.data.loc[idx, final_charge] = value
+                    else:
+                        if insert_into == 'last':
+                            self.data.loc[i.Index, final_charge] = minimum
+                        else:
+                            _position = hold.index(max(hold))
+                            _df_index = hold_idx[_position]
+                            self.data.loc[_df_index, final_charge] = minimum
+
+                    hold_idx = []
+                    hold = []
+                else:
+                    if i.Συνολική_Χρέωση > minimum:
+                        self.data.loc[
+                            i.Index, final_charge] = i.Συνολική_Χρέωση
+                    else:
+                        self.data.loc[i.Index, final_charge] = minimum
+
+    def process_volume(self, insert_into='last', check_many=True):
         loc_attiki = self.data[tomeas] == 'ΑΤΤΙΚΗ'
         attiki = self.data.loc[loc_attiki].copy().reset_index()
 
@@ -78,42 +120,50 @@ class Giochi(TypeTemplate):
         minimum_charge = self.get_minimum('ΑΤΤΙΚΗ')
 
         for i in attiki.itertuples():
-            if check_idxs(attiki,
-                          i.Index,
-                          info_map[self.map_name]['check_idxs']):
-                hold_idx.append(i.index)
-                hold_volume.append(i.Όγκος)
-                hold_charge.append(i.Συνολική_Χρέωση)
-            else:
-                if hold_charge:
+            if check_many:
+                if check_idxs(attiki,
+                              i.Index,
+                              info_map[self.map_name]['check_idxs']):
                     hold_idx.append(i.index)
                     hold_volume.append(i.Όγκος)
                     hold_charge.append(i.Συνολική_Χρέωση)
+                else:
+                    if hold_charge:
+                        hold_idx.append(i.index)
+                        hold_volume.append(i.Όγκος)
+                        hold_charge.append(i.Συνολική_Χρέωση)
 
-                    whole_volume = round2(sum(hold_volume))
+                        whole_volume = round2(sum(hold_volume))
 
-                    if whole_volume > minimum_volume:
-                        for idx, value in zip(hold_idx, hold_charge):
-                            self.data.loc[idx, final_charge] = value
+                        if whole_volume > minimum_volume:
+                            for idx, value in zip(hold_idx, hold_charge):
+                                self.data.loc[idx, final_charge] = value
+                        else:
+                            if insert_into == 'last':
+                                self.data.loc[
+                                    i.index, final_charge] = minimum_charge
+                            else:
+                                _position = hold_charge.index(max(hold_charge))
+                                _df_index = hold_idx[_position]
+                                self.data.loc[
+                                    _df_index, final_charge] = minimum_charge
+
+                        hold_idx = []
+                        hold_charge = []
+                        hold_volume = []
                     else:
-                        if insert_into == 'last':
+                        if i.Όγκος > minimum_volume:
+                            self.data.loc[
+                                i.index, final_charge] = i.Συνολική_Χρέωση
+                        else:
                             self.data.loc[
                                 i.index, final_charge] = minimum_charge
-                        else:
-                            _position = hold_charge.index(max(hold_charge))
-                            _df_index = hold_idx[_position]
-                            self.data.loc[
-                                _df_index, final_charge] = minimum_charge
-
-                    hold_idx = []
-                    hold_charge = []
-                    hold_volume = []
+            else:
+                if i.Όγκος > minimum_volume:
+                    self.data.loc[
+                        i.index, final_charge] = i.Συνολική_Χρέωση
                 else:
-                    if i.Όγκος > minimum_volume:
-                        self.data.loc[
-                            i.index, final_charge] = i.Συνολική_Χρέωση
-                    else:
-                        self.data.loc[i.index, final_charge] = minimum_charge
+                    self.data.loc[i.index, final_charge] = minimum_charge
 
     def process(self):
         self._preprocess()
@@ -135,7 +185,7 @@ class Giochi(TypeTemplate):
                                            self.data[ogkos_dist_charge]])
 
             self.process_rows()
-            self.process_volume()
+            self.process_volume(check_many=False)
 
             self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 

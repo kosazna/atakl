@@ -92,7 +92,7 @@ class TypeTemplate:
         try:
             if region == "ΕΞΑΓΩΓΗ":
                 return 0.00
-            elif area != '':
+            elif area and cities:
                 if any([_area in area for _area in cities]):
                     return default
 
