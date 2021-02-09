@@ -214,11 +214,11 @@ class Giochi(TypeTemplate):
             self.log("Saving data...", Display.INFO)
 
             mask1 = (self.data[c_2space(tomeas)] == 'ΑΤΤΙΚΗ') & (
-                    self.data[c_2space(apostoli)] == atlog)
+                self.data[c_2space(apostoli)] == atlog)
             mask2 = self.data[c_2space(apostoli)] == idiofortosi
             mask3 = (self.data[c_2space(pelatis)] == 'JUMBO Α.Ε.Ε') & (
-                    self.data[c_2space(tomeas)] == 'ΣΤ.ΕΛΛΑΔΑ – ΕΥΒΟΙΑ') & (
-                            self.data[c_2space(apostoli)] == atlog)
+                self.data[c_2space(tomeas)] == 'ΣΤ.ΕΛΛΑΔΑ – ΕΥΒΟΙΑ') & (
+                self.data[c_2space(apostoli)] == atlog)
 
             _kuviko = self.data.loc[~(mask1 | mask2 | mask3)].copy().drop(
                 columns=[c_2space(paletes_dist_charge),
