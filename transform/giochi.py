@@ -117,9 +117,14 @@ class Giochi(TypeTemplate):
         hold_charge = []
 
         minimum_volume = 0.45
-        minimum_charge = self.get_minimum('ΑΤΤΙΚΗ')
+        # minimum_charge = self.get_minimum('ΑΤΤΙΚΗ')
 
         for i in attiki.itertuples():
+            minimum_charge = self.get_minimum(i.Γεωγραφικός_Τομέας,
+                                              i.Περιοχή_Παράδοσης,
+                                              self.except_areas,
+                                              self.except_value)
+
             if check_many:
                 if check_idxs(attiki,
                               i.Index,

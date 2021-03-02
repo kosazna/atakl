@@ -43,7 +43,7 @@ class TypeTemplate:
             if ncols >= keep_cols:
                 _data = _data.iloc[:, :keep_cols]
                 _data.columns = info_map[process_name]['formal_cols'][
-                                :keep_cols]
+                    :keep_cols]
                 _data = _data.dropna(subset=info_map[self.map_name]['drop'],
                                      how="all")
                 return _data
@@ -88,7 +88,9 @@ class TypeTemplate:
         return all(bools)
 
     def get_minimum(self, region: str,
-                    area: str = '', cities: tuple = (), default: float = 0.0):
+                    area: str = '',
+                    cities: tuple = (),
+                    default: float = 0.0):
         try:
             if region == "ΕΞΑΓΩΓΗ":
                 return 0.00

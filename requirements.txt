@@ -1,7 +1,7 @@
-pandas==1.1.5
-numpy==1.19.2
-openpyxl==3.0.5
-xlrd==1.2.0
+pandas==1.2.2
+numpy==1.20.1
+openpyxl==3.0.6
+xlrd==2.0.1
 pyqt5
 pyinstaller
 pypiwin32
