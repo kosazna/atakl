@@ -22,7 +22,7 @@ if __name__ == "__main__":
     except IndexError:
         mode = "GUI"
 
-    if mode == 'CMD':
+    if mode == 'CLI':
         print("ATTIKH KINISI LOGISTICS S.A.\n")
 
         while True:
