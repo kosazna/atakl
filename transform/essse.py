@@ -62,7 +62,7 @@ class Essse(TypeTemplate):
         hold = []
 
         for i in self.data.itertuples():
-            minimum = self.get_minimum(i.Γεωγραφικός_Τομέας)
+            minimum = self.get_minimum(i.Delivery_Area)
 
             if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
                 hold_idx.append(i.Index)
@@ -115,35 +115,14 @@ class Essse(TypeTemplate):
                                           carton_charge,
                                           weight_charge)
 
-            self.process_rows(insert_into='max')
+            self.process_rows(insert_into='last')
 
-            self.data = self.data.set_index('index')
-
-            self.data = pd.concat([self.data, _temp1]).sort_index()
-
-            self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
-
-            order = self.data[kodikos_paraggelias].str.split('-').str[
-                :3].str.join('-')
-            og_order = self.data[kodikos_arxikis_paraggelias].str.split(
-                '-').str[:3].str.join('-')
-
-            order_idxs = order.loc[order.isin(og_order)].index
-            og_order_idxs = og_order.loc[og_order.isin(order)].index
-
-            _charge = self.data.loc[order_idxs, final_charge].values
-
-            _multiplier = self.data.loc[og_order_idxs, temaxia].values
-
-            to_replace = _charge * _multiplier
-
-            self.data.loc[order_idxs, final_charge] = to_replace
+            self.data[city] = self.data[city].replace("<NULL>", "")
 
             self.data.loc[
-                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+                self.data[delivery_method] == idiofortosi, final_charge] = 0.00
 
-            self.data[kola_dist_charge] = self.data[final_charge]
-            self.data[strech] = ""
+            self.data[delivery_cost] = self.data[final_charge]
 
             self.data = self.data[info_map[self.map_name]['akl_cols']]
 
