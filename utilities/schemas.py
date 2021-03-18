@@ -67,6 +67,27 @@ lampades = "Λαμπάδες"
 sinolikos_ogkos = "Συνολικός_Όγκος_(m3)"
 kivotio_charge = "Χρέωση_Κιβωτίου"
 
+# ESSSE
+
+order_ode = "Order_Code"
+distribution_date = "Distibution_Date"
+delivery_note = "Delivery_Note"
+customer_code = "Customer_Code"
+customer_name = "Customer_Name"
+delivery_area = "Delivery_Area"
+city = "City"
+delivery_method = "Delivery_Method"
+product_code = "Product_Code"
+product_description = "Product_Description"
+total_pcs = "Total_pcs"
+full_pallets = "Full_pallets"
+cartons = "Cartons"
+pieces = "Pieces"
+pallets = "Pallets"
+weight = "Weight_in_kg"
+notes = "Notes"
+delivery_cost = "Delivery_Cost"
+
 # Cost file keys
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
@@ -77,6 +98,7 @@ mixani = "Μηχανή"
 tsanta = "Τσάντα"
 omprela = "Διαφ Ομπρέλα"
 kuviko = "Κυβικό"
+minimum_charge = "Minimum Charge"
 
 atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
@@ -196,6 +218,25 @@ GIOCHI_CRATE = [paraggelia,
                 sinolikos_ogkos,
                 kivotio_charge]
 
+ESSSE = [order_ode,
+         distribution_date,
+         delivery_note,
+         customer_code,
+         customer_name,
+         delivery_area,
+         city,
+         delivery_method,
+         product_code,
+         product_description,
+         total_pcs,
+         full_pallets,
+         cartons,
+         pieces,
+         pallets,
+         weight,
+         notes,
+         delivery_cost]
+
 info_map = {
     "Concepts":
         {"init_ncols": 12,
@@ -296,5 +337,23 @@ info_map = {
                         tomeas,
                         poli_paradosis,
                         paradosi_address,
-                        apostoli]}
+                        apostoli]},
+    "Essse":
+        {"init_ncols": 17,
+         "formal_cols": list(map(c_2space, ESSSE)),
+         "akl_cols": ESSSE,
+         "sort": [distribution_date,
+                  customer_code,
+                  customer_name,
+                  delivery_area,
+                  city],
+         "drop": list(map(c_2space, [distribution_date,
+                                     customer_name,
+                                     delivery_area])),
+         "check_idxs": [distribution_date,
+                        customer_code,
+                        customer_name,
+                        delivery_area,
+                        city,
+                        delivery_method]}
 }

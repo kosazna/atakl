@@ -40,7 +40,7 @@ class Display(metaclass=Singleton):
         self._content = []
 
     def __call__(self, content, kind=None):
-        if self._mode == 'CMD':
+        if self._mode == 'CLI':
             print(self._display(content, kind))
         else:
             self._content.append(self._display(content, kind))
