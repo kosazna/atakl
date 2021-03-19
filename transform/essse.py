@@ -35,12 +35,22 @@ class Essse(TypeTemplate):
                 self.log(e, Display.ERROR)
                 return 0.00
 
+    def _finalize_cost(self, region: str, charge: float):
+        wall = round2(self.get_cost(region, full_pallets, 1))
+        if charge > wall:
+            return wall
+        return charge
+
     def _preprocess(self):
         if self.to_process:
             keep = info_map[self.map_name]['init_ncols']
             self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
             sort_rule = info_map[self.map_name]['sort']
-            self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
+
+            ascending = [True, True, True, True, True, True]
+
+            self.data = self.data.sort_values(sort_rule,
+                                              ascending=ascending).reset_index(drop=True)
 
             self.data[full_pallets] = self.data[full_pallets].fillna(
                 0).astype(int)
@@ -84,7 +94,19 @@ class Essse(TypeTemplate):
 
                     has_pal = (total_weight / 6) + total_cartons >= 11
 
-                    if whole > minimum:
+                    if has_pal:
+                        _max = self.get_cost(i.Delivery_Area,
+                                             c_2space(full_pallets), 1)
+
+                        if whole > _max:
+                            _mul = self.data.loc[hold_idx[0], pallets]
+                            _cost = _mul * _max
+                            
+                            self.data.loc[i.Index, final_charge] = _cost
+                        else:
+                            for idx, value in zip(hold_idx, hold):
+                                self.data.loc[idx, final_charge] = value
+                    elif whole > minimum:
                         for idx, value in zip(hold_idx, hold):
                             self.data.loc[idx, final_charge] = value
                     else:
@@ -100,6 +122,8 @@ class Essse(TypeTemplate):
 
                     hold_idx = []
                     hold = []
+                    hold_weight = []
+                    hold_cartons = []
                 else:
                     if i.Συνολική_Χρέωση > minimum:
                         self.data.loc[
@@ -114,7 +138,8 @@ class Essse(TypeTemplate):
 
             pallet_charge = self.data.apply(
                 lambda x: self.get_cost(
-                    x[delivery_area], full_pallets, x[full_pallets]), axis=1)
+                    x[delivery_area], c_2space(full_pallets), x[full_pallets]),
+                axis=1)
 
             carton_charge = self.data.apply(
                 lambda x: self.get_cost(
@@ -122,13 +147,26 @@ class Essse(TypeTemplate):
 
             weight_charge = self.data.apply(
                 lambda x: self.get_cost(
-                    x[delivery_area], weight, x[weight]), axis=1)
+                    x[delivery_area], c_2space(weight), x[weight]), axis=1)
 
-            self.data[total_charge] = sum(pallet_charge,
+            self.data['pallet_charge'] = self.data.apply(
+                lambda x: self.get_cost(
+                    x[delivery_area], c_2space(full_pallets), x[full_pallets]),
+                axis=1)
+
+            self.data['carton_charge'] = self.data.apply(
+                lambda x: self.get_cost(
+                    x[delivery_area], cartons, x[cartons]), axis=1)
+
+            self.data['weight_charge'] = self.data.apply(
+                lambda x: self.get_cost(
+                    x[delivery_area], c_2space(weight), x[weight]), axis=1)
+
+            self.data[total_charge] = sum([pallet_charge,
                                           carton_charge,
-                                          weight_charge)
+                                          weight_charge])
 
-            self.process_rows(insert_into='first')
+            self.process_rows(insert_into='last')
 
             self.data[city] = self.data[city].replace("<NULL>", "")
 
@@ -137,9 +175,9 @@ class Essse(TypeTemplate):
 
             self.data[delivery_cost] = self.data[final_charge]
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+            # self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+            # self.data.columns = info_map[self.map_name]['formal_cols']
 
             self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
                      Display.INFO)

@@ -69,8 +69,8 @@ kivotio_charge = "Χρέωση_Κιβωτίου"
 
 # ESSSE
 
-order_ode = "Order_Code"
-distribution_date = "Distibution_Date"
+order_code = "Order_Code"
+distribution_date = "Distribution_Date"
 delivery_note = "Delivery_Note"
 customer_code = "Customer_Code"
 customer_name = "Customer_Name"
@@ -218,7 +218,7 @@ GIOCHI_CRATE = [paraggelia,
                 sinolikos_ogkos,
                 kivotio_charge]
 
-ESSSE = [order_ode,
+ESSSE = [order_code,
          distribution_date,
          delivery_note,
          customer_code,
@@ -346,7 +346,8 @@ info_map = {
                   customer_code,
                   customer_name,
                   delivery_area,
-                  city],
+                  city,
+                  order_code],
          "drop": list(map(c_2space, [distribution_date,
                                      customer_name,
                                      delivery_area])),
