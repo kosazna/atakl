@@ -60,6 +60,8 @@ class Essse(TypeTemplate):
 
         hold_idx = []
         hold = []
+        hold_weight = []
+        hold_cartons = []
 
         for i in self.data.itertuples():
             minimum = self.get_minimum(i.Delivery_Area)
@@ -67,23 +69,34 @@ class Essse(TypeTemplate):
             if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
                 hold_idx.append(i.Index)
                 hold.append(i.Συνολική_Χρέωση)
+                hold_weight.append(i.Weight_in_kg)
+                hold_cartons.append(i.Cartons)
             else:
                 if hold:
                     hold_idx.append(i.Index)
                     hold.append(i.Συνολική_Χρέωση)
+                    hold_weight.append(i.Weight_in_kg)
+                    hold_cartons.append(i.Cartons)
 
                     whole = round2(sum(hold))
+                    total_weight = sum(hold_weight)
+                    total_cartons = sum(hold_cartons)
+
+                    has_pal = (total_weight / 6) + total_cartons >= 11
 
                     if whole > minimum:
                         for idx, value in zip(hold_idx, hold):
                             self.data.loc[idx, final_charge] = value
                     else:
-                        if insert_into == 'last':
-                            self.data.loc[i.Index, final_charge] = minimum
-                        else:
+                        if insert_into == 'first':
+                            _df_index = hold_idx[0]
+                            self.data.loc[_df_index, final_charge] = minimum
+                        elif insert_into == 'max':
                             _position = hold.index(max(hold))
                             _df_index = hold_idx[_position]
                             self.data.loc[_df_index, final_charge] = minimum
+                        else:
+                            self.data.loc[i.Index, final_charge] = minimum
 
                     hold_idx = []
                     hold = []
@@ -115,7 +128,7 @@ class Essse(TypeTemplate):
                                           carton_charge,
                                           weight_charge)
 
-            self.process_rows(insert_into='last')
+            self.process_rows(insert_into='first')
 
             self.data[city] = self.data[city].replace("<NULL>", "")
 

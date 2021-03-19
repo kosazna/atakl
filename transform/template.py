@@ -98,7 +98,7 @@ class TypeTemplate:
                 if any([_area in area for _area in cities]):
                     return default
 
-            if elaxisti in self.data.columns:
+            if elaxisti in self.costs.columns:
                 return round2(self.costs.loc[region, elaxisti])
             else:
                 return round2(self.costs.loc[region, minimum_charge])
