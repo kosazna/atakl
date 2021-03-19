@@ -411,17 +411,17 @@ border-radius:10px;</string>
      </property>
      <item>
       <property name="text">
-       <string>Cavino</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Concepts</string>
+       <string>Essse</string>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Giochi</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Cavino</string>
       </property>
      </item>
      <item>
@@ -432,6 +432,11 @@ border-radius:10px;</string>
      <item>
       <property name="text">
        <string>PT Beverages - Spirits</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Concepts</string>
       </property>
      </item>
     </widget>
@@ -906,7 +911,7 @@ border-radius:10px;</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
