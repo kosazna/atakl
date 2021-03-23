@@ -166,7 +166,7 @@ class Giochi(TypeTemplate):
                 is_in_excepted_areas = any(
                     [_area in i.Περιοχή_Παράδοσης for _area in self.except_areas])
 
-                if i.Όγκος > minimum_volume and not is_in_excepted_areas:
+                if i.Όγκος > minimum_volume:
                     self.data.loc[
                         i.index, final_charge] = i.Συνολική_Χρέωση
                 else:

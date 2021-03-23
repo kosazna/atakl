@@ -175,9 +175,9 @@ class Essse(TypeTemplate):
 
             self.data[delivery_cost] = self.data[final_charge]
 
-            # self.data = self.data[info_map[self.map_name]['akl_cols']]
+            self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            # self.data.columns = info_map[self.map_name]['formal_cols']
+            self.data.columns = info_map[self.map_name]['formal_cols']
 
             self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
                      Display.INFO)
