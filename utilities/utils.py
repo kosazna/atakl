@@ -7,7 +7,6 @@ from typing import Union
 if sys.platform == 'win32':
     from os import startfile
 
-
     def open_excel(path):
         startfile(path)
 else:
@@ -77,3 +76,61 @@ def check_idxs(data, index, cols: list):
         bools.append(idx1 == idx2)
 
     return all(bools)
+
+
+def col_has_na(df, col, idx_shift=0):
+    _nas = df.loc[df[col].isna(), col]
+    _idxs = (_nas.index + idx_shift).tolist()
+
+    return not _nas.empty, _idxs
+
+
+def col_values_equal_zero(df, col, idx_shift=0):
+    _nas = df.loc[df[col] == 0, col]
+    _idxs = (_nas.index + idx_shift).tolist()
+
+    return not _nas.empty, _idxs
+
+
+def col_values_not_equal_zero(df, col, idx_shift=0):
+    _nas = df.loc[df[col] != 0, col]
+    _idxs = (_nas.index + idx_shift).tolist()
+
+    return not _nas.empty, _idxs
+
+
+def col_values_over(df, col, value, idx_shift=0):
+    _nas = df.loc[df[col] > value, col]
+    _idxs = (_nas.index + idx_shift).tolist()
+
+    return not _nas.empty, _idxs
+
+
+def col_values_over_or_equal(df, col, value, idx_shift=0):
+    _nas = df.loc[df[col] >= value, col]
+    _idxs = (_nas.index + idx_shift).tolist()
+
+    return not _nas.empty, _idxs
+
+
+def col_values_under(df, col, value, idx_shift=0):
+    _nas = df.loc[df[col] < value, col]
+    _idxs = (_nas.index + idx_shift).tolist()
+
+    return not _nas.empty, _idxs
+
+
+def col_values_under_or_equal(df, col, value, idx_shift=0):
+    _nas = df.loc[df[col] <= value, col]
+    _idxs = (_nas.index + idx_shift).tolist()
+
+    return not _nas.empty, _idxs
+
+
+def duplicated_data(df, cols, idx_shift=0):
+    _cols = [cols] if isinstance(cols, str) else cols
+
+    _nas = df.loc[df.duplicated(subset=_cols, keep=False), _cols[0]]
+    _idxs = (_nas.index + idx_shift).tolist()
+
+    return not _nas.empty, _idxs
