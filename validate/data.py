@@ -14,6 +14,8 @@ class Validator:
         self.value_warnings = False
         self.duplicates = False
 
+        self.validation_passed = True
+
     def set_data(self, data: pd.DataFrame):
         self.data = data
 
@@ -46,6 +48,30 @@ class Validator:
             return duplicated_data(self.data, columns, idx_shift=2)
         return False, list()
 
+    def cavino_check(self):
+        kivotia_count = len(self.data.loc[self.data[kivotia] > 10])
+        pal_count = len(
+            self.data.loc[self.data[kodikos_paraggelias].str.startswith('PAL', na=False)])
+
+        return kivotia_count != pal_count, kivotia_count, pal_count
+
+    def essse_check(self):
+        pal_count = len(
+            self.data.loc[self.data[order_code].str.startswith('PAL', na=False)])
+
+        _grouped = self.data.groupby([distribution_date,
+                                      customer_name,
+                                      delivery_area], as_index=False)[
+            [cartons, weight]].sum()
+
+        _grouped['Must_Have_PAL'] = self.data.apply(
+            lambda x: 1 if x[weight]/6 + x[cartons] >= 11 else 0, axis=1)
+
+        must_have_pal = _grouped.loc[_grouped['Must_Have_PAL'] == 1].copy()
+        must_have_pal_count = len(must_have_pal)
+
+        return pal_count != must_have_pal_count, must_have_pal_count, pal_count, must_have_pal
+
     def validate(self):
         cols_not_na = info_map[self.map_name].get(
             'validator', {}).get('missing', [])
@@ -53,6 +79,8 @@ class Validator:
             'validator', {}).get('missing', [])
         cols_zero = info_map[self.map_name].get(
             'validator', {}).get('missing', [])
+        _sub = info_map[self.map_name].get(
+            'validator', {}).get('no_duplicates', [])
 
         missing_bools = []
         missing_idxs = []
@@ -82,8 +110,6 @@ class Validator:
             nonzero_idxs.append(_nonzero_idxs)
             nonzero_col.append(idx)
 
-        _sub = info_map[self.map_name].get(
-            'validator', {}).get('no_duplicates', [])
         duplicated_bool, duplicated_idxs = self.duplicated_data(_sub)
 
         self.has_missing = True if any(missing_bools) else False
@@ -92,22 +118,52 @@ class Validator:
         self.duplicates = duplicated_bool
 
         if self.has_missing:
+            self.validation_passed = False
             for i in missing_col:
-                self.log(f"Missing values from: {cols_not_na[i]}\n",
+                self.log(f"Missing values from: {cols_not_na[i]}",
                          Display.ERROR)
-                self.log(f"Indexes: {'-'.join(missing_idxs[i])}")
+                self.log(f"Indexes: {'-'.join(missing_idxs[i])}\n")
 
         if self.value_warnings:
+            self.validation_passed = False
             for i in under_col:
-                self.log(f"Column: {cols_under[i][0]} has values over {cols_under[i][1]}\n",
+                self.log(f"Column: {cols_under[i][0]} has values over {cols_under[i][1]}",
                          Display.WARNING)
-                self.log(f"Indexes: {'-'.join(under_idxs[i])}")
+                self.log(f"Indexes: {'-'.join(under_idxs[i])}\n")
             for i in under_col:
-                self.log(f"Column: {cols_under[i][0]} has non zero values\n",
+                self.log(f"Column: {cols_under[i][0]} has non zero values",
                          Display.WARNING)
-                self.log(f"Indexes: {'-'.join(nonzero_idxs[i])}")
+                self.log(f"Indexes: {'-'.join(nonzero_idxs[i])}\n")
 
         if self.duplicates:
-            self.log(f"Duplicated Data: [{'-'.join(_sub)}]\n",
+            self.validation_passed = False
+            self.log(f"Duplicated Data: [{'-'.join(_sub)}]",
                      Display.WARNING)
-            self.log(f"Indexes: {'-'.join(duplicated_idxs)}")
+            self.log(f"Indexes: {'-'.join(duplicated_idxs)}\n")
+
+        if self.map_name == 'Cavino':
+            cav_diff, kivotia_count, pal_count = self.cavino_check()
+
+            if cav_diff:
+                self.validation_passed = False
+                self.log(f"Records with 'Κιβώτια' > 10: {kivotia_count}",
+                         Display.WARNING)
+                self.log(f"Records with 'Κωδικός Παραγγελίας' starting with PAL: {pal_count}\n",
+                         Display.WARNING)
+
+        if self.map_name == 'Essse':
+            ess_diff, musta_have_pal_count, pal_count, df = self.essse_check()
+
+            if ess_diff:
+                self.validation_passed = False
+                self.log(f"Records with '(Weight in kg)/6 + Cartons)' >= 11: {musta_have_pal_count}",
+                         Display.WARNING)
+                self.log(f"Records with 'Order Code' starting with PAL: {pal_count}\n",
+                         Display.WARNING)
+                self.log("Clients that must have orders starting with PAL:\n")
+                for i in df.itertuples():
+                    self.log(
+                        f"{i.Distribution_Date} | {i.Customer_Name} | {i.Delivery_Area}")
+
+        if self.validation_passed:
+            self.log('Data Validation: Successful', Display.INFO)
