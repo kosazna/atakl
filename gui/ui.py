@@ -5,6 +5,35 @@ from atakl.gui.designer import *
 from atakl.validate.input import validate_proper_and_existent_path
 from atakl.utilities.utils import *
 
+blue = "rgba(13, 110, 253, 0.8)"
+green = "rgba(42, 214, 107, 0.8)"
+teal = "rgba(32, 201, 151, 0.8)"
+red = "rgba(239, 62, 79, 0.8)"
+grey = "rgba(108, 117, 125, 0.8)"
+yellow = "rgba(255, 193, 7, 0.8)"
+cyan = "rgba(13, 202, 240, 0.8)"
+orange = "rgba(253, 126, 20, 0.8)"
+dark = "rgba(33, 37, 41, 0.8)"
+white = "rgba(248, 248, 255, 0.8)"
+
+
+def make_stylesheet(color, radius=5):
+    _stylesheet = (f"background-color: {color};\n"
+                   "border-width:4px;\n"
+                   "border-color:black;\n"
+                   "border-style:offset;\n"
+                   f"border-radius:{radius}px;")
+    return _stylesheet
+
+
+def make_bt_stylesheet(color, radius=5):
+    _stylesheet = (f"background-color: {color};\n"
+                   "color: rgb(0, 0, 0);\n"
+                   "border-width:10px;"
+                   f"border-radius:{radius}px;")
+
+    return _stylesheet
+
 
 def show_popup(main_text, info='', icon=QMessageBox.Information):
     msg = QMessageBox()
@@ -33,11 +62,13 @@ class AKLUI(Ui_designer):
         self.user_data = None
         self.user_output = None
 
+        self.is_validated = False
+
         self.browse_costs.clicked.connect(self.browse_costs_func)
         self.browse_db_data.clicked.connect(self.browse_db_data_func)
         self.browse_output.clicked.connect(self.browse_output_func)
         self.tick_default.stateChanged.connect(self.check_default_box)
-        self.button_change_costs.clicked.connect(self.change_costs)
+        self.button_insert.clicked.connect(self.insert_to_db_data)
         self.process_list.currentIndexChanged.connect(
             self.change_paths_per_process)
         self.tick_export_new.stateChanged.connect(self.check_export_new)
@@ -46,32 +77,55 @@ class AKLUI(Ui_designer):
 
         self.button_process.clicked.connect(self.process_execute)
 
-    def change_process_color(self, color):
-        if color == 'yellow':
-            self.button_process.setStyleSheet(
-                "background-color: rgba(227, 209, 48, 0.8);\n"
-                "color: rgb(72, 72, 72);\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
-        elif color == 'green':
-            self.button_process.setStyleSheet(
-                "background-color: rgba(15, 196, 12, 0.8);\n"
-                "color: rgb(72, 72, 72);\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
-        else:
-            self.button_process.setStyleSheet(
-                "background-color: rgba(207, 14, 30, 0.8);\n"
-                "color: rgb(72, 72, 72);\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
+    # STYLING
 
+    def mask_line_edit(self, line, status, text):
+        if text:
+            _text = text
+            _placeholder = ""
+        else:
+            _text = ""
+            _placeholder = "Paste path here or browse..."
+
+        if status == 'enabled':
+            stylesheet = make_stylesheet(white)
+            line.setStyleSheet(stylesheet)
+            line.setEnabled(True)
+            line.setText(_text)
+            line.setPlaceholderText(_placeholder)
+        else:
+            stylesheet = make_stylesheet(dark)
+            line.setStyleSheet(stylesheet)
+            line.setEnabled(False)
+            line.setPlaceholderText("")
+            line.setText("")
+
+    def change_process_button(self, status):
+        if status == 'ok':
+            stylesheet = make_bt_stylesheet(blue)
+            self.button_process.setGeometry(QtCore.QRect(670, 270, 120, 40))
+            self.button_process.setStyleSheet(stylesheet)
+        elif status == 'success':
+            stylesheet = make_bt_stylesheet(teal)
+            self.button_process.setGeometry(QtCore.QRect(670, 270, 120, 40))
+            self.button_process.setStyleSheet(stylesheet)
+        else:
+            stylesheet = make_bt_stylesheet(grey)
+            self.button_process.setGeometry(QtCore.QRect(670, 275, 120, 30))
+            self.button_process.setStyleSheet(stylesheet)
+
+    def change_validate_button(self, status):
+        if status == 'sucess':
+            stylesheet = make_bt_stylesheet(teal)
+            self.button_process.setStyleSheet(stylesheet)
+        elif status == 'warning':
+            stylesheet = make_bt_stylesheet(red)
+            self.button_process.setStyleSheet(stylesheet)
+        else:
+            stylesheet = make_bt_stylesheet(blue)
+            self.button_process.setStyleSheet(stylesheet)
+
+    # FUNCTIONAL
     def set_essential_data(self, paths, transformer_map):
         self.set_home_dir(paths.akl_home)
         self.set_default_costs(paths.default_costs)
@@ -81,7 +135,7 @@ class AKLUI(Ui_designer):
         self.gui_startup_paths(paths)
 
     def gui_startup_paths(self, paths):
-        start_process = "Essse"
+        start_process = "Cavino"
 
         if paths.akl_home.exists():
             self.text_costs.setText(self.default_costs)
@@ -103,13 +157,10 @@ class AKLUI(Ui_designer):
     def set_last_visit(self, chosen_path):
         self.last_visited = str(Path(chosen_path).parent)
 
-    def change_costs(self):
-        if Path(self.default_costs).exists():
-            startfile(self.default_costs)
-        else:
-            to_display = "Can't open costs file.\n" \
-                         "AKL home directory is missing."
-            self.text_general.setText(to_display)
+    def insert_to_db_data(self):
+        _current_text = self.text_db_data.text()
+        _new = _current_text + '@Διανομή'
+        self.text_db_data.setText(_new)
 
     def set_home_dir(self, path):
         self.home_dir = str(path)
@@ -160,14 +211,15 @@ class AKLUI(Ui_designer):
 
                 self.transformer.validate()
 
-                if self.transformer.to_process:
-                    if self.transformer.has_missing:
-                        self.change_process_color('yellow')
-                    else:
-                        self.change_process_color('green')
-
                 self.text_general.setText(self.transformer.log.get_content())
-                self.transformer.log.erase()
+                self.is_validated = True
+
+                if self.transformer.validator.validation_passed:
+                    self.change_validate_button('success')
+                else:
+                    self.change_validate_button('warning')
+
+                self.change_process_button('ok')
             else:
                 to_display = f"Some of the input files are missing!\n" \
                              f"Check 'Costs' and 'DB_Data' files."
@@ -178,7 +230,7 @@ class AKLUI(Ui_designer):
 
     def process_execute(self):
         if self.transformer is not None:
-            if self.transformer.to_process:
+            if self.is_validated:
 
                 _old_txt = self.transformer.log.get_content()
                 self.text_general.setText(_old_txt)
@@ -189,10 +241,10 @@ class AKLUI(Ui_designer):
                 _final_txt = _old_txt + "\n[Process Finished]"
                 self.text_general.setText(_final_txt)
 
-                self.text_backup.setText(self.transformer.create_backup())
                 self.transformer.log.erase()
+                self.change_process_button('success')
             else:
-                self.text_general.setText("Can't process data.")
+                self.text_general.setText("Validate data first!")
         else:
             self.text_general.setText("Validate data first!")
 
@@ -236,12 +288,11 @@ class AKLUI(Ui_designer):
                 self.text_output.setText(self.user_output)
 
         self.text_general.setText("")
-        self.text_records.setText("")
-        self.text_backup.setText("")
-
-        self.change_process_color('red')
+        self.text_records.setText("0")
 
         self.transformer = None
+        self.change_process_button('not ready')
+        self.change_validate_button('new')
 
     def browse_costs_func(self):
         filename = QFileDialog.getOpenFileName(directory=self.get_last_visit())
@@ -271,40 +322,16 @@ class AKLUI(Ui_designer):
         process = self.process_list.currentText()
         if self.tick_export_new.isChecked():
             if self.tick_default.isChecked():
-                self.text_output.setStyleSheet(
-                    "background-color: rgb(209, 209, 209);\n"
-                    "border-width:4px;\n"
-                    "border-color:black;\n"
-                    "border-style:offset;\n"
-                    "border-radius:10px;")
-                self.text_output.setText(
-                    self.default_export_path_mapper[process])
+                self.mask_line_edit(self.text_output,
+                                    'enabled',
+                                    self.default_export_path_mapper[process])
+
             else:
-                self.text_output.setStyleSheet(
-                    "background-color: white;\n"
-                    "border-width:4px;\n"
-                    "border-color:black;\n"
-                    "border-style:offset;\n"
-                    "border-radius:10px;")
-
-                if self.user_output is None:
-                    self.text_output.setText("")
-                    self.text_output.setPlaceholderText(
-                        "Paste path here or browse...")
-                else:
-                    self.text_output.setText(self.user_output)
-
+                _text_for_output = self.user_output if self.user_output is not None else ""
+                self.mask_line_edit(
+                    self.text_output, 'enabled', _text_for_output)
         else:
-            self.text_output.setStyleSheet(
-                "background-color: rgb(109, 109, 109);\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
-            self.text_output.setText('')
-            self.text_output.setPlaceholderText("")
-
-        self.change_process_color('red')
+            self.mask_line_edit(self.text_output, 'disabled', "")
 
         self.text_general.setText("")
         self.transformer = None
@@ -312,104 +339,31 @@ class AKLUI(Ui_designer):
     def check_default_box(self):
         process = self.process_list.currentText()
         if self.tick_default.isChecked():
-            self.text_costs.setStyleSheet(
-                "background-color: rgb(209, 209, 209);\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
-
-            self.text_db_data.setStyleSheet(
-                "background-color: rgb(209, 209, 209);\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
-
-            if self.tick_export_new.isChecked():
-                self.text_output.setStyleSheet(
-                    "background-color: rgb(209, 209, 209);\n"
-                    "border-width:4px;\n"
-                    "border-color:black;\n"
-                    "border-style:offset;\n"
-                    "border-radius:10px;")
-                try:
-                    self.text_output.setText(
-                        self.default_export_path_mapper[process])
-                except KeyError:
-                    self.text_output.setText("")
-            else:
-                self.text_output.setStyleSheet(
-                    "background-color: rgb(109, 109, 109);\n"
-                    "border-width:4px;\n"
-                    "border-color:black;\n"
-                    "border-style:offset;\n"
-                    "border-radius:10px;")
-
-                self.text_output.setText("")
-
-            self.text_costs.setText(self.default_costs)
-
-            try:
-                self.text_db_data.setText(self.default_path_mapper[process])
-            except KeyError:
-                self.text_db_data.setText("")
-
-            self.change_process_color('red')
+            _text_for_costs = self.default_costs
+            _text_for_db = self.default_path_mapper[process]
+            _text_for_output = self.default_export_path_mapper[process]
 
         else:
-            self.text_costs.setStyleSheet(
-                "background-color: white;\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
+            _text_for_costs = self.user_costs if self.user_costs is not None else ""
+            _text_for_db = self.user_data if self.user_data is not None else ""
+            _text_for_output = self.user_output if self.user_output is not None else ""
 
-            self.text_db_data.setStyleSheet(
-                "background-color: white;\n"
-                "border-width:4px;\n"
-                "border-color:black;\n"
-                "border-style:offset;\n"
-                "border-radius:10px;")
+        self.mask_line_edit(self.text_costs,
+                            'enabled',
+                            _text_for_costs)
+        self.mask_line_edit(self.text_db_data,
+                            'enabled',
+                            _text_for_db)
 
-            if self.tick_export_new.isChecked():
-                self.text_output.setStyleSheet(
-                    "background-color: white;\n"
-                    "border-width:4px;\n"
-                    "border-color:black;\n"
-                    "border-style:offset;\n"
-                    "border-radius:10px;")
+        if self.tick_export_new.isChecked():
+            self.mask_line_edit(self.text_output,
+                                'enabled',
+                                _text_for_output)
 
-                if self.user_output is None:
-                    self.text_output.setText("")
-                    self.text_output.setPlaceholderText(
-                        "Paste path here or browse...")
-                else:
-                    self.text_output.setText(self.user_output)
-            else:
-                self.text_output.setStyleSheet(
-                    "background-color: rgb(109, 109, 109);\n"
-                    "border-width:4px;\n"
-                    "border-color:black;\n"
-                    "border-style:offset;\n"
-                    "border-radius:10px;")
-
-                self.text_output.setText("")
-
-            if self.user_costs is None:
-                self.text_costs.setText("")
-                self.text_costs.setPlaceholderText(
-                    "Paste path here or browse...")
-            else:
-                self.text_costs.setText(self.user_costs)
-            if self.user_data is None:
-                self.text_db_data.setText("")
-                self.text_db_data.setPlaceholderText(
-                    "Paste path here or browse...")
-            else:
-                self.text_db_data.setText(self.user_data)
-
-        self.change_process_color('red')
+        else:
+            self.mask_line_edit(self.text_output,
+                                'disabled',
+                                "")
 
         self.text_general.setText("")
         self.transformer = None

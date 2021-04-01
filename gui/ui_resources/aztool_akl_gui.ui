@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>570</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>0</x>
       <y>0</y>
       <width>800</width>
-      <height>600</height>
+      <height>550</height>
      </rect>
     </property>
     <property name="palette">
@@ -38,9 +38,9 @@
        <colorrole role="Button">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>195</red>
-          <green>195</green>
-          <blue>195</blue>
+          <red>214</red>
+          <green>214</green>
+          <blue>214</blue>
          </color>
         </brush>
        </colorrole>
@@ -77,6 +77,24 @@
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>214</red>
+          <green>214</green>
+          <blue>214</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>214</red>
+          <green>214</green>
+          <blue>214</blue>
          </color>
         </brush>
        </colorrole>
@@ -94,9 +112,9 @@
        <colorrole role="Button">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>195</red>
-          <green>195</green>
-          <blue>195</blue>
+          <red>214</red>
+          <green>214</green>
+          <blue>214</blue>
          </color>
         </brush>
        </colorrole>
@@ -133,6 +151,24 @@
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>214</red>
+          <green>214</green>
+          <blue>214</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>214</red>
+          <green>214</green>
+          <blue>214</blue>
          </color>
         </brush>
        </colorrole>
@@ -150,9 +186,9 @@
        <colorrole role="Button">
         <brush brushstyle="SolidPattern">
          <color alpha="255">
-          <red>195</red>
-          <green>195</green>
-          <blue>195</blue>
+          <red>214</red>
+          <green>214</green>
+          <blue>214</blue>
          </color>
         </brush>
        </colorrole>
@@ -192,6 +228,24 @@
          </color>
         </brush>
        </colorrole>
+       <colorrole role="Base">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>214</red>
+          <green>214</green>
+          <blue>214</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="Window">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>214</red>
+          <green>214</green>
+          <blue>214</blue>
+         </color>
+        </brush>
+       </colorrole>
       </disabled>
      </palette>
     </property>
@@ -204,6 +258,9 @@
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(214, 214, 214);</string>
+    </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
     </property>
@@ -214,10 +271,15 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>99</y>
+       <y>79</y>
        <width>60</width>
        <height>30</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Process</string>
@@ -227,10 +289,15 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>170</y>
+       <y>150</y>
        <width>60</width>
        <height>30</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Costs</string>
@@ -240,10 +307,15 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>210</y>
+       <y>190</y>
        <width>60</width>
        <height>30</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Data</string>
@@ -253,33 +325,25 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>310</y>
+       <y>270</y>
        <width>60</width>
        <height>30</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Records</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_backup">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>340</y>
-       <width>60</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Backup</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_data_paths">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>130</y>
+       <y>110</y>
        <width>200</width>
        <height>30</height>
       </rect>
@@ -301,7 +365,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>60</y>
+       <y>40</y>
        <width>200</width>
        <height>30</height>
       </rect>
@@ -323,7 +387,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>280</y>
+       <y>310</y>
        <width>200</width>
        <height>30</height>
       </rect>
@@ -345,7 +409,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>90</y>
+       <y>70</y>
        <width>780</width>
        <height>3</height>
       </rect>
@@ -358,7 +422,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>160</y>
+       <y>140</y>
        <width>780</width>
        <height>3</height>
       </rect>
@@ -371,7 +435,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>310</y>
+       <y>340</y>
        <width>780</width>
        <height>3</height>
       </rect>
@@ -384,8 +448,8 @@
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>100</y>
-       <width>301</width>
+       <y>80</y>
+       <width>181</width>
        <height>30</height>
       </rect>
      </property>
@@ -398,17 +462,29 @@
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(209, 209, 209);
+      <string notr="true">background-color: rgba(248, 248, 255, 0.8);
+selection-color: rgb(0, 0, 0);
+selection-background-color: rgba(248, 248, 255, 0.8);
 border-width:4px;
 border-color:black;
-border-radius:10px;</string>
+border-radius:5px;</string>
      </property>
      <property name="editable">
       <bool>false</bool>
      </property>
      <property name="frame">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
+     <item>
+      <property name="text">
+       <string>Cavino</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Concepts</string>
+      </property>
+     </item>
      <item>
       <property name="text">
        <string>Essse</string>
@@ -421,11 +497,6 @@ border-radius:10px;</string>
      </item>
      <item>
       <property name="text">
-       <string>Cavino</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
        <string>PT Beverages - Lavazza</string>
       </property>
      </item>
@@ -434,25 +505,23 @@ border-radius:10px;</string>
        <string>PT Beverages - Spirits</string>
       </property>
      </item>
-     <item>
-      <property name="text">
-       <string>Concepts</string>
-      </property>
-     </item>
     </widget>
     <widget class="QToolButton" name="button_process">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
-       <x>650</x>
-       <y>490</y>
-       <width>140</width>
-       <height>61</height>
+       <x>670</x>
+       <y>275</y>
+       <width>120</width>
+       <height>30</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>13</pointsize>
+       <pointsize>12</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
@@ -461,12 +530,10 @@ border-radius:10px;</string>
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgba(207, 14, 30, 0.8);
-color: rgb(72, 72, 72);
-border-width:4px;
-border-color:black;
-border-style:offset;
-border-radius:10px;</string>
+      <string notr="true">background-color: rgba(108, 117, 125, 0.8);
+color: rgb(0, 0, 0);
+border-width:10px;
+border-radius:5px;</string>
      </property>
      <property name="text">
       <string>Process</string>
@@ -481,13 +548,13 @@ border-radius:10px;</string>
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QToolButton" name="button_change_costs">
+    <widget class="QToolButton" name="button_insert">
      <property name="geometry">
       <rect>
-       <x>650</x>
-       <y>380</y>
-       <width>140</width>
-       <height>41</height>
+       <x>390</x>
+       <y>275</y>
+       <width>120</width>
+       <height>30</height>
       </rect>
      </property>
      <property name="font">
@@ -499,21 +566,21 @@ border-radius:10px;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(209, 209, 209);
-border-width:4px;
-border-color:black;
-border-style:offset;
-border-radius:10px;</string>
+      <string notr="true">background-color: rgba(248, 248, 255, 0.8);
+color: rgb(0, 0, 0);
+border-width:10px;
+border-radius:5px;
+</string>
      </property>
      <property name="text">
-      <string>Change Costs</string>
+      <string>@Διανομή</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="text_costs">
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>170</y>
+       <y>150</y>
        <width>681</width>
        <height>30</height>
       </rect>
@@ -525,11 +592,11 @@ border-radius:10px;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(209, 209, 209);
+      <string notr="true">background-color: rgba(248, 248, 255, 0.8);
 border-width:4px;
 border-color:black;
 border-style:offset;
-border-radius:10px;</string>
+border-radius:5px;</string>
      </property>
      <property name="frame">
       <bool>true</bool>
@@ -539,7 +606,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>210</y>
+       <y>190</y>
        <width>681</width>
        <height>30</height>
       </rect>
@@ -551,53 +618,35 @@ border-radius:10px;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(209, 209, 209);
+      <string notr="true">background-color: rgba(248, 248, 255, 0.8);
 border-width:4px;
 border-color:black;
 border-style:offset;
-border-radius:10px;</string>
+border-radius:5px;</string>
      </property>
     </widget>
     <widget class="QLabel" name="text_records">
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>310</y>
-       <width>701</width>
+       <y>270</y>
+       <width>81</width>
        <height>30</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>9</pointsize>
+       <pointsize>10</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
      <property name="text">
-      <string/>
+      <string>0</string>
      </property>
-    </widget>
-    <widget class="QLabel" name="text_backup">
-     <property name="geometry">
-      <rect>
-       <x>79</x>
-       <y>340</y>
-       <width>701</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Segoe UI</family>
-       <pointsize>9</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string/>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QTextBrowser" name="akl_logo">
@@ -606,40 +655,94 @@ border-radius:10px;</string>
        <x>10</x>
        <y>1</y>
        <width>781</width>
-       <height>61</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="palette">
       <palette>
        <active>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>214</red>
+           <green>214</green>
+           <blue>214</blue>
+          </color>
+         </brush>
+        </colorrole>
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>240</red>
-           <green>240</green>
-           <blue>240</blue>
+           <red>214</red>
+           <green>214</green>
+           <blue>214</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>214</red>
+           <green>214</green>
+           <blue>214</blue>
           </color>
          </brush>
         </colorrole>
        </active>
        <inactive>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>214</red>
+           <green>214</green>
+           <blue>214</blue>
+          </color>
+         </brush>
+        </colorrole>
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>240</red>
-           <green>240</green>
-           <blue>240</blue>
+           <red>214</red>
+           <green>214</green>
+           <blue>214</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>214</red>
+           <green>214</green>
+           <blue>214</blue>
           </color>
          </brush>
         </colorrole>
        </inactive>
        <disabled>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>214</red>
+           <green>214</green>
+           <blue>214</blue>
+          </color>
+         </brush>
+        </colorrole>
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>240</red>
-           <green>240</green>
-           <blue>240</blue>
+           <red>214</red>
+           <green>214</green>
+           <blue>214</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>214</red>
+           <green>214</green>
+           <blue>214</blue>
           </color>
          </brush>
         </colorrole>
@@ -658,21 +761,21 @@ border-radius:10px;</string>
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Century Gothic'; font-size:18pt; color:#434343;&quot;&gt;Attiki Kinisi Logistics SA&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; color:#434343;&quot;&gt;Attiki Kinisi Logistics SA&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QToolButton" name="browse_costs">
      <property name="geometry">
       <rect>
        <x>760</x>
-       <y>170</y>
+       <y>150</y>
        <width>30</width>
        <height>30</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(209, 209, 209);
+      <string notr="true">background-color: rgba(248, 248, 255, 0.8);
 border-width:4px;
 border-color:black;
 border-style:offset;
@@ -686,13 +789,13 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>760</x>
-       <y>210</y>
+       <y>190</y>
        <width>30</width>
        <height>30</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(209, 209, 209);
+      <string notr="true">background-color: rgba(248, 248, 255, 0.8);
 border-width:4px;
 border-color:black;
 border-style:offset;
@@ -706,9 +809,9 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>380</y>
-       <width>631</width>
-       <height>171</height>
+       <y>350</y>
+       <width>781</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="font">
@@ -718,7 +821,7 @@ border-radius:10px;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(209, 209, 209);
+      <string notr="true">background-color: rgba(248, 248, 255, 0.8);
 border-width:4px;
 border-color:black;
 border-style:offset;
@@ -728,8 +831,8 @@ border-radius:10px;</string>
     <widget class="QCheckBox" name="tick_default">
      <property name="geometry">
       <rect>
-       <x>400</x>
-       <y>100</y>
+       <x>280</x>
+       <y>80</y>
        <width>191</width>
        <height>30</height>
       </rect>
@@ -762,10 +865,15 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>250</y>
+       <y>230</y>
        <width>60</width>
        <height>30</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Output</string>
@@ -775,7 +883,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>250</y>
+       <y>230</y>
        <width>681</width>
        <height>30</height>
       </rect>
@@ -787,24 +895,24 @@ border-radius:10px;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(109, 109, 109);
+      <string notr="true">background-color: rgba(33, 37, 41, 0.8);
 border-width:4px;
 border-color:black;
 border-style:offset;
-border-radius:10px;</string>
+border-radius:5px;</string>
      </property>
     </widget>
     <widget class="QToolButton" name="browse_output">
      <property name="geometry">
       <rect>
        <x>760</x>
-       <y>250</y>
+       <y>230</y>
        <width>30</width>
        <height>30</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(209, 209, 209);
+      <string notr="true">background-color: rgba(248, 248, 255, 0.8);
 border-width:4px;
 border-color:black;
 border-style:offset;
@@ -817,10 +925,10 @@ border-radius:10px;</string>
     <widget class="QToolButton" name="button_validate_data">
      <property name="geometry">
       <rect>
-       <x>650</x>
-       <y>430</y>
-       <width>140</width>
-       <height>51</height>
+       <x>530</x>
+       <y>275</y>
+       <width>120</width>
+       <height>30</height>
       </rect>
      </property>
      <property name="font">
@@ -832,11 +940,11 @@ border-radius:10px;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(209, 209, 209);
-border-width:4px;
-border-color:black;
-border-style:offset;
-border-radius:10px;</string>
+      <string notr="true">background-color: rgba(13, 110, 253, 0.8);
+color: rgb(0, 0, 0);
+border-width:10px;
+border-radius:5px;
+</string>
      </property>
      <property name="text">
       <string>Validate data</string>
@@ -845,8 +953,8 @@ border-radius:10px;</string>
     <widget class="QCheckBox" name="tick_export_new">
      <property name="geometry">
       <rect>
-       <x>600</x>
-       <y>100</y>
+       <x>480</x>
+       <y>80</y>
        <width>191</width>
        <height>30</height>
       </rect>
@@ -879,7 +987,6 @@ border-radius:10px;</string>
     <zorder>label_costs</zorder>
     <zorder>label_db_data</zorder>
     <zorder>label_records</zorder>
-    <zorder>label_backup</zorder>
     <zorder>label_data_paths</zorder>
     <zorder>label_action</zorder>
     <zorder>label_results</zorder>
@@ -887,11 +994,10 @@ border-radius:10px;</string>
     <zorder>line_2</zorder>
     <zorder>line_3</zorder>
     <zorder>process_list</zorder>
-    <zorder>button_change_costs</zorder>
+    <zorder>button_insert</zorder>
     <zorder>text_costs</zorder>
     <zorder>text_db_data</zorder>
     <zorder>text_records</zorder>
-    <zorder>text_backup</zorder>
     <zorder>akl_logo</zorder>
     <zorder>browse_costs</zorder>
     <zorder>browse_db_data</zorder>
@@ -905,18 +1011,24 @@ border-radius:10px;</string>
     <zorder>tick_export_new</zorder>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>process_list</tabstop>
+  <tabstop>tick_default</tabstop>
+  <tabstop>tick_export_new</tabstop>
+  <tabstop>text_costs</tabstop>
+  <tabstop>text_db_data</tabstop>
+  <tabstop>text_output</tabstop>
+  <tabstop>button_insert</tabstop>
+  <tabstop>button_validate_data</tabstop>
+  <tabstop>button_process</tabstop>
+  <tabstop>browse_costs</tabstop>
+  <tabstop>browse_db_data</tabstop>
+  <tabstop>browse_output</tabstop>
+  <tabstop>text_general</tabstop>
+  <tabstop>akl_logo</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

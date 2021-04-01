@@ -50,18 +50,18 @@ class Giochi(TypeTemplate):
                 return 0.00
 
     def _preprocess(self):
-        if self.to_process:
-            # keep = info_map[self.map_name]['init_ncols']
-            # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-            # sort_rule = info_map[self.map_name]['sort']
-            # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
 
-            self.data[paletes] = self.data[paletes].fillna(0).astype(int)
-            self.data[ogkos] = self.data[ogkos].fillna(0.0).astype(float)
+        # keep = info_map[self.map_name]['init_ncols']
+        # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
+        # sort_rule = info_map[self.map_name]['sort']
+        # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
 
-            self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
+        self.data[paletes] = self.data[paletes].fillna(0).astype(int)
+        self.data[ogkos] = self.data[ogkos].fillna(0.0).astype(float)
 
-            self.preprocessed = True
+        self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
+
+        self.preprocessed = True
 
     def process_rows(self, insert_into='last'):
         self.data[final_charge] = 0.0
@@ -175,47 +175,44 @@ class Giochi(TypeTemplate):
 
     def process(self):
         self._preprocess()
-        if self.preprocessed:
-            self.log("Processing...", Display.INFO)
 
-            self.data[paletes_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[pelatis], x[tomeas], paleta,
-                                        x[paletes]), axis=1)
+        self.log("Processing...", Display.INFO)
 
-            self.data[kivotia_lampades_dist_charge] = ''
-            self.data[kivotia_paixnidia_dist_charge] = ''
+        self.data[paletes_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[pelatis], x[tomeas], paleta,
+                                    x[paletes]), axis=1)
 
-            self.data[ogkos_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[pelatis], x[tomeas], kuviko,
-                                        x[ogkos]), axis=1)
+        self.data[kivotia_lampades_dist_charge] = ''
+        self.data[kivotia_paixnidia_dist_charge] = ''
 
-            self.data[total_charge] = sum([self.data[paletes_dist_charge],
-                                           self.data[ogkos_dist_charge]])
+        self.data[ogkos_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[pelatis], x[tomeas], kuviko,
+                                    x[ogkos]), axis=1)
 
-            self.process_rows()
-            self.process_volume(check_many=False)
+        self.data[total_charge] = sum([self.data[paletes_dist_charge],
+                                       self.data[ogkos_dist_charge]])
 
-            self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+        self.process_rows()
+        self.process_volume(check_many=False)
 
-            self.data.loc[
-                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
-            self.data[final_dist_charge] = self.data[final_charge]
+        self.data.loc[
+            self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+        self.data[final_dist_charge] = self.data[final_charge]
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                     Display.INFO)
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.to_export = True
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                 Display.INFO)
 
-            self.giochi_crate.validate()
-            self.giochi_crate.process()
+        self.giochi_crate.validate()
+        self.giochi_crate.process()
 
-        else:
-            self.log("Process did not execute due to errors.", Display.INFO)
+        self.to_export = True
 
     def export(self, output=None):
         if self.to_export and self.giochi_crate.to_export:

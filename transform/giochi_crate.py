@@ -36,38 +36,35 @@ class GiochiCrate(TypeTemplate):
                 return 0.00
 
     def _preprocess(self):
-        if self.to_process:
-            # keep = info_map[self.map_name]['init_ncols']
-            # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-            # sort_rule = info_map[self.map_name]['sort']
-            # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
 
-            self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
-            self.data[lampades] = self.data[lampades].fillna(0).astype(int)
-            self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)
+        # keep = info_map[self.map_name]['init_ncols']
+        # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
+        # sort_rule = info_map[self.map_name]['sort']
+        # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
 
-            self.preprocessed = True
+        self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
+        self.data[lampades] = self.data[lampades].fillna(0).astype(int)
+        self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)
+
+        self.preprocessed = True
 
     def process(self):
         self._preprocess()
-        if self.preprocessed:
-            self.log("Processing...", Display.INFO)
+        self.log("Processing...", Display.INFO)
 
-            self.data[total_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
-                axis=1)
+        self.data[total_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
+            axis=1)
 
-            self.process_rows()
+        self.process_rows()
 
-            self.data[kivotio_charge] = self.data[final_charge]
+        self.data[kivotio_charge] = self.data[final_charge]
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+        self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                     Display.INFO)
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                 Display.INFO)
 
-            self.to_export = True
-        else:
-            self.log("Process did not execute due to errors.", Display.INFO)
+        self.to_export = True

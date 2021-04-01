@@ -50,63 +50,60 @@ class Concepts(TypeTemplate):
                 return 0.00
 
     def _preprocess(self):
-        if self.to_process:
-            # keep = info_map[self.map_name]['init_ncols']
-            # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-            # sort_rule = info_map[self.map_name]['sort']
-            # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
-            self.data[paletes] = self.data[paletes].fillna(0).astype(int)
-            self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
-            self.data[kola] = self.data[kola].fillna(0).astype(int)
-            self.data[varelia] = self.data[varelia].fillna(0).astype(int)
-            self.data[kena_varelia] = self.data[kena_varelia].fillna(0).astype(
-                int)
-            self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
+        # keep = info_map[self.map_name]['init_ncols']
+        # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
+        # sort_rule = info_map[self.map_name]['sort']
+        # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
+        self.data[paletes] = self.data[paletes].fillna(0).astype(int)
+        self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
+        self.data[kola] = self.data[kola].fillna(0).astype(int)
+        self.data[varelia] = self.data[varelia].fillna(0).astype(int)
+        self.data[kena_varelia] = self.data[kena_varelia].fillna(0).astype(
+            int)
+        self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
 
-            self.preprocessed = True
+        self.preprocessed = True
 
     def process(self):
         self._preprocess()
-        if self.preprocessed:
-            self.log("Processing...", Display.INFO)
 
-            self.data[kivotia] = self.data[kivotia] + np.ceil(
-                self.data[kola] / 6).astype(int)
+        self.log("Processing...", Display.INFO)
 
-            self.data[kola] = 0
+        self.data[kivotia] = self.data[kivotia] + np.ceil(
+            self.data[kola] / 6).astype(int)
 
-            self.data[paletes_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], paleta, x[paletes]), axis=1)
+        self.data[kola] = 0
 
-            self.data[kivotia_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
+        self.data[paletes_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], paleta, x[paletes]), axis=1)
 
-            self.data[varelia_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], vareli, x[varelia]), axis=1)
+        self.data[kivotia_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
 
-            self.data[kena_varelia_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas],
-                                        keno_vareli,
-                                        x[kena_varelia]), axis=1)
+        self.data[varelia_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], vareli, x[varelia]), axis=1)
 
-            self.data[total_charge] = sum(
-                [self.data[paletes_dist_charge],
-                 self.data[kivotia_dist_charge],
-                 self.data[varelia_dist_charge],
-                 self.data[kena_varelia_dist_charge]])
+        self.data[kena_varelia_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas],
+                                    keno_vareli,
+                                    x[kena_varelia]), axis=1)
 
-            self.process_rows()
+        self.data[total_charge] = sum(
+            [self.data[paletes_dist_charge],
+                self.data[kivotia_dist_charge],
+                self.data[varelia_dist_charge],
+                self.data[kena_varelia_dist_charge]])
 
-            self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+        self.process_rows()
 
-            self.data.loc[
-                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.data.loc[
+            self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                     Display.INFO)
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.to_export = True
-        else:
-            self.log("Process did not execute due to errors.", Display.INFO)
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                 Display.INFO)
+
+        self.to_export = True

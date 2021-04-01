@@ -64,8 +64,8 @@ class Validator:
                                       delivery_area], as_index=False)[
             [cartons, weight]].sum()
 
-        _grouped['Must_Have_PAL'] = self.data.apply(
-            lambda x: 1 if x[weight]/6 + x[cartons] >= 11 else 0, axis=1)
+        _grouped['Must_Have_PAL'] = _grouped.apply(
+            lambda x: 1 if (x[weight]/6 + x[cartons]) >= 11 else 0, axis=1)
 
         must_have_pal = _grouped.loc[_grouped['Must_Have_PAL'] == 1].copy()
         must_have_pal_count = len(must_have_pal)
@@ -76,9 +76,9 @@ class Validator:
         cols_not_na = info_map[self.map_name].get(
             'validator', {}).get('missing', [])
         cols_under = info_map[self.map_name].get(
-            'validator', {}).get('missing', [])
+            'validator', {}).get('ensure_under', [])
         cols_zero = info_map[self.map_name].get(
-            'validator', {}).get('missing', [])
+            'validator', {}).get('ensure_zero', [])
         _sub = info_map[self.map_name].get(
             'validator', {}).get('no_duplicates', [])
 
@@ -103,9 +103,8 @@ class Validator:
         nonzero_bools = []
         nonzero_idxs = []
         nonzero_col = []
-        for idx, (col, value) in cols_zero:
-            _has_nonzero, _nonzero_idxs = self.col_values_not_equal_zero(
-                col, value)
+        for idx, col  in enumerate(cols_zero):
+            _has_nonzero, _nonzero_idxs = self.col_values_not_equal_zero(col)
             nonzero_bools.append(_has_nonzero)
             nonzero_idxs.append(_nonzero_idxs)
             nonzero_col.append(idx)
@@ -130,8 +129,8 @@ class Validator:
                 self.log(f"Column: {cols_under[i][0]} has values over {cols_under[i][1]}",
                          Display.WARNING)
                 self.log(f"Indexes: {'-'.join(under_idxs[i])}\n")
-            for i in under_col:
-                self.log(f"Column: {cols_under[i][0]} has non zero values",
+            for i in nonzero_col:
+                self.log(f"Column: {cols_zero[i]} has non zero values",
                          Display.WARNING)
                 self.log(f"Indexes: {'-'.join(nonzero_idxs[i])}\n")
 
@@ -146,9 +145,9 @@ class Validator:
 
             if cav_diff:
                 self.validation_passed = False
-                self.log(f"Records with 'Κιβώτια' > 10: {kivotia_count}",
+                self.log(f"Records with 'Κιβώτια' > 10:                         -> {kivotia_count}",
                          Display.WARNING)
-                self.log(f"Records with 'Κωδικός Παραγγελίας' starting with PAL: {pal_count}\n",
+                self.log(f"Records with 'Κωδικός Παραγγελίας' starting with PAL   -> {pal_count}\n",
                          Display.WARNING)
 
         if self.map_name == 'Essse':
@@ -156,14 +155,15 @@ class Validator:
 
             if ess_diff:
                 self.validation_passed = False
-                self.log(f"Records with '(Weight in kg)/6 + Cartons)' >= 11: {musta_have_pal_count}",
+                self.log(f"Records with '(Weight in kg)/6 + Cartons)' >= 11 -> {musta_have_pal_count}",
                          Display.WARNING)
-                self.log(f"Records with 'Order Code' starting with PAL: {pal_count}\n",
+                self.log(f"Records with 'Order Code' starting with PAL:     -> {pal_count}\n",
                          Display.WARNING)
                 self.log("Clients that must have orders starting with PAL:\n")
                 for i in df.itertuples():
                     self.log(
                         f"{i.Distribution_Date} | {i.Customer_Name} | {i.Delivery_Area}")
+                self.log('\n')
 
         if self.validation_passed:
             self.log('Data Validation: Successful', Display.INFO)

@@ -57,72 +57,69 @@ class PTBLavazza(TypeTemplate):
         return charge
 
     def _preprocess(self):
-        if self.to_process:
-            # keep = info_map[self.map_name]['init_ncols']
-            # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-            # sort_rule = info_map[self.map_name]['sort']
-            # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
+        # keep = info_map[self.map_name]['init_ncols']
+        # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
+        # sort_rule = info_map[self.map_name]['sort']
+        # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
 
-            self.data.loc[
-                self.data[pelatis] == "ΤΡΟΦΟΔΟΣΙΑ ΙΚΕ", tomeas] = "ΜΑΚΕΔΟΝΙΑ"
+        self.data.loc[
+            self.data[pelatis] == "ΤΡΟΦΟΔΟΣΙΑ ΙΚΕ", tomeas] = "ΜΑΚΕΔΟΝΙΑ"
 
-            self.data[sunolika_temaxia] = self.data[sunolika_temaxia].fillna(
-                0).astype(int)
-            self.data[atofia_paleta] = self.data[atofia_paleta].fillna(
-                0).astype(int)
-            self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
-            self.data[upoloipo_se_temaxia] = self.data[
-                upoloipo_se_temaxia].fillna(
-                0).astype(int)
-            self.data[mixanes] = self.data[mixanes].fillna(0).astype(int)
+        self.data[sunolika_temaxia] = self.data[sunolika_temaxia].fillna(
+            0).astype(int)
+        self.data[atofia_paleta] = self.data[atofia_paleta].fillna(
+            0).astype(int)
+        self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
+        self.data[upoloipo_se_temaxia] = self.data[
+            upoloipo_se_temaxia].fillna(
+            0).astype(int)
+        self.data[mixanes] = self.data[mixanes].fillna(0).astype(int)
 
-            self.data[poli] = self.data[poli].fillna("<NULL>")
+        self.data[poli] = self.data[poli].fillna("<NULL>")
 
-            self.preprocessed = True
+        self.preprocessed = True
 
     def process(self):
         self._preprocess()
-        if self.preprocessed:
-            self.log("Processing...", Display.INFO)
 
-            self.data[kivotia] = self.data[kivotia] + np.ceil(
-                self.data[upoloipo_se_temaxia] / 6).astype(int)
+        self.log("Processing...", Display.INFO)
 
-            self.data[upoloipo_se_temaxia] = 0
+        self.data[kivotia] = self.data[kivotia] + np.ceil(
+            self.data[upoloipo_se_temaxia] / 6).astype(int)
 
-            self.data[atofia_paleta_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], paleta, x[atofia_paleta]),
-                axis=1)
+        self.data[upoloipo_se_temaxia] = 0
 
-            self.data[kivotia_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
-                axis=1)
+        self.data[atofia_paleta_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], paleta, x[atofia_paleta]),
+            axis=1)
 
-            self.data[mixanes_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], mixani, x[mixanes]),
-                axis=1)
+        self.data[kivotia_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
+            axis=1)
 
-            self.data[kivotia_charge] = self.data.apply(
-                lambda x: self._finalize_cost(x[tomeas], x[kivotia_charge]),
-                axis=1)
+        self.data[mixanes_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], mixani, x[mixanes]),
+            axis=1)
 
-            self.data[total_charge] = sum(
-                [self.data[atofia_paleta_charge],
-                 self.data[kivotia_charge],
-                 self.data[mixanes_charge]])
+        self.data[kivotia_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas], x[kivotia_charge]),
+            axis=1)
 
-            self.process_rows()
+        self.data[total_charge] = sum(
+            [self.data[atofia_paleta_charge],
+                self.data[kivotia_charge],
+                self.data[mixanes_charge]])
 
-            self.data[poli] = self.data[poli].replace("<NULL>", "")
+        self.process_rows()
 
-            self.data.loc[
-                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+        self.data[poli] = self.data[poli].replace("<NULL>", "")
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.data.loc[
+            self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                     Display.INFO)
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.to_export = True
-        else:
-            self.log("Process did not execute due to errors.", Display.INFO)
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                 Display.INFO)
+
+        self.to_export = True

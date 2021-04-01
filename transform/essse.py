@@ -41,28 +41,27 @@ class Essse(TypeTemplate):
         return charge
 
     def _preprocess(self):
-        if self.to_process:
-            # keep = info_map[self.map_name]['init_ncols']
-            # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-            # sort_rule = info_map[self.map_name]['sort']
+        # keep = info_map[self.map_name]['init_ncols']
+        # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
+        # sort_rule = info_map[self.map_name]['sort']
 
-            # ascending = [True, True, True, True, True, True]
+        # ascending = [True, True, True, True, True, True]
 
-            # self.data = self.data.sort_values(sort_rule,
-            #                                   ascending=ascending).reset_index(drop=True)
+        # self.data = self.data.sort_values(sort_rule,
+        #                                   ascending=ascending).reset_index(drop=True)
 
-            self.data[full_pallets] = self.data[full_pallets].fillna(
-                0).astype(int)
-            self.data[cartons] = self.data[cartons].fillna(0).astype(int)
-            self.data[weight] = self.data[weight].fillna(0).astype(int)
+        self.data[full_pallets] = self.data[full_pallets].fillna(
+            0).astype(int)
+        self.data[cartons] = self.data[cartons].fillna(0).astype(int)
+        self.data[weight] = self.data[weight].fillna(0).astype(int)
 
-            if any(self.data[pieces] != 0):
-                self.log(f"{kola} column contains non-zero value.",
-                         Display.WARNING)
+        if any(self.data[pieces] != 0):
+            self.log(f"{kola} column contains non-zero value.",
+                     Display.WARNING)
 
-            self.data[city] = self.data[city].fillna("<NULL>")
+        self.data[city] = self.data[city].fillna("<NULL>")
 
-            self.preprocessed = True
+        self.preprocessed = True
 
     def process_rows(self, insert_into='last'):
         self.data[final_charge] = 0.0
@@ -100,7 +99,7 @@ class Essse(TypeTemplate):
                         if whole > _max:
                             _mul = self.data.loc[hold_idx[0], pallets]
                             _cost = _mul * _max
-                            
+
                             self.data.loc[i.Index, final_charge] = _cost
                         else:
                             for idx, value in zip(hold_idx, hold):
@@ -132,55 +131,53 @@ class Essse(TypeTemplate):
 
     def process(self):
         self._preprocess()
-        if self.preprocessed:
-            self.log("Processing...", Display.INFO)
 
-            pallet_charge = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], c_2space(full_pallets), x[full_pallets]),
-                axis=1)
+        self.log("Processing...", Display.INFO)
 
-            carton_charge = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], cartons, x[cartons]), axis=1)
+        pallet_charge = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], c_2space(full_pallets), x[full_pallets]),
+            axis=1)
 
-            weight_charge = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], c_2space(weight), x[weight]), axis=1)
+        carton_charge = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], cartons, x[cartons]), axis=1)
 
-            self.data['pallet_charge'] = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], c_2space(full_pallets), x[full_pallets]),
-                axis=1)
+        weight_charge = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], c_2space(weight), x[weight]), axis=1)
 
-            self.data['carton_charge'] = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], cartons, x[cartons]), axis=1)
+        self.data['pallet_charge'] = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], c_2space(full_pallets), x[full_pallets]),
+            axis=1)
 
-            self.data['weight_charge'] = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], c_2space(weight), x[weight]), axis=1)
+        self.data['carton_charge'] = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], cartons, x[cartons]), axis=1)
 
-            self.data[total_charge] = sum([pallet_charge,
-                                          carton_charge,
-                                          weight_charge])
+        self.data['weight_charge'] = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], c_2space(weight), x[weight]), axis=1)
 
-            self.process_rows(insert_into='last')
+        self.data[total_charge] = sum([pallet_charge,
+                                       carton_charge,
+                                       weight_charge])
 
-            self.data[city] = self.data[city].replace("<NULL>", "")
+        self.process_rows(insert_into='last')
 
-            self.data.loc[
-                self.data[delivery_method] == idiofortosi, final_charge] = 0.00
+        self.data[city] = self.data[city].replace("<NULL>", "")
 
-            self.data[delivery_cost] = self.data[final_charge]
+        self.data.loc[
+            self.data[delivery_method] == idiofortosi, final_charge] = 0.00
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+        self.data[delivery_cost] = self.data[final_charge]
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                     Display.INFO)
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.to_export = True
-        else:
-            self.log("Process did not execute due to errors.", Display.INFO)
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                 Display.INFO)
+
+        self.to_export = True

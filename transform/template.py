@@ -47,9 +47,9 @@ class TypeTemplate:
                 _data = _data.dropna(subset=info_map[process_name]['drop'],
                                      how="all")
                 sort_rule = info_map[process_name]['sort']
-                self.data = self.data.sort_values(
+                _data = _data.sort_values(
                     sort_rule).reset_index(drop=True)
-                return _data
+                return _data.copy()
             else:
                 self.log("There are less than necessary columns in data.",
                          Display.ERROR)

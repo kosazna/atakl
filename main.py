@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
         try:
             transformer = load_tranformer(process,
-                                          mode=mode,
+                                          modcde=mode,
                                           path_list=[costs,
                                                      db_data,
                                                      out])
@@ -81,6 +81,7 @@ if __name__ == "__main__":
         from atakl.gui import *
 
         app = QtWidgets.QApplication(sys.argv)
+        app.setStyle('Fusion')
         main_window = QtWidgets.QMainWindow()
 
         ui = AKLUI(main_window)

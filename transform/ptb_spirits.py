@@ -56,79 +56,75 @@ class PTBSpirits(TypeTemplate):
         return charge
 
     def _preprocess(self):
-        if self.to_process:
-            # keep = info_map[self.map_name]['init_ncols']
-            # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-            # sort_rule = info_map[self.map_name]['sort']
-            # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
-            self.data[paletes] = self.data[paletes].fillna(0).astype(int)
-            self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
-            self.data[tsantes] = self.data[tsantes].fillna(0).astype(int)
-            self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)
-            self.data[varelia] = self.data[varelia].fillna(0).astype(int)
-            self.data[ompreles] = self.data[ompreles].fillna(0).astype(int)
-            self.data[paletes_san] = self.data[paletes_san].fillna(0).astype(
-                int)
-            self.data[kola] = self.data[kola].fillna(0).astype(int)
+        # keep = info_map[self.map_name]['init_ncols']
+        # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
+        # sort_rule = info_map[self.map_name]['sort']
+        # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
+        self.data[paletes] = self.data[paletes].fillna(0).astype(int)
+        self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
+        self.data[tsantes] = self.data[tsantes].fillna(0).astype(int)
+        self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)
+        self.data[varelia] = self.data[varelia].fillna(0).astype(int)
+        self.data[ompreles] = self.data[ompreles].fillna(0).astype(int)
+        self.data[paletes_san] = self.data[paletes_san].fillna(0).astype(
+            int)
+        self.data[kola] = self.data[kola].fillna(0).astype(int)
 
-            self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
+        self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
 
-            self.preprocessed = True
+        self.preprocessed = True
 
     def process(self):
         self._preprocess()
-        if self.preprocessed:
-            self.log("Processing...", Display.INFO)
+        self.log("Processing...", Display.INFO)
 
-            self.data[paletes_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], paleta, x[paletes]), axis=1)
+        self.data[paletes_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], paleta, x[paletes]), axis=1)
 
-            self.data[kivotia_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
+        self.data[kivotia_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]), axis=1)
 
-            self.data[tsantes_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], tsanta, x[tsantes]), axis=1)
+        self.data[tsantes_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], tsanta, x[tsantes]), axis=1)
 
-            self.data[varelia_dist_charge] = 0.0
+        self.data[varelia_dist_charge] = 0.0
 
-            self.data[ompreles_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], omprela, x[ompreles]),
-                axis=1)
+        self.data[ompreles_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], omprela, x[ompreles]),
+            axis=1)
 
-            self.data[kivotia_dist_charge] = self.data.apply(
-                lambda x: self._finalize_cost(x[tomeas],
-                                              x[kivotia_dist_charge]),
-                axis=1)
+        self.data[kivotia_dist_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas],
+                                            x[kivotia_dist_charge]),
+            axis=1)
 
-            self.data[tsantes_dist_charge] = self.data.apply(
-                lambda x: self._finalize_cost(x[tomeas],
-                                              x[tsantes_dist_charge]),
-                axis=1)
+        self.data[tsantes_dist_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas],
+                                            x[tsantes_dist_charge]),
+            axis=1)
 
-            self.data[ompreles_dist_charge] = self.data.apply(
-                lambda x: self._finalize_cost(x[tomeas],
-                                              x[ompreles_dist_charge]),
-                axis=1)
+        self.data[ompreles_dist_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas],
+                                            x[ompreles_dist_charge]),
+            axis=1)
 
-            self.data[total_charge] = sum(
-                [self.data[paletes_dist_charge],
-                 self.data[kivotia_dist_charge],
-                 self.data[varelia_dist_charge],
-                 self.data[tsantes_dist_charge],
-                 self.data[ompreles_dist_charge]])
+        self.data[total_charge] = sum(
+            [self.data[paletes_dist_charge],
+                self.data[kivotia_dist_charge],
+                self.data[varelia_dist_charge],
+                self.data[tsantes_dist_charge],
+                self.data[ompreles_dist_charge]])
 
-            self.process_rows()
+        self.process_rows()
 
-            self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
-            self.data.loc[
-                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+        self.data.loc[
+            self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                     Display.INFO)
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                    Display.INFO)
 
-            self.to_export = True
-        else:
-            self.log("Process did not execute due to errors.", Display.INFO)
+        self.to_export = True
