@@ -24,8 +24,7 @@ class PTBLavazza(TypeTemplate):
             c_2space(tomeas), drop=True)
 
         self.data = self.set_data(data_filepath, self.map_name)
-        self.validator.set_process_name(self.map_name)
-        self.validator.set_data(self.data)
+        self.validator = Validator(self.data, self.map_name, mode)
 
     def get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
@@ -59,10 +58,10 @@ class PTBLavazza(TypeTemplate):
 
     def _preprocess(self):
         if self.to_process:
-            keep = info_map[self.map_name]['init_ncols']
-            self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-            sort_rule = info_map[self.map_name]['sort']
-            self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
+            # keep = info_map[self.map_name]['init_ncols']
+            # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
+            # sort_rule = info_map[self.map_name]['sort']
+            # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
 
             self.data.loc[
                 self.data[pelatis] == "ΤΡΟΦΟΔΟΣΙΑ ΙΚΕ", tomeas] = "ΜΑΚΕΔΟΝΙΑ"

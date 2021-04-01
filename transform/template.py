@@ -14,7 +14,7 @@ class TypeTemplate:
         self.costs = pd.DataFrame()
 
         self.log = Display(mode)
-        self.validator = Validator(mode=mode)
+        self.validator = None
 
         self.prev_count = count_files(paths.akl_home.joinpath(".history"))
 
@@ -42,10 +42,13 @@ class TypeTemplate:
         if nrows != 0 and ncols != 0:
             if ncols >= keep_cols:
                 _data = _data.iloc[:, :keep_cols]
-                _data.columns = info_map[process_name]['formal_cols'][
+                _data.columns = info_map[process_name]['akl_cols'][
                     :keep_cols]
-                _data = _data.dropna(subset=info_map[self.map_name]['drop'],
+                _data = _data.dropna(subset=info_map[process_name]['drop'],
                                      how="all")
+                sort_rule = info_map[process_name]['sort']
+                self.data = self.data.sort_values(
+                    sort_rule).reset_index(drop=True)
                 return _data
             else:
                 self.log("There are less than necessary columns in data.",
@@ -106,9 +109,10 @@ class TypeTemplate:
             return 0.00
 
     def validate(self):
-        self.to_process = self.validator.columns(self.map_name)
-        if self.to_process:
-            self.has_missing = self.validator.missing()
+        if self.validator is not None:
+            self.validator.validate()
+        else:
+            self.log("Validator is not set", Display.ERROR)
 
     def process_rows(self, insert_into='last'):
         self.data[final_charge] = 0.0

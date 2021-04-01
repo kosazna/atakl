@@ -26,8 +26,7 @@ class Giochi(TypeTemplate):
             c_2space(tomeas), drop=True)
 
         self.data = self.set_data(data_filepath, self.map_name)
-        self.validator.set_process_name(self.map_name)
-        self.validator.set_data(self.data)
+        self.validator = Validator(self.data, self.map_name, mode)
         self.giochi_crate = GiochiCrate(
             str(self.data_file) + "@Διανομή_Κιβωτίου",
             self.cost_file,
@@ -52,10 +51,10 @@ class Giochi(TypeTemplate):
 
     def _preprocess(self):
         if self.to_process:
-            keep = info_map[self.map_name]['init_ncols']
-            self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-            sort_rule = info_map[self.map_name]['sort']
-            self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
+            # keep = info_map[self.map_name]['init_ncols']
+            # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
+            # sort_rule = info_map[self.map_name]['sort']
+            # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
 
             self.data[paletes] = self.data[paletes].fillna(0).astype(int)
             self.data[ogkos] = self.data[ogkos].fillna(0.0).astype(float)
