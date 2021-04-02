@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>570</height>
+    <height>572</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>0</x>
       <y>0</y>
       <width>800</width>
-      <height>550</height>
+      <height>551</height>
      </rect>
     </property>
     <property name="palette">
@@ -278,7 +278,8 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>9</pointsize>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -296,7 +297,8 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>9</pointsize>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -314,7 +316,8 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>9</pointsize>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -332,7 +335,8 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>9</pointsize>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -350,7 +354,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Century Gothic</family>
+       <family>Segoe UI</family>
        <pointsize>10</pointsize>
        <weight>75</weight>
        <italic>true</italic>
@@ -372,7 +376,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Century Gothic</family>
+       <family>Segoe UI</family>
        <pointsize>10</pointsize>
        <weight>75</weight>
        <italic>true</italic>
@@ -387,14 +391,14 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>310</y>
+       <y>300</y>
        <width>200</width>
        <height>30</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <family>Century Gothic</family>
+       <family>Segoe UI</family>
        <pointsize>10</pointsize>
        <weight>75</weight>
        <italic>true</italic>
@@ -435,7 +439,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>340</y>
+       <y>330</y>
        <width>780</width>
        <height>3</height>
       </rect>
@@ -521,7 +525,7 @@ border-radius:5px;</string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>12</pointsize>
+       <pointsize>11</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
@@ -588,7 +592,7 @@ border-radius:5px;
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>9</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -614,7 +618,7 @@ border-radius:5px;</string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>9</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -809,9 +813,9 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>350</y>
+       <y>340</y>
        <width>781</width>
-       <height>191</height>
+       <height>201</height>
       </rect>
      </property>
      <property name="font">
@@ -872,7 +876,8 @@ border-radius:10px;</string>
      </property>
      <property name="font">
       <font>
-       <pointsize>9</pointsize>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -891,7 +896,7 @@ border-radius:10px;</string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>9</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -934,7 +939,7 @@ border-radius:10px;</string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>11</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
@@ -947,7 +952,7 @@ border-radius:5px;
 </string>
      </property>
      <property name="text">
-      <string>Validate data</string>
+      <string>Validate</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="tick_export_new">
