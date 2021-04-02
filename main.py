@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
         try:
             transformer = load_tranformer(process,
-                                          modcde=mode,
+                                          mode=mode,
                                           path_list=[costs,
                                                      db_data,
                                                      out])

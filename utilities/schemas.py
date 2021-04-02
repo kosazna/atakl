@@ -24,6 +24,7 @@ varelia_dist_charge = "Χρέωση_Διανομής_Βαρελιού"
 kena_varelia_dist_charge = "Χρέωση_Διανομής_Κενού_Βαρελιού"
 total_charge = "Συνολική_Χρέωση"
 final_charge = "Τελική_Χρέωση"
+palleta_ksilo = "Παλλέτα_(Ξύλο)"
 
 # Type Two columns for processing
 parastatiko = "Παραστατικό"
@@ -44,6 +45,7 @@ upoloipo_se_temaxia = "Υπόλοιπο_σε_Τεμάχια"
 atofia_paleta_charge = "Χρέωση_Ατόφιας_Παλέτας"
 kivotia_charge = "Χρέωση_Κιβωτίων"
 mixanes_charge = "Χρέωση_Μηχανών"
+kostos_metaforas = "Κόστος_Μεταφοράς"
 
 kodikos_paraggelias = "Κωδικός_Παραγγελίας"
 kodikos_arxikis_paraggelias = "Κωδικός_Αρχικής_Παραγγελίας"
@@ -122,7 +124,7 @@ CONCEPTS = [paraggelia,
             varelia_dist_charge,
             kena_varelia_dist_charge,
             total_charge,
-            final_charge]
+            palleta_ksilo]
 
 PTB_SPIRITS = [paraggelia,
                imerominia,
@@ -147,7 +149,7 @@ PTB_SPIRITS = [paraggelia,
                varelia_dist_charge,
                ompreles_dist_charge,
                total_charge,
-               final_charge]
+               strech]
 
 PTB_LAVAZZA = [paraggelia,
                imerominia,
@@ -163,11 +165,8 @@ PTB_LAVAZZA = [paraggelia,
                kivotia,
                upoloipo_se_temaxia,
                mixanes,
-               atofia_paleta_charge,
-               kivotia_charge,
-               mixanes_charge,
-               total_charge,
-               final_charge]
+               kostos_metaforas,
+               strech]
 
 CAVINO = [kodikos_paraggelias,
           kodikos_arxikis_paraggelias,
@@ -354,7 +353,9 @@ info_map = {
                                    paradosi,
                                    apostoli],
                        "ensure_under": [],
-                       "ensure_zero": [paletes, kivotia_ogkou, temaxia],
+                       "ensure_zero": [paletes,
+                                       kivotia_ogkou,
+                                       temaxia],
                        "no_duplicates": [imerominia,
                                          pelatis,
                                          tomeas,
@@ -380,14 +381,14 @@ info_map = {
          "validator": {"missing": [imerominia,
                                    pelatis,
                                    tomeas,
-                                   paradosi,
+                                   poli_paradosis,
                                    apostoli],
                        "ensure_under": [],
                        "ensure_zero": [lampades, temaxia],
                        "no_duplicates": [imerominia,
                                          pelatis,
                                          tomeas,
-                                         paradosi]}},
+                                         poli_paradosis]}},
     "Essse":
         {"init_ncols": 17,
          "formal_cols": list(map(c_2space, ESSSE)),

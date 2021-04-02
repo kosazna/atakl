@@ -55,10 +55,6 @@ class Essse(TypeTemplate):
         self.data[cartons] = self.data[cartons].fillna(0).astype(int)
         self.data[weight] = self.data[weight].fillna(0).astype(int)
 
-        if any(self.data[pieces] != 0):
-            self.log(f"{kola} column contains non-zero value.",
-                     Display.WARNING)
-
         self.data[city] = self.data[city].fillna("<NULL>")
 
         self.preprocessed = True

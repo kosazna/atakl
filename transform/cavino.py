@@ -52,10 +52,6 @@ class Cavino(TypeTemplate):
         self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)
         self.data[kola] = self.data[kola].fillna(0).astype(int)
 
-        if any(self.data[kola] != 0):
-            self.log(f"{kola} column contains non-zero value.",
-                     Display.WARNING)
-
         self.data[paradosi] = self.data[paradosi].fillna("<NULL>")
 
         self.preprocessed = True

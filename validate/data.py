@@ -103,7 +103,7 @@ class Validator:
         nonzero_bools = []
         nonzero_idxs = []
         nonzero_col = []
-        for idx, col  in enumerate(cols_zero):
+        for idx, col in enumerate(cols_zero):
             _has_nonzero, _nonzero_idxs = self.col_values_not_equal_zero(col)
             nonzero_bools.append(_has_nonzero)
             nonzero_idxs.append(_nonzero_idxs)
@@ -119,35 +119,39 @@ class Validator:
         if self.has_missing:
             self.validation_passed = False
             for i in missing_col:
-                self.log(f"Missing values from: {cols_not_na[i]}",
+                self.log(f"[{cols_not_na[i]}] contains missing values",
                          Display.ERROR)
-                self.log(f"Indexes: {'-'.join(missing_idxs[i])}\n")
+                self.log(
+                    f"Indexes: {'-'.join(map(str, missing_idxs[i]))}\n", Display.INFO)
 
         if self.value_warnings:
             self.validation_passed = False
             for i in under_col:
-                self.log(f"Column: {cols_under[i][0]} has values over {cols_under[i][1]}",
+                self.log(f"[{cols_under[i][0]}] contains values over {cols_under[i][1]}",
                          Display.WARNING)
-                self.log(f"Indexes: {'-'.join(under_idxs[i])}\n")
+                self.log(
+                    f"Indexes: {'-'.join(map(str, under_idxs[i]))}\n", Display.INFO)
             for i in nonzero_col:
-                self.log(f"Column: {cols_zero[i]} has non zero values",
+                self.log(f"[{cols_zero[i]}] contains non-zero values",
                          Display.WARNING)
-                self.log(f"Indexes: {'-'.join(nonzero_idxs[i])}\n")
+                self.log(
+                    f"Indexes: {'-'.join(map(str, nonzero_idxs[i]))}\n", Display.INFO)
 
         if self.duplicates:
             self.validation_passed = False
-            self.log(f"Duplicated Data: [{'-'.join(_sub)}]",
+            self.log(f"[{'-'.join(_sub)}] contains duplicated data",
                      Display.WARNING)
-            self.log(f"Indexes: {'-'.join(duplicated_idxs)}\n")
+            self.log(
+                f"Indexes: {'-'.join(map(str, duplicated_idxs))}\n", Display.INFO)
 
         if self.map_name == 'Cavino':
             cav_diff, kivotia_count, pal_count = self.cavino_check()
 
             if cav_diff:
                 self.validation_passed = False
-                self.log(f"Records with 'Κιβώτια' > 10:                         -> {kivotia_count}",
+                self.log(f"[{kivotia_count}] records with 'Κιβώτια' > 10",
                          Display.WARNING)
-                self.log(f"Records with 'Κωδικός Παραγγελίας' starting with PAL   -> {pal_count}\n",
+                self.log(f"[{pal_count}] records with 'Κωδικός Παραγγελίας' starting with PAL\n",
                          Display.WARNING)
 
         if self.map_name == 'Essse':
@@ -155,14 +159,16 @@ class Validator:
 
             if ess_diff:
                 self.validation_passed = False
-                self.log(f"Records with '(Weight in kg)/6 + Cartons)' >= 11 -> {musta_have_pal_count}",
+                self.log(f"[{musta_have_pal_count}] records with '(Weight in kg)/6 + Cartons)' >= 11",
                          Display.WARNING)
-                self.log(f"Records with 'Order Code' starting with PAL:     -> {pal_count}\n",
+                self.log(f"[{pal_count}] records with 'Order Code' starting with PAL:\n",
                          Display.WARNING)
-                self.log("Clients that must have orders starting with PAL:\n")
+                self.log("Clients that must have orders starting with PAL:\n",
+                         Display.INFO)
                 for i in df.itertuples():
                     self.log(
                         f"{i.Distribution_Date} | {i.Customer_Name} | {i.Delivery_Area}")
+                    self.log("-" * 120)
                 self.log('\n')
 
         if self.validation_passed:
