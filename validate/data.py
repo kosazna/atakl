@@ -120,24 +120,24 @@ class Validator:
             self.validation_passed = False
             for i in missing_col:
                 if missing_bools[i]:
-                    self.log(f"[{cols_not_na[i]}] contains missing values",
+                    self.log(f"[{cols_not_na[i]}] contains [{len(missing_idxs[i])}] missing values",
                              Display.ERROR)
-                    self.log(f"Indexes: {'-'.join(map(str, missing_idxs[i]))}\n",
+                    self.log(f"Index: {'-'.join(map(str, missing_idxs[i]))}\n",
                              Display.INFO)
 
         if self.value_warnings:
             self.validation_passed = False
             for i in under_col:
                 if under_bools[i]:
-                    self.log(f"[{cols_under[i][0]}] contains values over {cols_under[i][1]}",
+                    self.log(f"[{cols_under[i][0]}] contains [{len(under_idxs[i])}] values over {cols_under[i][1]}",
                              Display.WARNING)
-                    self.log(f"Indexes: {'-'.join(map(str, under_idxs[i]))}\n",
+                    self.log(f"Index: {'-'.join(map(str, under_idxs[i]))}\n",
                              Display.INFO)
             for i in nonzero_col:
                 if nonzero_bools[i]:
-                    self.log(f"[{cols_zero[i]}] contains non-zero values",
+                    self.log(f"[{cols_zero[i]}] contains [{len(nonzero_idxs[i])}] non-zero values",
                              Display.WARNING)
-                    self.log(f"Indexes: {'-'.join(map(str, nonzero_idxs[i]))}\n",
+                    self.log(f"Index: {'-'.join(map(str, nonzero_idxs[i]))}\n",
                              Display.INFO)
 
         if self.duplicates:
@@ -145,7 +145,7 @@ class Validator:
             self.log(f"[{'-'.join(_sub)}] contains duplicated data",
                      Display.WARNING)
             self.log(
-                f"Indexes: {'-'.join(map(str, duplicated_idxs))}\n", Display.INFO)
+                f"Index: {'-'.join(map(str, duplicated_idxs))}\n", Display.INFO)
 
         if self.map_name == 'Cavino':
             cav_diff, kivotia_count, pal_count = self.cavino_check()
