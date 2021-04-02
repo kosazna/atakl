@@ -119,23 +119,26 @@ class Validator:
         if self.has_missing:
             self.validation_passed = False
             for i in missing_col:
-                self.log(f"[{cols_not_na[i]}] contains missing values",
-                         Display.ERROR)
-                self.log(
-                    f"Indexes: {'-'.join(map(str, missing_idxs[i]))}\n", Display.INFO)
+                if missing_bools[i]:
+                    self.log(f"[{cols_not_na[i]}] contains missing values",
+                             Display.ERROR)
+                    self.log(f"Indexes: {'-'.join(map(str, missing_idxs[i]))}\n",
+                             Display.INFO)
 
         if self.value_warnings:
             self.validation_passed = False
             for i in under_col:
-                self.log(f"[{cols_under[i][0]}] contains values over {cols_under[i][1]}",
-                         Display.WARNING)
-                self.log(
-                    f"Indexes: {'-'.join(map(str, under_idxs[i]))}\n", Display.INFO)
+                if under_bools[i]:
+                    self.log(f"[{cols_under[i][0]}] contains values over {cols_under[i][1]}",
+                             Display.WARNING)
+                    self.log(f"Indexes: {'-'.join(map(str, under_idxs[i]))}\n",
+                             Display.INFO)
             for i in nonzero_col:
-                self.log(f"[{cols_zero[i]}] contains non-zero values",
-                         Display.WARNING)
-                self.log(
-                    f"Indexes: {'-'.join(map(str, nonzero_idxs[i]))}\n", Display.INFO)
+                if nonzero_bools[i]:
+                    self.log(f"[{cols_zero[i]}] contains non-zero values",
+                             Display.WARNING)
+                    self.log(f"Indexes: {'-'.join(map(str, nonzero_idxs[i]))}\n",
+                             Display.INFO)
 
         if self.duplicates:
             self.validation_passed = False
