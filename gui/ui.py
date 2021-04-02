@@ -103,15 +103,15 @@ class AKLUI(Ui_designer):
     def change_process_button(self, status):
         if status == 'ok':
             stylesheet = make_bt_stylesheet(blue)
-            self.button_process.setGeometry(QtCore.QRect(670, 270, 120, 40))
+            self.button_process.setGeometry(QtCore.QRect(670, 275, 120, 40))
             self.button_process.setStyleSheet(stylesheet)
         elif status == 'success':
             stylesheet = make_bt_stylesheet(teal)
-            self.button_process.setGeometry(QtCore.QRect(670, 270, 120, 40))
+            self.button_process.setGeometry(QtCore.QRect(670, 275, 120, 40))
             self.button_process.setStyleSheet(stylesheet)
         else:
             stylesheet = make_bt_stylesheet(grey)
-            self.button_process.setGeometry(QtCore.QRect(670, 275, 120, 30))
+            self.button_process.setGeometry(QtCore.QRect(670, 280, 120, 30))
             self.button_process.setStyleSheet(stylesheet)
 
     def change_validate_button(self, status):

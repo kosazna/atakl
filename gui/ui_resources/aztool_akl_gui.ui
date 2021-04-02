@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>572</height>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -271,7 +271,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>79</y>
+       <y>89</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -290,7 +290,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>150</y>
+       <y>160</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -309,7 +309,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>190</y>
+       <y>200</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -328,7 +328,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>270</y>
+       <y>275</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -347,7 +347,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>110</y>
+       <y>120</y>
        <width>200</width>
        <height>30</height>
       </rect>
@@ -369,7 +369,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>40</y>
+       <y>50</y>
        <width>200</width>
        <height>30</height>
       </rect>
@@ -391,7 +391,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>300</y>
+       <y>310</y>
        <width>200</width>
        <height>30</height>
       </rect>
@@ -413,7 +413,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>70</y>
+       <y>80</y>
        <width>780</width>
        <height>3</height>
       </rect>
@@ -426,7 +426,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>140</y>
+       <y>150</y>
        <width>780</width>
        <height>3</height>
       </rect>
@@ -439,7 +439,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>330</y>
+       <y>340</y>
        <width>780</width>
        <height>3</height>
       </rect>
@@ -452,8 +452,8 @@
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>80</y>
-       <width>181</width>
+       <y>90</y>
+       <width>221</width>
        <height>30</height>
       </rect>
      </property>
@@ -517,7 +517,7 @@ border-radius:5px;</string>
      <property name="geometry">
       <rect>
        <x>670</x>
-       <y>275</y>
+       <y>280</y>
        <width>120</width>
        <height>30</height>
       </rect>
@@ -556,7 +556,7 @@ border-radius:5px;</string>
      <property name="geometry">
       <rect>
        <x>390</x>
-       <y>275</y>
+       <y>280</y>
        <width>120</width>
        <height>30</height>
       </rect>
@@ -564,7 +564,7 @@ border-radius:5px;</string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
@@ -584,7 +584,7 @@ border-radius:5px;
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>150</y>
+       <y>160</y>
        <width>681</width>
        <height>30</height>
       </rect>
@@ -592,7 +592,7 @@ border-radius:5px;
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -610,7 +610,7 @@ border-radius:5px;</string>
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>190</y>
+       <y>200</y>
        <width>681</width>
        <height>30</height>
       </rect>
@@ -618,7 +618,7 @@ border-radius:5px;</string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -633,7 +633,7 @@ border-radius:5px;</string>
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>270</y>
+       <y>275</y>
        <width>81</width>
        <height>30</height>
       </rect>
@@ -659,7 +659,7 @@ border-radius:5px;</string>
        <x>10</x>
        <y>1</y>
        <width>781</width>
-       <height>41</height>
+       <height>51</height>
       </rect>
      </property>
      <property name="palette">
@@ -765,7 +765,7 @@ border-radius:5px;</string>
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;right&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; color:#434343;&quot;&gt;Attiki Kinisi Logistics SA&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
@@ -773,7 +773,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>760</x>
-       <y>150</y>
+       <y>160</y>
        <width>30</width>
        <height>30</height>
       </rect>
@@ -793,7 +793,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>760</x>
-       <y>190</y>
+       <y>200</y>
        <width>30</width>
        <height>30</height>
       </rect>
@@ -813,9 +813,9 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>340</y>
+       <y>350</y>
        <width>781</width>
-       <height>201</height>
+       <height>191</height>
       </rect>
      </property>
      <property name="font">
@@ -831,12 +831,19 @@ border-color:black;
 border-style:offset;
 border-radius:10px;</string>
      </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
     </widget>
     <widget class="QCheckBox" name="tick_default">
      <property name="geometry">
       <rect>
-       <x>280</x>
-       <y>80</y>
+       <x>320</x>
+       <y>90</y>
        <width>191</width>
        <height>30</height>
       </rect>
@@ -869,7 +876,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>230</y>
+       <y>240</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -888,7 +895,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>79</x>
-       <y>230</y>
+       <y>240</y>
        <width>681</width>
        <height>30</height>
       </rect>
@@ -896,7 +903,7 @@ border-radius:10px;</string>
      <property name="font">
       <font>
        <family>Segoe UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="styleSheet">
@@ -911,7 +918,7 @@ border-radius:5px;</string>
      <property name="geometry">
       <rect>
        <x>760</x>
-       <y>230</y>
+       <y>240</y>
        <width>30</width>
        <height>30</height>
       </rect>
@@ -931,7 +938,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>530</x>
-       <y>275</y>
+       <y>280</y>
        <width>120</width>
        <height>30</height>
       </rect>
@@ -958,8 +965,8 @@ border-radius:5px;
     <widget class="QCheckBox" name="tick_export_new">
      <property name="geometry">
       <rect>
-       <x>480</x>
-       <y>80</y>
+       <x>530</x>
+       <y>90</y>
        <width>191</width>
        <height>30</height>
       </rect>
