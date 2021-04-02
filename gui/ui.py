@@ -117,13 +117,13 @@ class AKLUI(Ui_designer):
     def change_validate_button(self, status):
         if status == 'sucess':
             stylesheet = make_bt_stylesheet(teal)
-            self.button_process.setStyleSheet(stylesheet)
+            self.button_validate_data.setStyleSheet(stylesheet)
         elif status == 'warning':
             stylesheet = make_bt_stylesheet(red)
-            self.button_process.setStyleSheet(stylesheet)
+            self.button_validate_data.setStyleSheet(stylesheet)
         else:
             stylesheet = make_bt_stylesheet(blue)
-            self.button_process.setStyleSheet(stylesheet)
+            self.button_validate_data.setStyleSheet(stylesheet)
 
     # FUNCTIONAL
     def set_essential_data(self, paths, transformer_map):
@@ -157,11 +157,6 @@ class AKLUI(Ui_designer):
     def set_last_visit(self, chosen_path):
         self.last_visited = str(Path(chosen_path).parent)
 
-    def insert_to_db_data(self):
-        _current_text = self.text_db_data.text()
-        _new = _current_text + '@Διανομή'
-        self.text_db_data.setText(_new)
-
     def set_home_dir(self, path):
         self.home_dir = str(path)
 
@@ -178,6 +173,41 @@ class AKLUI(Ui_designer):
 
     def set_transformers(self, mapper):
         self.transformer_mapper = mapper
+
+    def insert_to_db_data(self):
+        process = self.process_list.currentText()
+        _current_text = self.text_db_data.text()
+
+        if process == 'Essse':
+            _new = _current_text + '@Distribution'
+        else:
+            _new = _current_text + '@Διανομή'
+
+        self.text_db_data.setText(_new)
+
+    def browse_costs_func(self):
+        filename = QFileDialog.getOpenFileName(directory=self.get_last_visit())
+        file_path = filename[0]
+        if file_path:
+            self.text_costs.setText(file_path)
+            self.set_last_visit(file_path)
+            self.user_costs = file_path
+
+    def browse_db_data_func(self):
+        filename = QFileDialog.getOpenFileName(directory=self.get_last_visit())
+        file_path = filename[0]
+        if file_path:
+            self.text_db_data.setText(file_path)
+            self.set_last_visit(file_path)
+            self.user_data = file_path
+
+    def browse_output_func(self):
+        filename = QFileDialog.getSaveFileName(directory=self.get_last_visit())
+        file_path = filename[0]
+        if file_path:
+            export_file = str(validate_proper_and_existent_path(file_path))
+            self.text_output.setText(export_file)
+            self.user_output = export_file
 
     def validate_data(self):
         process = self.process_list.currentText()
@@ -287,36 +317,17 @@ class AKLUI(Ui_designer):
             else:
                 self.text_output.setText(self.user_output)
 
+        if process == 'Essse':
+            self.button_insert.setText('@Distribution')
+        else:
+            self.button_insert.setText('@Διανομή')
+
         self.text_general.setText("")
         self.text_records.setText("0")
 
         self.transformer = None
         self.change_process_button('not ready')
         self.change_validate_button('new')
-
-    def browse_costs_func(self):
-        filename = QFileDialog.getOpenFileName(directory=self.get_last_visit())
-        file_path = filename[0]
-        if file_path:
-            self.text_costs.setText(file_path)
-            self.set_last_visit(file_path)
-            self.user_costs = file_path
-
-    def browse_db_data_func(self):
-        filename = QFileDialog.getOpenFileName(directory=self.get_last_visit())
-        file_path = filename[0]
-        if file_path:
-            self.text_db_data.setText(file_path)
-            self.set_last_visit(file_path)
-            self.user_data = file_path
-
-    def browse_output_func(self):
-        filename = QFileDialog.getSaveFileName(directory=self.get_last_visit())
-        file_path = filename[0]
-        if file_path:
-            export_file = str(validate_proper_and_existent_path(file_path))
-            self.text_output.setText(export_file)
-            self.user_output = export_file
 
     def check_export_new(self):
         process = self.process_list.currentText()
