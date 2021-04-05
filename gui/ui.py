@@ -115,7 +115,7 @@ class AKLUI(Ui_designer):
             self.button_process.setStyleSheet(stylesheet)
 
     def change_validate_button(self, status):
-        if status == 'sucess':
+        if status == 'success':
             stylesheet = make_bt_stylesheet(teal)
             self.button_validate_data.setStyleSheet(stylesheet)
         elif status == 'warning':
