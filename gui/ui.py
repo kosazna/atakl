@@ -216,6 +216,9 @@ class AKLUI(Ui_designer):
         db_data = self.text_db_data.text()
         output = self.text_output.text()
 
+        if self.transformer is not None:
+            self.transformer.log.erase()
+
         db_file, sheet = parse_xlsx(db_data)
 
         db_exists = db_file.exists()

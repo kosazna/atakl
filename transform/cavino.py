@@ -114,6 +114,11 @@ class Cavino(TypeTemplate):
         self.data.loc[
             self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
+        mask1 = self.data[pelatis] == 'ΧΛΑΜΠΕΑ ΑΦΟΙ ΟΕ'
+        mask2 = self.data[kodikos_paraggelias].str.startswith('PAL', na=False)
+
+        self.data.loc[mask1 & ~mask2, final_charge] = 70.0
+
         self.data[kola_dist_charge] = self.data[final_charge]
         self.data[strech] = ""
 

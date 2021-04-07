@@ -55,6 +55,14 @@ class Validator:
 
         return kivotia_count != pal_count, kivotia_count, pal_count
 
+    def cavino_extra_check(self):
+        mask1 = self.data[pelatis] == 'ΧΛΑΜΠΕΑ ΑΦΟΙ ΟΕ'
+
+        _nas = self.data.loc[mask1]
+        _idxs = (_nas.index + 2).tolist()
+
+        return not _nas.empty, _idxs
+
     def essse_check(self):
         pal_count = len(
             self.data.loc[self.data[order_code].str.startswith('PAL', na=False)])
@@ -104,7 +112,7 @@ class Validator:
         nonzero_idxs = []
         nonzero_col = []
         for idx, col in enumerate(cols_zero):
-            _has_nonzero, _nonzero_idxs = self.col_values_not_equal_zero(col)
+            _has_nonzero, _nonzero_idxs = self.col_values_over(col, 0)
             nonzero_bools.append(_has_nonzero)
             nonzero_idxs.append(_nonzero_idxs)
             nonzero_col.append(idx)
@@ -149,6 +157,7 @@ class Validator:
 
         if self.map_name == 'Cavino':
             cav_diff, kivotia_count, pal_count = self.cavino_check()
+            has_certain_client, idxs = self.cavino_extra_check()
 
             if cav_diff:
                 self.validation_passed = False
@@ -156,6 +165,12 @@ class Validator:
                          Display.WARNING)
                 self.log(f"[{pal_count}] records with 'Κωδικός Παραγγελίας' starting with PAL\n",
                          Display.WARNING)
+
+            if has_certain_client:
+                self.validation_passed = False
+                self.log(f"Data contains client 'ΧΛΑΜΠΕΑ ΑΦΟΙ ΟΕ'",
+                         Display.WARNING)
+                self.log(f"Index: {'-'.join(map(str, idxs))}\n", Display.INFO)
 
         if self.map_name == 'Essse':
             ess_diff, musta_have_pal_count, pal_count, df = self.essse_check()
