@@ -393,7 +393,7 @@ class Ui_designer(object):
         self.tick_export_new.setFont(font)
         self.tick_export_new.setAutoFillBackground(False)
         self.tick_export_new.setStyleSheet("")
-        self.tick_export_new.setChecked(False)
+        self.tick_export_new.setChecked(True)
         self.tick_export_new.setTristate(False)
         self.tick_export_new.setObjectName("tick_export_new")
         self.label_process.raise_()

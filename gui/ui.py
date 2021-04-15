@@ -151,7 +151,7 @@ class AKLUI(Ui_designer):
 
         self.mask_line_edit(self.text_costs, 'enabled', "")
         self.mask_line_edit(self.text_db_data, 'enabled', "")
-        self.mask_line_edit(self.text_output, 'disabled', "")
+        self.mask_line_edit(self.text_output, 'enabled', "")
 
     def get_last_visit(self):
         if self.last_visited is None:
