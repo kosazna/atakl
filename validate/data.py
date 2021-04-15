@@ -64,21 +64,33 @@ class Validator:
         return not _nas.empty, _idxs
 
     def essse_check(self):
-        pal_count = len(
-            self.data.loc[self.data[order_code].str.startswith('PAL', na=False)])
 
-        _grouped = self.data.groupby([distribution_date,
-                                      customer_name,
-                                      delivery_area], as_index=False)[
-            [cartons, weight]].sum()
+        grouper = [distribution_date,
+                   customer_name,
+                   delivery_area,
+                   city]
+
+        _grouped = self.data.groupby(grouper, as_index=False)[[cartons, weight]].sum()
 
         _grouped['Must_Have_PAL'] = _grouped.apply(
             lambda x: 1 if (x[weight]/6 + x[cartons]) >= 11 else 0, axis=1)
 
         must_have_pal = _grouped.loc[_grouped['Must_Have_PAL'] == 1].copy()
-        must_have_pal_count = len(must_have_pal)
 
-        return pal_count != must_have_pal_count, must_have_pal_count, pal_count, must_have_pal
+        has_pal = self.data.loc[self.data[order_code].str.startswith('PAL', na=False)][[order_code, distribution_date,
+                                                                                        customer_name,
+                                                                                        delivery_area,
+                                                                                        city]]
+
+        df = must_have_pal.merge(has_pal, how='outer', on=grouper).sort_values(grouper)
+        df['Must_Have_PAL'] = df['Must_Have_PAL'].fillna(0).astype(int)
+
+        has_zeros = all(df['Must_Have_PAL'] == 1)
+        has_nas = all(df[order_code].notna())
+
+        passes = has_zeros and has_nas
+
+        return passes, df
 
     def validate(self):
         cols_not_na = info_map[self.map_name].get(
@@ -173,20 +185,20 @@ class Validator:
                 self.log(f"Index: {'-'.join(map(str, idxs))}\n", Display.INFO)
 
         if self.map_name == 'Essse':
-            ess_diff, musta_have_pal_count, pal_count, df = self.essse_check()
+            passes, df = self.essse_check()
 
-            if ess_diff:
+            if not passes:
                 self.validation_passed = False
-                self.log(f"[{musta_have_pal_count}] records with '(Weight in kg)/6 + Cartons)' >= 11",
-                         Display.WARNING)
-                self.log(f"[{pal_count}] records with 'Order Code' starting with PAL:\n",
-                         Display.WARNING)
-                self.log("Clients that must have orders starting with PAL:\n",
+                self.log("Clients that must have orders starting with PAL start with 1:",
                          Display.INFO)
+                self.log("Clients that should NOT have orders starting with PAL but do have, start with 0:\n",
+                         Display.INFO)
+                         
                 for i in df.itertuples():
+                    _pal = f'{" "*17}' if pd.isna(i.Order_Code) else i.Order_Code
                     self.log(
-                        f"{i.Distribution_Date} | {i.Customer_Name} | {i.Delivery_Area}")
-                    self.log("-" * 120)
+                        f"{i.Must_Have_PAL} | {_pal} | {i.Distribution_Date} | {i.Customer_Name} | {i.Delivery_Area}")
+                    self.log("-" * 150)
                 self.log('\n')
 
         if self.validation_passed:

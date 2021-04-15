@@ -36,12 +36,6 @@ class GiochiCrate(TypeTemplate):
                 return 0.00
 
     def _preprocess(self):
-
-        # keep = info_map[self.map_name]['init_ncols']
-        # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-        # sort_rule = info_map[self.map_name]['sort']
-        # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
-
         self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
         self.data[lampades] = self.data[lampades].fillna(0).astype(int)
         self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)

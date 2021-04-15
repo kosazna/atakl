@@ -137,17 +137,21 @@ class AKLUI(Ui_designer):
     def gui_startup_paths(self, paths):
         start_process = "Cavino"
 
-        if paths.akl_home.exists():
-            self.text_costs.setText(self.default_costs)
+        # if paths.akl_home.exists():
+        #     self.text_costs.setText(self.default_costs)
 
-            try:
-                self.text_db_data.setText(
-                    self.default_path_mapper[start_process])
-            except KeyError:
-                self.text_db_data.setText("")
-                self.text_output.setText("")
-        else:
-            self.tick_default.toggle()
+        #     try:
+        #         self.text_db_data.setText(
+        #             self.default_path_mapper[start_process])
+        #     except KeyError:
+        #         self.text_db_data.setText("")
+        #         self.text_output.setText("")
+        # else:
+        #     self.tick_default.toggle()
+
+        self.mask_line_edit(self.text_costs, 'enabled', "")
+        self.mask_line_edit(self.text_db_data, 'enabled', "")
+        self.mask_line_edit(self.text_output, 'disabled', "")
 
     def get_last_visit(self):
         if self.last_visited is None:
@@ -265,13 +269,14 @@ class AKLUI(Ui_designer):
         if self.transformer is not None:
             if self.is_validated:
 
-                _old_txt = self.transformer.log.get_content()
-                self.text_general.setText(_old_txt)
+                # _old_txt = self.transformer.log.get_content()
+                # self.text_general.setText(_old_txt)
 
                 self.transformer.process()
                 self.transformer.export()
 
-                _final_txt = _old_txt + "\n[Process Finished]"
+                _old_txt = self.transformer.log.get_content()
+                _final_txt = _old_txt + "\n\n[Process Finished]"
                 self.text_general.setText(_final_txt)
 
                 self.transformer.log.erase()

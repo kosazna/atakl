@@ -41,12 +41,6 @@ class Cavino(TypeTemplate):
         return charge
 
     def _preprocess(self):
-
-        # keep = info_map[self.map_name]['init_ncols']
-        # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-        # sort_rule = info_map[self.map_name]['sort']
-        # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
-
         self.data[paletes] = self.data[paletes].fillna(0).astype(int)
         self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
         self.data[temaxia] = self.data[temaxia].fillna(0).astype(int)
@@ -57,76 +51,81 @@ class Cavino(TypeTemplate):
         self.preprocessed = True
 
     def process(self):
-        self._preprocess()
+        auth = Authorize(self.map_name, self.log)
 
-        self.log("Processing...", Display.INFO)
+        if auth.user_is_licensed():
+            self._preprocess()
 
-        _temp1 = self.data[
-            self.data[kodikos_arxikis_paraggelias].notna()].copy()
-        _temp1[paletes_dist_charge] = 0.0
-        _temp1[kivotia_dist_charge] = 0.0
-        _temp1[total_charge] = 0.0
-        _temp1[final_charge] = 0.0
+            self.log("Processing...", Display.INFO)
 
-        self.data = self.data[
-            self.data[
-                kodikos_arxikis_paraggelias].isna()].copy().reset_index()
+            _temp1 = self.data[
+                self.data[kodikos_arxikis_paraggelias].notna()].copy()
+            _temp1[paletes_dist_charge] = 0.0
+            _temp1[kivotia_dist_charge] = 0.0
+            _temp1[total_charge] = 0.0
+            _temp1[final_charge] = 0.0
 
-        self.data[paletes_dist_charge] = self.data.apply(
-            lambda x: self.get_cost(x[tomeas], paleta, x[paletes]),
-            axis=1)
+            self.data = self.data[
+                self.data[
+                    kodikos_arxikis_paraggelias].isna()].copy().reset_index()
 
-        self.data[kivotia_dist_charge] = self.data.apply(
-            lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
-            axis=1)
+            self.data[paletes_dist_charge] = self.data.apply(
+                lambda x: self.get_cost(x[tomeas], paleta, x[paletes]),
+                axis=1)
 
-        self.data[total_charge] = sum([self.data[paletes_dist_charge],
-                                       self.data[kivotia_dist_charge]])
+            self.data[kivotia_dist_charge] = self.data.apply(
+                lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
+                axis=1)
 
-        self.data[total_charge] = self.data.apply(
-            lambda x: self._finalize_cost(x[tomeas], x[total_charge]),
-            axis=1)
+            self.data[total_charge] = sum([self.data[paletes_dist_charge],
+                                        self.data[kivotia_dist_charge]])
 
-        self.process_rows(insert_into='max')
+            self.data[total_charge] = self.data.apply(
+                lambda x: self._finalize_cost(x[tomeas], x[total_charge]),
+                axis=1)
 
-        self.data = self.data.set_index('index')
+            self.process_rows(insert_into='max')
 
-        self.data = pd.concat([self.data, _temp1]).sort_index()
+            self.data = self.data.set_index('index')
 
-        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+            self.data = pd.concat([self.data, _temp1]).sort_index()
 
-        order = self.data[kodikos_paraggelias].str.split('-').str[
-            :3].str.join('-')
-        og_order = self.data[kodikos_arxikis_paraggelias].str.split(
-            '-').str[:3].str.join('-')
+            self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
-        order_idxs = order.loc[order.isin(og_order)].index
-        og_order_idxs = og_order.loc[og_order.isin(order)].index
+            order = self.data[kodikos_paraggelias].str.split('-').str[
+                :3].str.join('-')
+            og_order = self.data[kodikos_arxikis_paraggelias].str.split(
+                '-').str[:3].str.join('-')
 
-        _charge = self.data.loc[order_idxs, final_charge].values
+            order_idxs = order.loc[order.isin(og_order)].index
+            og_order_idxs = og_order.loc[og_order.isin(order)].index
 
-        _multiplier = self.data.loc[og_order_idxs, temaxia].values
+            _charge = self.data.loc[order_idxs, final_charge].values
 
-        to_replace = _charge * _multiplier
+            _multiplier = self.data.loc[og_order_idxs, temaxia].values
 
-        self.data.loc[order_idxs, final_charge] = to_replace
+            to_replace = _charge * _multiplier
 
-        self.data.loc[
-            self.data[apostoli] == idiofortosi, final_charge] = 0.00
+            self.data.loc[order_idxs, final_charge] = to_replace
 
-        mask1 = self.data[pelatis] == 'ΧΛΑΜΠΕΑ ΑΦΟΙ ΟΕ'
-        mask2 = self.data[kodikos_paraggelias].str.startswith('PAL', na=False)
+            self.data.loc[
+                self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-        self.data.loc[mask1 & ~mask2, final_charge] = 70.0
+            mask1 = self.data[pelatis] == 'ΧΛΑΜΠΕΑ ΑΦΟΙ ΟΕ'
+            mask2 = self.data[kodikos_paraggelias].str.startswith('PAL', na=False)
 
-        self.data[kola_dist_charge] = self.data[final_charge]
-        self.data[strech] = ""
+            self.data.loc[mask1 & ~mask2, final_charge] = 70.0
 
-        self.data = self.data[info_map[self.map_name]['akl_cols']]
+            self.data[kola_dist_charge] = self.data[final_charge]
+            self.data[strech] = ""
 
-        self.data.columns = info_map[self.map_name]['formal_cols']
+            self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                 Display.INFO)
+            self.data.columns = info_map[self.map_name]['formal_cols']
 
-        self.to_export = True
+            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                    Display.INFO)
+
+            self.to_export = True
+        else:
+            self.log("Can't process data. Contact Support", Display.INFO)

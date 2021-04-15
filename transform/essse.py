@@ -41,15 +41,6 @@ class Essse(TypeTemplate):
         return charge
 
     def _preprocess(self):
-        # keep = info_map[self.map_name]['init_ncols']
-        # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-        # sort_rule = info_map[self.map_name]['sort']
-
-        # ascending = [True, True, True, True, True, True]
-
-        # self.data = self.data.sort_values(sort_rule,
-        #                                   ascending=ascending).reset_index(drop=True)
-
         self.data[full_pallets] = self.data[full_pallets].fillna(
             0).astype(int)
         self.data[cartons] = self.data[cartons].fillna(0).astype(int)
@@ -126,54 +117,62 @@ class Essse(TypeTemplate):
                         self.data.loc[i.Index, final_charge] = minimum
 
     def process(self):
-        self._preprocess()
+        auth = Authorize(self.map_name, self.log)
 
-        self.log("Processing...", Display.INFO)
+        if auth.user_is_licensed():
+            self._preprocess()
 
-        pallet_charge = self.data.apply(
-            lambda x: self.get_cost(
-                x[delivery_area], c_2space(full_pallets), x[full_pallets]),
-            axis=1)
+            self.log("Processing...", Display.INFO)
 
-        carton_charge = self.data.apply(
-            lambda x: self.get_cost(
-                x[delivery_area], cartons, x[cartons]), axis=1)
+            pallet_charge = self.data.apply(
+                lambda x: self.get_cost(
+                    x[delivery_area], c_2space(full_pallets), x[full_pallets]),
+                axis=1)
 
-        weight_charge = self.data.apply(
-            lambda x: self.get_cost(
-                x[delivery_area], c_2space(weight), x[weight]), axis=1)
+            carton_charge = self.data.apply(
+                lambda x: self.get_cost(
+                    x[delivery_area], cartons, x[cartons]), axis=1)
 
-        self.data['pallet_charge'] = self.data.apply(
-            lambda x: self.get_cost(
-                x[delivery_area], c_2space(full_pallets), x[full_pallets]),
-            axis=1)
+            weight_charge = self.data.apply(
+                lambda x: self.get_cost(
+                    x[delivery_area], c_2space(weight), x[weight]), axis=1)
 
-        self.data['carton_charge'] = self.data.apply(
-            lambda x: self.get_cost(
-                x[delivery_area], cartons, x[cartons]), axis=1)
+            self.data['pallet_charge'] = self.data.apply(
+                lambda x: self.get_cost(
+                    x[delivery_area], c_2space(full_pallets), x[full_pallets]),
+                axis=1)
 
-        self.data['weight_charge'] = self.data.apply(
-            lambda x: self.get_cost(
-                x[delivery_area], c_2space(weight), x[weight]), axis=1)
+            self.data['carton_charge'] = self.data.apply(
+                lambda x: self.get_cost(
+                    x[delivery_area], cartons, x[cartons]), axis=1)
 
-        self.data[total_charge] = sum([pallet_charge,
-                                       carton_charge,
-                                       weight_charge])
+            self.data['weight_charge'] = self.data.apply(
+                lambda x: self.get_cost(
+                    x[delivery_area], c_2space(weight), x[weight]), axis=1)
 
-        self.process_rows(insert_into='last')
+            self.data[total_charge] = sum([pallet_charge,
+                                           carton_charge,
+                                           weight_charge])
 
-        self.data[city] = self.data[city].replace("<NULL>", "")
+            self.process_rows(insert_into='last')
 
-        self.data.loc[
-            self.data[delivery_method] == idiofortosi, final_charge] = 0.00
+            self.data[city] = self.data[city].replace("<NULL>", "")
 
-        self.data[delivery_cost] = self.data[final_charge]
+            self.data.loc[
+                self.data[delivery_method] == idiofortosi, final_charge] = 0.00
 
-        self.data = self.data[info_map[self.map_name]['akl_cols']]
+            self.data.loc[self.data[order_code].str.startswith(
+                'PAL', na=False), final_charge] = 0.00
 
-        self.data.columns = info_map[self.map_name]['formal_cols']
+            self.data[delivery_cost] = self.data[final_charge]
 
-        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                 Display.INFO)
+            self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-        self.to_export = True
+            self.data.columns = info_map[self.map_name]['formal_cols']
+
+            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                     Display.INFO)
+
+            self.to_export = True
+        else:
+            self.log("Can't process data. Contact Support", Display.INFO)

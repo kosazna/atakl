@@ -49,6 +49,10 @@ class TypeTemplate:
                 sort_rule = info_map[process_name]['sort']
                 _data = _data.sort_values(
                     sort_rule).reset_index(drop=True)
+
+                for col in info_map[process_name]['check_idxs']:
+                    _data[col] = _data[col].apply(text_clean)
+
                 return _data.copy()
             else:
                 self.log("There are less than necessary columns in data.",

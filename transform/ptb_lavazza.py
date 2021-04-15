@@ -57,11 +57,6 @@ class PTBLavazza(TypeTemplate):
         return charge
 
     def _preprocess(self):
-        # keep = info_map[self.map_name]['init_ncols']
-        # self.data.columns = info_map[self.map_name]['akl_cols'][:keep]
-        # sort_rule = info_map[self.map_name]['sort']
-        # self.data = self.data.sort_values(sort_rule).reset_index(drop=True)
-
         self.data.loc[
             self.data[pelatis] == "ΤΡΟΦΟΔΟΣΙΑ ΙΚΕ", tomeas] = "ΜΑΚΕΔΟΝΙΑ"
 

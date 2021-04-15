@@ -3,6 +3,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Union
+import re
 
 if sys.platform == 'win32':
     from os import startfile
@@ -36,6 +37,8 @@ def display_info(text: str):
 def round2(number):
     return round(float(number), 2)
 
+def text_clean(text):
+    return re.sub('\s{2,}', ' ', str(text)).strip()
 
 def datestamp(obj=False):
     datetime_now = datetime.now()
