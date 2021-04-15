@@ -109,6 +109,10 @@ class AKLUI(Ui_designer):
             stylesheet = make_bt_stylesheet(teal)
             self.button_process.setGeometry(QtCore.QRect(670, 275, 120, 40))
             self.button_process.setStyleSheet(stylesheet)
+        elif status == 'error':
+            stylesheet = make_bt_stylesheet(red)
+            self.button_process.setGeometry(QtCore.QRect(670, 275, 120, 40))
+            self.button_process.setStyleSheet(stylesheet)
         else:
             stylesheet = make_bt_stylesheet(grey)
             self.button_process.setGeometry(QtCore.QRect(670, 280, 120, 30))
@@ -280,7 +284,10 @@ class AKLUI(Ui_designer):
                 self.text_general.setText(_final_txt)
 
                 self.transformer.log.erase()
-                self.change_process_button('success')
+                if self.transformer.to_export:
+                    self.change_process_button('success')
+                else:
+                    self.change_process_button('error')
             else:
                 self.text_general.setText("Validate data first!")
         else:
