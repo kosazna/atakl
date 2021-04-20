@@ -51,81 +51,76 @@ class Cavino(TypeTemplate):
         self.preprocessed = True
 
     def process(self):
-        auth = Authorize(self.map_name, self.log)
+        self._preprocess()
 
-        if auth.user_is_licensed():
-            self._preprocess()
+        self.log("Processing...", Display.INFO)
 
-            self.log("Processing...", Display.INFO)
+        _temp1 = self.data[
+            self.data[kodikos_arxikis_paraggelias].notna()].copy()
+        _temp1[paletes_dist_charge] = 0.0
+        _temp1[kivotia_dist_charge] = 0.0
+        _temp1[total_charge] = 0.0
+        _temp1[final_charge] = 0.0
 
-            _temp1 = self.data[
-                self.data[kodikos_arxikis_paraggelias].notna()].copy()
-            _temp1[paletes_dist_charge] = 0.0
-            _temp1[kivotia_dist_charge] = 0.0
-            _temp1[total_charge] = 0.0
-            _temp1[final_charge] = 0.0
+        self.data = self.data[
+            self.data[
+                kodikos_arxikis_paraggelias].isna()].copy().reset_index()
 
-            self.data = self.data[
-                self.data[
-                    kodikos_arxikis_paraggelias].isna()].copy().reset_index()
+        self.data[paletes_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], paleta, x[paletes]),
+            axis=1)
 
-            self.data[paletes_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], paleta, x[paletes]),
-                axis=1)
+        self.data[kivotia_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
+            axis=1)
 
-            self.data[kivotia_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], kivotio, x[kivotia]),
-                axis=1)
+        self.data[total_charge] = sum([self.data[paletes_dist_charge],
+                                       self.data[kivotia_dist_charge]])
 
-            self.data[total_charge] = sum([self.data[paletes_dist_charge],
-                                        self.data[kivotia_dist_charge]])
+        self.data[total_charge] = self.data.apply(
+            lambda x: self._finalize_cost(x[tomeas], x[total_charge]),
+            axis=1)
 
-            self.data[total_charge] = self.data.apply(
-                lambda x: self._finalize_cost(x[tomeas], x[total_charge]),
-                axis=1)
+        self.process_rows(insert_into='max')
 
-            self.process_rows(insert_into='max')
+        self.data = self.data.set_index('index')
 
-            self.data = self.data.set_index('index')
+        self.data = pd.concat([self.data, _temp1]).sort_index()
 
-            self.data = pd.concat([self.data, _temp1]).sort_index()
+        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
-            self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+        order = self.data[kodikos_paraggelias].str.split('-').str[
+            :3].str.join('-')
+        og_order = self.data[kodikos_arxikis_paraggelias].str.split(
+            '-').str[:3].str.join('-')
 
-            order = self.data[kodikos_paraggelias].str.split('-').str[
-                :3].str.join('-')
-            og_order = self.data[kodikos_arxikis_paraggelias].str.split(
-                '-').str[:3].str.join('-')
+        order_idxs = order.loc[order.isin(og_order)].index
+        og_order_idxs = og_order.loc[og_order.isin(order)].index
 
-            order_idxs = order.loc[order.isin(og_order)].index
-            og_order_idxs = og_order.loc[og_order.isin(order)].index
+        _charge = self.data.loc[order_idxs, final_charge].values
 
-            _charge = self.data.loc[order_idxs, final_charge].values
+        _multiplier = self.data.loc[og_order_idxs, temaxia].values
 
-            _multiplier = self.data.loc[og_order_idxs, temaxia].values
+        to_replace = _charge * _multiplier
 
-            to_replace = _charge * _multiplier
+        self.data.loc[order_idxs, final_charge] = to_replace
 
-            self.data.loc[order_idxs, final_charge] = to_replace
+        self.data.loc[
+            self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.data.loc[
-                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+        mask1 = self.data[pelatis] == 'ΧΛΑΜΠΕΑ ΑΦΟΙ ΟΕ'
+        mask2 = self.data[kodikos_paraggelias].str.startswith('PAL', na=False)
 
-            mask1 = self.data[pelatis] == 'ΧΛΑΜΠΕΑ ΑΦΟΙ ΟΕ'
-            mask2 = self.data[kodikos_paraggelias].str.startswith('PAL', na=False)
+        self.data.loc[mask1 & ~mask2, final_charge] = 70.0
 
-            self.data.loc[mask1 & ~mask2, final_charge] = 70.0
+        self.data[kola_dist_charge] = self.data[final_charge]
+        self.data[strech] = ""
 
-            self.data[kola_dist_charge] = self.data[final_charge]
-            self.data[strech] = ""
+        self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                 Display.INFO)
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                    Display.INFO)
-
-            self.to_export = True
-        else:
-            self.log("Can't process data. Contact Support", Display.INFO)
+        self.to_export = True

@@ -175,49 +175,44 @@ class Giochi(TypeTemplate):
                     self.data.loc[i.index, final_charge] = minimum_charge
 
     def process(self):
-        auth = Authorize(self.map_name, self.log)
+        self._preprocess()
 
-        if auth.user_is_licensed():
-            self._preprocess()
+        self.log("Processing...", Display.INFO)
 
-            self.log("Processing...", Display.INFO)
+        self.data[paletes_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[pelatis], x[tomeas], paleta,
+                                    x[paletes]), axis=1)
 
-            self.data[paletes_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[pelatis], x[tomeas], paleta,
-                                        x[paletes]), axis=1)
+        self.data[kivotia_lampades_dist_charge] = ''
+        self.data[kivotia_paixnidia_dist_charge] = ''
 
-            self.data[kivotia_lampades_dist_charge] = ''
-            self.data[kivotia_paixnidia_dist_charge] = ''
+        self.data[ogkos_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[pelatis], x[tomeas], kuviko,
+                                    x[ogkos]), axis=1)
 
-            self.data[ogkos_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[pelatis], x[tomeas], kuviko,
-                                        x[ogkos]), axis=1)
+        self.data[total_charge] = sum([self.data[paletes_dist_charge],
+                                       self.data[ogkos_dist_charge]])
 
-            self.data[total_charge] = sum([self.data[paletes_dist_charge],
-                                           self.data[ogkos_dist_charge]])
+        self.process_rows()
+        self.process_volume(check_many=False)
 
-            self.process_rows()
-            self.process_volume(check_many=False)
+        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
 
-            self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+        self.data.loc[
+            self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.data.loc[
-                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+        self.data[final_dist_charge] = self.data[final_charge]
 
-            self.data[final_dist_charge] = self.data[final_charge]
+        self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                 Display.INFO)
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                     Display.INFO)
+        self.giochi_crate.process()
 
-            self.giochi_crate.process()
-
-            self.to_export = True
-        else:
-            self.log("Can't process data. Contact Support", Display.INFO)
+        self.to_export = True
 
     def export(self, output=None):
         if self.to_export and self.giochi_crate.to_export:

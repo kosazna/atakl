@@ -117,62 +117,57 @@ class Essse(TypeTemplate):
                         self.data.loc[i.Index, final_charge] = minimum
 
     def process(self):
-        auth = Authorize(self.map_name, self.log)
+        self._preprocess()
 
-        if auth.user_is_licensed():
-            self._preprocess()
+        self.log("Processing...", Display.INFO)
 
-            self.log("Processing...", Display.INFO)
+        pallet_charge = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], c_2space(full_pallets), x[full_pallets]),
+            axis=1)
 
-            pallet_charge = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], c_2space(full_pallets), x[full_pallets]),
-                axis=1)
+        carton_charge = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], cartons, x[cartons]), axis=1)
 
-            carton_charge = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], cartons, x[cartons]), axis=1)
+        weight_charge = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], c_2space(weight), x[weight]), axis=1)
 
-            weight_charge = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], c_2space(weight), x[weight]), axis=1)
+        self.data['pallet_charge'] = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], c_2space(full_pallets), x[full_pallets]),
+            axis=1)
 
-            self.data['pallet_charge'] = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], c_2space(full_pallets), x[full_pallets]),
-                axis=1)
+        self.data['carton_charge'] = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], cartons, x[cartons]), axis=1)
 
-            self.data['carton_charge'] = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], cartons, x[cartons]), axis=1)
+        self.data['weight_charge'] = self.data.apply(
+            lambda x: self.get_cost(
+                x[delivery_area], c_2space(weight), x[weight]), axis=1)
 
-            self.data['weight_charge'] = self.data.apply(
-                lambda x: self.get_cost(
-                    x[delivery_area], c_2space(weight), x[weight]), axis=1)
+        self.data[total_charge] = sum([pallet_charge,
+                                       carton_charge,
+                                       weight_charge])
 
-            self.data[total_charge] = sum([pallet_charge,
-                                           carton_charge,
-                                           weight_charge])
+        self.process_rows(insert_into='last')
 
-            self.process_rows(insert_into='last')
+        self.data[city] = self.data[city].replace("<NULL>", "")
 
-            self.data[city] = self.data[city].replace("<NULL>", "")
+        self.data.loc[
+            self.data[delivery_method] == idiofortosi, final_charge] = 0.00
 
-            self.data.loc[
-                self.data[delivery_method] == idiofortosi, final_charge] = 0.00
+        self.data.loc[self.data[order_code].str.startswith(
+            'PAL', na=False), final_charge] = 0.00
 
-            self.data.loc[self.data[order_code].str.startswith(
-                'PAL', na=False), final_charge] = 0.00
+        self.data[delivery_cost] = self.data[final_charge]
 
-            self.data[delivery_cost] = self.data[final_charge]
+        self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                 Display.INFO)
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                     Display.INFO)
-
-            self.to_export = True
-        else:
-            self.log("Can't process data. Contact Support", Display.INFO)
+        self.to_export = True
