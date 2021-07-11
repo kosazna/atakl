@@ -90,17 +90,29 @@ weight = "Weight_in_kg"
 notes = "Notes"
 delivery_cost = "Delivery_Cost"
 
+perioxi = "Περιοχή"
+kivotia_under_007 = "Κιβώτια_κάτω_από_0,07_κ.μ."
+ogkos_over_007 = "Όγκος_σε_(m3)_πάνω_από_0,07 κ.μ."
+ksila_paleton = "Ξύλα_παλετών"
+stock_out_charge = "Χρέωση_Stock_Out"
+
 # Cost file keys
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
 vareli = "Βαρέλι"
 keno_vareli = "Κενό Βαρέλι"
 elaxisti = "Ελάχιστη Χρέωση Παραγγελίας"
+megisti = "Μέγιστη Χρέωση Παραγγελίας"
 mixani = "Μηχανή"
 tsanta = "Τσάντα"
 omprela = "Διαφ Ομπρέλα"
 kuviko = "Κυβικό"
 minimum_charge = "Minimum Charge"
+kuviko_metro = "Κυβικό μέτρο"
+ogkos_small = "Όγκος <8 m3"
+ogkos_medium = "Όγκος 8-16 m3"
+ogkos_large = "Όγκος >16 m3"
+kuviko_eidiki_xreosi = "Κυβικό μέτρο (ειδική χρέωση))"
 
 atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
@@ -235,6 +247,25 @@ ESSSE = [order_code,
          weight,
          notes,
          delivery_cost]
+
+COSCO_INFOQUEST = [kodikos_paraggelias,
+                   kodikos_arxikis_paraggelias,
+                   imerominia,
+                   parastatiko,
+                   pelatis,
+                   tomeas,
+                   paradosi_address,
+                   perioxi,
+                   apostoli,
+                   sunolika_temaxia,
+                   sinolikos_ogkos,
+                   kivotia_under_007,
+                   ogkos_over_007,
+                   ksila_paleton,
+                   paratiriseis,
+                   stock_out_charge,
+                   ogkos_dist_charge,
+                   final_dist_charge]
 
 info_map = {
     "Concepts":
@@ -412,5 +443,24 @@ info_map = {
                                    delivery_area,
                                    distribution_date],
                        "ensure_under": [],
-                       "ensure_zero": [pieces]}}
+                       "ensure_zero": [pieces]}},
+    "Cosco - Infoquest":
+        {"init_ncols": 15,
+         "formal_cols": list(map(c_2space, COSCO_INFOQUEST)),
+         "akl_cols": COSCO_INFOQUEST,
+         "sort": [imerominia,
+                  pelatis,
+                  tomeas,
+                  paradosi_address],
+         "drop": [pelatis,
+                  tomeas,
+                  paradosi_address,
+                  perioxi],
+         "check_idxs": [imerominia,
+                        pelatis,
+                        tomeas,
+                        paradosi_address,
+                        perioxi,
+                        apostoli],
+         "validator": {}}
 }

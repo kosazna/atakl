@@ -36,7 +36,8 @@ class TypeTemplate:
         _db, _sheet = parse_xlsx(data_filepath)
         self.sheet_name = _sheet
 
-        _data = pd.read_excel(_db, sheet_name=_sheet)
+        _data = pd.read_excel(_db, sheet_name=_sheet,
+                              parse_dates=False, converters={c_2space(imerominia): str})
         nrows, ncols = _data.shape
 
         if nrows != 0 and ncols != 0:
@@ -112,6 +113,15 @@ class TypeTemplate:
         except KeyError:
             return 0.00
 
+    def get_maximum(self, region: str):
+        try:
+            if megisti in self.costs.columns:
+                return round2(self.costs.loc[region, megisti])
+            else:
+                return 10**9
+        except KeyError:
+            return 10**9
+
     def validate(self):
         if self.validator is not None:
             self.validator.validate()
@@ -126,6 +136,8 @@ class TypeTemplate:
 
         for i in self.data.itertuples():
             minimum = self.get_minimum(i.Γεωγραφικός_Τομέας)
+            maximum = self.get_maximum(i.Γεωγραφικός_Τομέας)
+            
 
             if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
                 hold_idx.append(i.Index)
@@ -137,25 +149,35 @@ class TypeTemplate:
 
                     whole = round2(sum(hold))
 
-                    if whole > minimum:
-                        for idx, value in zip(hold_idx, hold):
-                            self.data.loc[idx, final_charge] = value
-                    else:
+                    print(whole, minimum, maximum, whole>maximum)
+
+                    if whole > maximum:
+                        if insert_into == 'last':
+                            self.data.loc[i.Index, final_charge] = maximum
+                        else:
+                            _position = hold.index(max(hold))
+                            _df_index = hold_idx[_position]
+                            self.data.loc[_df_index, final_charge] = maximum
+                    elif whole < minimum:
                         if insert_into == 'last':
                             self.data.loc[i.Index, final_charge] = minimum
                         else:
                             _position = hold.index(max(hold))
                             _df_index = hold_idx[_position]
                             self.data.loc[_df_index, final_charge] = minimum
+                    else:
+                        for idx, value in zip(hold_idx, hold):
+                            self.data.loc[idx, final_charge] = value
 
                     hold_idx = []
                     hold = []
                 else:
-                    if i.Συνολική_Χρέωση > minimum:
-                        self.data.loc[
-                            i.Index, final_charge] = i.Συνολική_Χρέωση
-                    else:
+                    if i.Συνολική_Χρέωση > maximum:
+                        self.data.loc[i.Index, final_charge] = maximum
+                    elif i.Συνολική_Χρέωση < minimum:
                         self.data.loc[i.Index, final_charge] = minimum
+                    else:
+                        self.data.loc[i.Index, final_charge] = i.Συνολική_Χρέωση
 
     def export(self, output=None):
         if self.to_export:

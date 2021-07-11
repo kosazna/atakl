@@ -27,6 +27,8 @@ class Paths:
             "DB_Data\\Giochi.xlsx")
         self.default_essse = self.akl_home.joinpath(
             "DB_Data\\Essse.xlsx")
+        self.default_cosco_infoquest = self.akl_home.joinpath(
+            "DB_Data\\Cosco - Infoquest.xlsx")
 
         self.default_path_mapper = {
             "Concepts": self.default_concepts,
@@ -35,7 +37,8 @@ class Paths:
             "Cavino": self.default_cavino,
             "Giochi": self.default_giochi,
             "Giochi - Crate": self.default_giochi_crate,
-            "Essse": self.default_essse}
+            "Essse": self.default_essse,
+            "Cosco - Infoquest": self.default_cosco_infoquest}
 
         self.default_export_concepts = self.akl_home.joinpath(
             "Concepts.xlsx")
@@ -51,6 +54,8 @@ class Paths:
             "Giochi.xlsx")
         self.default_export_essse = self.akl_home.joinpath(
             "Essse.xlsx")
+        self.default_export_cosco_infoquest = self.akl_home.joinpath(
+            "Cosco - Infoquest.xlsx")
 
         self.default_export_path_mapper = {
             "Concepts": self.default_export_concepts,
@@ -59,7 +64,8 @@ class Paths:
             "Cavino": self.default_export_cavino,
             "Giochi": self.default_export_giochi,
             "Giochi - Crate": self.default_export_giochi_crate,
-            "Essse": self.default_export_essse}
+            "Essse": self.default_export_essse,
+            "Cosco - Infoquest": self.default_export_cosco_infoquest}
 
         self.user_costs = ""
         self.user_concepts = ""
@@ -69,6 +75,7 @@ class Paths:
         self.user_giochi = ""
         self.user_giochi_crate = ""
         self.user_essse = ""
+        self.user_cosco_infoquest = ""
 
         self.user_path_mapper = {
             "Concepts": self.user_concepts,
@@ -77,7 +84,8 @@ class Paths:
             "Cavino": self.user_cavino,
             "Giochi": self.user_giochi,
             "Giochi - Crate": self.user_giochi_crate,
-            "Essse": self.user_essse}
+            "Essse": self.user_essse,
+            "Cosco - Infoquest": self.user_cosco_infoquest}
 
     def get_path(self, process: str):
         return self.default_path_mapper[process]

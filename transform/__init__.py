@@ -9,6 +9,7 @@ from atakl.transform.cavino import Cavino
 from atakl.transform.giochi import Giochi
 from atakl.transform.giochi_crate import GiochiCrate
 from atakl.transform.essse import Essse
+from atakl.transform.cosco_infoquest import CoscoInfoquest
 
 transformer_mapper = {
     "Concepts": Concepts,
@@ -17,11 +18,12 @@ transformer_mapper = {
     "Cavino": Cavino,
     "Giochi": Giochi,
     "Giochi - Crate": GiochiCrate,
-    "Essse": Essse}
+    "Essse": Essse,
+    "Cosco - Infoquest": CoscoInfoquest}
 
 
 def load_tranformer(_action: str, mode, path_list=None):
-    if mode == 'CMD':
+    if mode == 'CLI':
         _data = validate_path("File with the database data:\n")
         _costs = validate_path("File with costs per region:\n")
         _out = None
