@@ -112,7 +112,7 @@ kuviko_metro = "Κυβικό μέτρο"
 ogkos_small = "Όγκος <8 m3"
 ogkos_medium = "Όγκος 8-16 m3"
 ogkos_large = "Όγκος >16 m3"
-kuviko_eidiki_xreosi = "Κυβικό μέτρο (ειδική χρέωση))"
+kuviko_eidiki_xreosi = "Κυβικό μέτρο (ειδική χρέωση)"
 
 atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
@@ -270,6 +270,7 @@ COSCO_INFOQUEST = [kodikos_paraggelias,
 info_map = {
     "Concepts":
         {"init_ncols": 12,
+         "date_col": imerominia,
          "formal_cols": list(map(c_2space, CONCEPTS)),
          "akl_cols": CONCEPTS,
          "sort": [imerominia,
@@ -292,6 +293,7 @@ info_map = {
                        "ensure_zero": [kola]}},
     "PT Beverages - Spirits":
         {"init_ncols": 17,
+         "date_col": imerominia,
          "formal_cols": list(map(c_2space, PTB_SPIRITS)),
          "akl_cols": PTB_SPIRITS,
          "sort": [imerominia,
@@ -318,6 +320,7 @@ info_map = {
                                        kola]}},
     "PT Beverages - Lavazza":
         {"init_ncols": 14,
+         "date_col": imerominia,
          "formal_cols": list(map(c_2space, PTB_LAVAZZA)),
          "akl_cols": PTB_LAVAZZA,
          "sort": [imerominia,
@@ -340,6 +343,7 @@ info_map = {
                        "ensure_zero": [upoloipo_se_temaxia]}},
     "Cavino":
         {"init_ncols": 13,
+         "date_col": imerominia_apostolis,
          "formal_cols": list(map(c_2space, CAVINO)),
          "akl_cols": CAVINO,
          "sort": [imerominia_apostolis,
@@ -362,6 +366,7 @@ info_map = {
                        "ensure_zero": [kola]}},
     "Giochi":
         {"init_ncols": 13,
+         "date_col": imerominia,
          "formal_cols": list(map(c_2space, GIOCHI)),
          "akl_cols": GIOCHI,
          "sort": [imerominia,
@@ -393,6 +398,7 @@ info_map = {
                                          paradosi]}},
     "Giochi - Crate":
         {"init_ncols": 12,
+         "date_col": imerominia_paradosis,
          "formal_cols": list(map(c_2space, GIOCHI_CRATE)),
          "akl_cols": GIOCHI_CRATE,
          "sort": [imerominia_paradosis,
@@ -422,6 +428,7 @@ info_map = {
                                          poli_paradosis]}},
     "Essse":
         {"init_ncols": 17,
+         "date_col": distribution_date,
          "formal_cols": list(map(c_2space, ESSSE)),
          "akl_cols": ESSSE,
          "sort": [distribution_date,
@@ -446,6 +453,7 @@ info_map = {
                        "ensure_zero": [pieces]}},
     "Cosco - Infoquest":
         {"init_ncols": 15,
+         "date_col": imerominia,
          "formal_cols": list(map(c_2space, COSCO_INFOQUEST)),
          "akl_cols": COSCO_INFOQUEST,
          "sort": [imerominia,

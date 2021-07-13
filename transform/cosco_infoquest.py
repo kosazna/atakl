@@ -54,6 +54,7 @@ class CoscoInfoquest(TypeTemplate):
                     for area in self.kuklades_exceptions:
                         if area in subregion:
                             found_exception = True
+                            break
 
                     if found_exception:
                         return round2(self.costs.loc[region, kuviko_eidiki_xreosi] * quantity)

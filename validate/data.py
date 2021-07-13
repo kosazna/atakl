@@ -197,7 +197,7 @@ class Validator:
                 for i in df.itertuples():
                     _pal = f'{" "*17}' if pd.isna(i.Order_Code) else i.Order_Code
                     self.log(
-                        f"{i.Must_Have_PAL} | {_pal} | {i.Distribution_Date} | {i.Customer_Name} | {i.Delivery_Area}")
+                        f"{i.Must_Have_PAL} | {_pal} | {i.Distribution_Date:%d/%m/%Y} | {i.Customer_Name} | {i.Delivery_Area}")
                     self.log("-" * 150)
                 self.log('\n')
 

@@ -36,8 +36,7 @@ class TypeTemplate:
         _db, _sheet = parse_xlsx(data_filepath)
         self.sheet_name = _sheet
 
-        _data = pd.read_excel(_db, sheet_name=_sheet,
-                              parse_dates=False, converters={c_2space(imerominia): str})
+        _data = pd.read_excel(_db, sheet_name=_sheet)
         nrows, ncols = _data.shape
 
         if nrows != 0 and ncols != 0:
@@ -47,12 +46,17 @@ class TypeTemplate:
                     :keep_cols]
                 _data = _data.dropna(subset=info_map[process_name]['drop'],
                                      how="all")
+
+                date_col = info_map[process_name]['date_col']
+                _data[date_col] = pd.to_datetime(_data[date_col], dayfirst=True)
+
                 sort_rule = info_map[process_name]['sort']
                 _data = _data.sort_values(
                     sort_rule).reset_index(drop=True)
 
                 for col in info_map[process_name]['check_idxs']:
-                    _data[col] = _data[col].apply(text_clean)
+                    if col != date_col:
+                        _data[col] = _data[col].apply(text_clean)
 
                 return _data.copy()
             else:
@@ -137,7 +141,6 @@ class TypeTemplate:
         for i in self.data.itertuples():
             minimum = self.get_minimum(i.Γεωγραφικός_Τομέας)
             maximum = self.get_maximum(i.Γεωγραφικός_Τομέας)
-            
 
             if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
                 hold_idx.append(i.Index)
@@ -148,8 +151,6 @@ class TypeTemplate:
                     hold.append(i.Συνολική_Χρέωση)
 
                     whole = round2(sum(hold))
-
-                    print(whole, minimum, maximum, whole>maximum)
 
                     if whole > maximum:
                         if insert_into == 'last':
@@ -182,6 +183,9 @@ class TypeTemplate:
     def export(self, output=None):
         if self.to_export:
             self.log("Saving data...", Display.INFO)
+
+            date_col = c_2space(info_map[self.map_name]['date_col'])
+            self.data[date_col] = self.data[date_col].dt.strftime("%d/%m/%Y")
 
             if self.sheet_name == 0 or self.sheet_name is None:
                 sheet_name = 'Τιμολόγηση'
