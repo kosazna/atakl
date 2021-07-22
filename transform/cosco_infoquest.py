@@ -105,10 +105,12 @@ class CoscoInfoquest(TypeTemplate):
 
         self.data[stock_out_charge] = stock1 + stock2
 
+        self.data['subregion'] = self.data[perioxi] + ' ' + self.data[paradosi_address]
+
         self.data[ogkos_dist_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
                                                                                kuviko_metro,
                                                                                x[sinolikos_ogkos],
-                                                                               x[perioxi]), axis=1)
+                                                                               x['subregion']), axis=1)
 
         self.data[total_charge] = self.data[ogkos_dist_charge]
 
