@@ -470,5 +470,6 @@ info_map = {
                         paradosi_address,
                         perioxi,
                         apostoli],
-         "validator": {}}
+         "validator": {"missing": [tomeas,
+                                   perioxi]}}
 }

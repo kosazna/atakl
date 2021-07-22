@@ -22,8 +22,7 @@ class Ui_designer(object):
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,
-                         QtGui.QPalette.WindowText, brush)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(214, 214, 214))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
@@ -38,8 +37,7 @@ class Ui_designer(object):
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active,
-                         QtGui.QPalette.ButtonText, brush)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(214, 214, 214))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
@@ -48,8 +46,7 @@ class Ui_designer(object):
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,
-                         QtGui.QPalette.WindowText, brush)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(214, 214, 214))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
@@ -64,8 +61,7 @@ class Ui_designer(object):
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive,
-                         QtGui.QPalette.ButtonText, brush)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(214, 214, 214))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
@@ -74,8 +70,7 @@ class Ui_designer(object):
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(195, 195, 195))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,
-                         QtGui.QPalette.WindowText, brush)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(214, 214, 214))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
@@ -90,8 +85,7 @@ class Ui_designer(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
         brush = QtGui.QBrush(QtGui.QColor(195, 195, 195))
         brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled,
-                         QtGui.QPalette.ButtonText, brush)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(214, 214, 214))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
@@ -190,14 +184,15 @@ class Ui_designer(object):
         font.setWeight(75)
         self.process_list.setFont(font)
         self.process_list.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
-                                        "selection-color: rgb(0, 0, 0);\n"
-                                        "selection-background-color: rgba(248, 248, 255, 0.8);\n"
-                                        "border-width:4px;\n"
-                                        "border-color:black;\n"
-                                        "border-radius:5px;")
+"selection-color: rgb(0, 0, 0);\n"
+"selection-background-color: rgba(248, 248, 255, 0.8);\n"
+"border-width:4px;\n"
+"border-color:black;\n"
+"border-radius:5px;")
         self.process_list.setEditable(False)
         self.process_list.setFrame(True)
         self.process_list.setObjectName("process_list")
+        self.process_list.addItem("")
         self.process_list.addItem("")
         self.process_list.addItem("")
         self.process_list.addItem("")
@@ -215,9 +210,9 @@ class Ui_designer(object):
         self.button_process.setFont(font)
         self.button_process.setAutoFillBackground(False)
         self.button_process.setStyleSheet("background-color: rgba(108, 117, 125, 0.8);\n"
-                                          "color: rgb(0, 0, 0);\n"
-                                          "border-width:10px;\n"
-                                          "border-radius:5px;")
+"color: rgb(0, 0, 0);\n"
+"border-width:10px;\n"
+"border-radius:5px;")
         self.button_process.setCheckable(False)
         self.button_process.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
         self.button_process.setAutoRaise(False)
@@ -231,10 +226,10 @@ class Ui_designer(object):
         font.setWeight(75)
         self.button_insert.setFont(font)
         self.button_insert.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
-                                         "color: rgb(0, 0, 0);\n"
-                                         "border-width:10px;\n"
-                                         "border-radius:5px;\n"
-                                         "")
+"color: rgb(0, 0, 0);\n"
+"border-width:10px;\n"
+"border-radius:5px;\n"
+"")
         self.button_insert.setObjectName("button_insert")
         self.text_costs = QtWidgets.QLineEdit(self.frame_main)
         self.text_costs.setGeometry(QtCore.QRect(79, 160, 681, 30))
@@ -243,10 +238,10 @@ class Ui_designer(object):
         font.setPointSize(9)
         self.text_costs.setFont(font)
         self.text_costs.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
-                                      "border-width:4px;\n"
-                                      "border-color:black;\n"
-                                      "border-style:offset;\n"
-                                      "border-radius:5px;")
+"border-width:4px;\n"
+"border-color:black;\n"
+"border-style:offset;\n"
+"border-radius:5px;")
         self.text_costs.setFrame(True)
         self.text_costs.setObjectName("text_costs")
         self.text_db_data = QtWidgets.QLineEdit(self.frame_main)
@@ -256,10 +251,10 @@ class Ui_designer(object):
         font.setPointSize(9)
         self.text_db_data.setFont(font)
         self.text_db_data.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
-                                        "border-width:4px;\n"
-                                        "border-color:black;\n"
-                                        "border-style:offset;\n"
-                                        "border-radius:5px;")
+"border-width:4px;\n"
+"border-color:black;\n"
+"border-style:offset;\n"
+"border-radius:5px;")
         self.text_db_data.setObjectName("text_db_data")
         self.text_records = QtWidgets.QLabel(self.frame_main)
         self.text_records.setGeometry(QtCore.QRect(79, 275, 81, 30))
@@ -310,18 +305,18 @@ class Ui_designer(object):
         self.browse_costs = QtWidgets.QToolButton(self.frame_main)
         self.browse_costs.setGeometry(QtCore.QRect(760, 160, 30, 30))
         self.browse_costs.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
-                                        "border-width:4px;\n"
-                                        "border-color:black;\n"
-                                        "border-style:offset;\n"
-                                        "border-radius:10px;")
+"border-width:4px;\n"
+"border-color:black;\n"
+"border-style:offset;\n"
+"border-radius:10px;")
         self.browse_costs.setObjectName("browse_costs")
         self.browse_db_data = QtWidgets.QToolButton(self.frame_main)
         self.browse_db_data.setGeometry(QtCore.QRect(760, 200, 30, 30))
         self.browse_db_data.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
-                                          "border-width:4px;\n"
-                                          "border-color:black;\n"
-                                          "border-style:offset;\n"
-                                          "border-radius:10px;")
+"border-width:4px;\n"
+"border-color:black;\n"
+"border-style:offset;\n"
+"border-radius:10px;")
         self.browse_db_data.setObjectName("browse_db_data")
         self.text_general = QtWidgets.QTextEdit(self.frame_main)
         self.text_general.setGeometry(QtCore.QRect(10, 350, 781, 191))
@@ -330,10 +325,10 @@ class Ui_designer(object):
         font.setPointSize(10)
         self.text_general.setFont(font)
         self.text_general.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
-                                        "border-width:4px;\n"
-                                        "border-color:black;\n"
-                                        "border-style:offset;\n"
-                                        "border-radius:10px;")
+"border-width:4px;\n"
+"border-color:black;\n"
+"border-style:offset;\n"
+"border-radius:10px;")
         self.text_general.setObjectName("text_general")
         self.tick_default = QtWidgets.QCheckBox(self.frame_main)
         self.tick_default.setGeometry(QtCore.QRect(320, 90, 191, 30))
@@ -362,18 +357,18 @@ class Ui_designer(object):
         font.setPointSize(9)
         self.text_output.setFont(font)
         self.text_output.setStyleSheet("background-color: rgba(33, 37, 41, 0.8);\n"
-                                       "border-width:4px;\n"
-                                       "border-color:black;\n"
-                                       "border-style:offset;\n"
-                                       "border-radius:5px;")
+"border-width:4px;\n"
+"border-color:black;\n"
+"border-style:offset;\n"
+"border-radius:5px;")
         self.text_output.setObjectName("text_output")
         self.browse_output = QtWidgets.QToolButton(self.frame_main)
         self.browse_output.setGeometry(QtCore.QRect(760, 240, 30, 30))
         self.browse_output.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
-                                         "border-width:4px;\n"
-                                         "border-color:black;\n"
-                                         "border-style:offset;\n"
-                                         "border-radius:10px;")
+"border-width:4px;\n"
+"border-color:black;\n"
+"border-style:offset;\n"
+"border-radius:10px;")
         self.browse_output.setObjectName("browse_output")
         self.button_validate_data = QtWidgets.QToolButton(self.frame_main)
         self.button_validate_data.setGeometry(QtCore.QRect(530, 280, 120, 30))
@@ -384,10 +379,10 @@ class Ui_designer(object):
         font.setWeight(75)
         self.button_validate_data.setFont(font)
         self.button_validate_data.setStyleSheet("background-color: rgba(13, 110, 253, 0.8);\n"
-                                                "color: rgb(0, 0, 0);\n"
-                                                "border-width:10px;\n"
-                                                "border-radius:5px;\n"
-                                                "")
+"color: rgb(0, 0, 0);\n"
+"border-width:10px;\n"
+"border-radius:5px;\n"
+"")
         self.button_validate_data.setObjectName("button_validate_data")
         self.tick_export_new = QtWidgets.QCheckBox(self.frame_main)
         self.tick_export_new.setGeometry(QtCore.QRect(530, 90, 191, 30))
@@ -456,41 +451,36 @@ class Ui_designer(object):
         self.label_costs.setText(_translate("designer", "Costs"))
         self.label_db_data.setText(_translate("designer", "Data"))
         self.label_records.setText(_translate("designer", "Records"))
-        self.label_data_paths.setText(
-            _translate("designer", "Choose data paths"))
-        self.label_action.setText(_translate(
-            "designer", "Choose process action"))
+        self.label_data_paths.setText(_translate("designer", "Choose data paths"))
+        self.label_action.setText(_translate("designer", "Choose process action"))
         self.label_results.setText(_translate("designer", "Processing results"))
         self.process_list.setItemText(0, _translate("designer", "Cavino"))
         self.process_list.setItemText(1, _translate("designer", "Concepts"))
-        self.process_list.setItemText(2, _translate("designer", "Essse"))
-        self.process_list.setItemText(3, _translate("designer", "Giochi"))
-        self.process_list.setItemText(4, _translate(
-            "designer", "PT Beverages - Lavazza"))
-        self.process_list.setItemText(5, _translate(
-            "designer", "PT Beverages - Spirits"))
+        self.process_list.setItemText(2, _translate("designer", "Cosco - Infoquest"))
+        self.process_list.setItemText(3, _translate("designer", "Essse"))
+        self.process_list.setItemText(4, _translate("designer", "Giochi"))
+        self.process_list.setItemText(5, _translate("designer", "PT Beverages - Lavazza"))
+        self.process_list.setItemText(6, _translate("designer", "PT Beverages - Spirits"))
         self.button_process.setText(_translate("designer", "Process"))
         self.button_insert.setText(_translate("designer", "@Διανομή"))
         self.text_records.setText(_translate("designer", "0"))
         self.akl_logo.setHtml(_translate("designer", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-                                         "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-                                         "p, li { white-space: pre-wrap; }\n"
-                                         "</style></head><body style=\" font-family:\'Segoe UI\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-                                         "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#434343;\">Attiki Kinisi Logistics SA</span></p></body></html>"))
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#434343;\">Attiki Kinisi Logistics SA</span></p></body></html>"))
         self.browse_costs.setText(_translate("designer", "..."))
         self.browse_db_data.setText(_translate("designer", "..."))
         self.text_general.setHtml(_translate("designer", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-                                             "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-                                             "p, li { white-space: pre-wrap; }\n"
-                                             "</style></head><body style=\" font-family:\'Segoe UI\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-                                             "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.tick_default.setText(_translate(
-            "designer", "Use default file paths"))
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.tick_default.setText(_translate("designer", "Use default file paths"))
         self.label_output.setText(_translate("designer", "Output"))
         self.browse_output.setText(_translate("designer", "..."))
         self.button_validate_data.setText(_translate("designer", "Validate"))
-        self.tick_export_new.setText(_translate(
-            "designer", "New file after process"))
+        self.tick_export_new.setText(_translate("designer", "New file after process"))
 
 
 if __name__ == "__main__":

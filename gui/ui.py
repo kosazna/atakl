@@ -188,6 +188,8 @@ class AKLUI(Ui_designer):
 
         if process == 'Essse':
             _new = _current_text + '@Distribution'
+        elif process == 'Cosco - Infoquest':
+            _new = _current_text + '@Stock_out'
         else:
             _new = _current_text + '@Διανομή'
 
@@ -334,6 +336,8 @@ class AKLUI(Ui_designer):
 
         if process == 'Essse':
             self.button_insert.setText('@Distribution')
+        elif process == 'Cosco - Infoquest':
+            self.button_insert.setText('@Stock_out')
         else:
             self.button_insert.setText('@Διανομή')
 

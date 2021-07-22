@@ -491,6 +491,11 @@ border-radius:5px;</string>
      </item>
      <item>
       <property name="text">
+       <string>Cosco - Infoquest</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>Essse</string>
       </property>
      </item>
