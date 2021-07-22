@@ -87,50 +87,55 @@ class CoscoInfoquest(TypeTemplate):
         self.preprocessed = True
 
     def process(self):
-        self._preprocess()
+        auth = Authorize(self.map_name, self.log)
 
-        self.log("Processing...", Display.INFO)
+        if auth.user_is_licensed():
+            self._preprocess()
 
-        stock1 = self.data.apply(lambda x: self.get_cost(x[tomeas],
-                                                         c_2space(
-                                                             kivotia_under_007),
-                                                         x[kivotia_under_007]),
-                                 axis=1)
+            self.log("Processing...", Display.INFO)
 
-        stock2 = self.data.apply(lambda x: self.get_cost(x[tomeas],
-                                                         c_2space(
-                                                             ogkos_over_007),
-                                                         x[ogkos_over_007]),
-                                 axis=1)
+            stock1 = self.data.apply(lambda x: self.get_cost(x[tomeas],
+                                                            c_2space(
+                                                                kivotia_under_007),
+                                                            x[kivotia_under_007]),
+                                    axis=1)
 
-        self.data[stock_out_charge] = stock1 + stock2
+            stock2 = self.data.apply(lambda x: self.get_cost(x[tomeas],
+                                                            c_2space(
+                                                                ogkos_over_007),
+                                                            x[ogkos_over_007]),
+                                    axis=1)
 
-        self.data['subregion'] = self.data[perioxi] + ' ' + self.data[paradosi_address]
+            self.data[stock_out_charge] = stock1 + stock2
 
-        self.data[ogkos_dist_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
-                                                                               kuviko_metro,
-                                                                               x[sinolikos_ogkos],
-                                                                               x['subregion']), axis=1)
+            self.data['subregion'] = self.data[perioxi] + ' ' + self.data[paradosi_address]
 
-        self.data[total_charge] = self.data[ogkos_dist_charge]
+            self.data[ogkos_dist_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
+                                                                                kuviko_metro,
+                                                                                x[sinolikos_ogkos],
+                                                                                x['subregion']), axis=1)
 
-        self.process_rows(insert_into='max')
+            self.data[total_charge] = self.data[ogkos_dist_charge]
 
-        self.data[perioxi] = self.data[perioxi].replace("<NULL>", "")
+            self.process_rows(insert_into='max')
 
-        self.data.loc[
-            self.data[apostoli] == idiofortosi, final_charge] = 0.00
+            self.data[perioxi] = self.data[perioxi].replace("<NULL>", "")
 
-        self.data.loc[self.data[kodikos_paraggelias].str.startswith(
-            'PAL', na=False), final_charge] = 0.00
+            self.data.loc[
+                self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-        self.data[final_dist_charge] = self.data[final_charge]
+            self.data.loc[self.data[kodikos_paraggelias].str.startswith(
+                'PAL', na=False), final_charge] = 0.00
 
-        self.data = self.data[info_map[self.map_name]['akl_cols']]
+            self.data[final_dist_charge] = self.data[final_charge]
 
-        self.data.columns = info_map[self.map_name]['formal_cols']
+            self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                 Display.INFO)
+            self.data.columns = info_map[self.map_name]['formal_cols']
 
-        self.to_export = True
+            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                    Display.INFO)
+
+            self.to_export = True
+        else:
+            self.log("Can't process data. Contact Support", Display.INFO)
