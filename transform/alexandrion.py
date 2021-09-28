@@ -26,10 +26,6 @@ class Alexandrion(TypeTemplate):
         self.data = self.set_data(data_filepath, self.map_name)
         self.validator = Validator(self.data, self.map_name, mode)
 
-        # self.except_areas = unique_from_groupby(self.costs,
-        #                                         c_2space(tomeas),
-        #                                         c_2space(paradosi))
-
         self.except_sheet = pd.read_excel(self.cost_file,
                                           sheet_name="Alexandrion-Special Areas")
 
@@ -72,7 +68,7 @@ class Alexandrion(TypeTemplate):
             area, area_cat = self._area_props(region, subregion)
 
             c = self.costs.loc[(self.costs.index == area) & (
-                self.costs.loc[c_2space("Κατηγορία Περιοχής")] == area_cat), material]
+                self.costs["Κατηγορία Περιοχής"] == area_cat), material]
 
             return round2(c * quantity)
         except KeyError as e:
@@ -154,10 +150,17 @@ class Alexandrion(TypeTemplate):
                           paleta, 1, i.Περιοχή_Παράδοσης))
 
             if i.Τελική_Χρέωση > wall:
-                c = self.data.loc[self.data["Κωδικός Αρχικής Παραγγελίας"]
-                                  == i.Κωδικός_Αρχικής_Παραγγελίας, ksila_paleton]
+                try:
+                    c = self.data.loc[self.data[kodikos_arxikis_paraggelias]
+                                  == i.Κωδικός_Παραγγελίας, ksila_paleton].values[0]
+                except IndexError:
+                    c = 0
+                print(c)
+                print(self.data.loc[i.Index, final_charge])
+                print(wall)
 
-                self.data.loc[i.Index, final_charge] = c * wall
+                if c:
+                    self.data.loc[i.Index, final_charge] = c * wall
 
     def process(self):
         auth = Authorize(self.map_name, self.log)
@@ -179,6 +182,7 @@ class Alexandrion(TypeTemplate):
                                                            x[paradosi]),
                                    axis=1)
 
+
             self.data[total_charge] = ckiv + cpal
 
             self.process_rows(insert_into='max')
@@ -195,9 +199,9 @@ class Alexandrion(TypeTemplate):
 
             self.data[kola_dist_charge] = self.data[final_charge]
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+            # self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+            # self.data.columns = info_map[self.map_name]['formal_cols']
 
             self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
                      Display.INFO)
