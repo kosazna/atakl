@@ -137,3 +137,17 @@ def duplicated_data(df, cols, idx_shift=0):
     _idxs = (_nas.index + idx_shift).tolist()
 
     return not _nas.empty, _idxs
+
+def unique_from_groupby(dataframe, groupby_key, agg_key):
+    gb = dataframe.groupby(groupby_key)[agg_key].agg(["unique"])
+
+    exceptions = {}
+
+    for key in gb.index:
+        _unique = gb.loc[key, "unique"].tolist()
+        unique = list(filter(lambda elm: isinstance(elm, str), _unique))
+
+        if unique:
+            exceptions[str(key)] = unique
+
+    return exceptions

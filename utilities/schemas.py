@@ -267,6 +267,23 @@ COSCO_INFOQUEST = [kodikos_paraggelias,
                    ogkos_dist_charge,
                    final_dist_charge]
 
+ALEXANDRION = [kodikos_paraggelias,
+               kodikos_arxikis_paraggelias,
+               imerominia_apostolis,
+               parastatiko,
+               pelatis,
+               tomeas,
+               paradosi,
+               apostoli,
+               paletes,
+               kivotia,
+               temaxia,
+               ksila_paleton,
+               kola,
+               paratiriseis,
+               kola_dist_charge,
+               strech]
+
 info_map = {
     "Concepts":
         {"init_ncols": 12,
@@ -471,5 +488,24 @@ info_map = {
                         perioxi,
                         apostoli],
          "validator": {"missing": [tomeas,
-                                   perioxi]}}
+                                   perioxi]}},
+    "Alexandrion":
+        {"init_ncols": 14,
+         "date_col": imerominia_apostolis,
+         "formal_cols": list(map(c_2space, ALEXANDRION)),
+         "akl_cols": ALEXANDRION,
+         "sort": [imerominia_apostolis,
+                  pelatis,
+                  tomeas,
+                  paradosi],
+         "drop": [pelatis,
+                  tomeas,
+                  paradosi],
+         "check_idxs": [imerominia_apostolis,
+                        pelatis,
+                        tomeas,
+                        paradosi,
+                        apostoli],
+         "validator": {"missing": [tomeas,
+                                   pelatis]}}
 }
