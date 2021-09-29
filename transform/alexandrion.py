@@ -80,7 +80,7 @@ class Alexandrion(TypeTemplate):
             area, area_cat = self._area_props(region, subregion)
 
             c = self.costs.loc[(self.costs.index == area) & (
-                self.costs.loc[c_2space("Κατηγορία Περιοχής")] == area_cat), elaxisti]
+                self.costs["Κατηγορία Περιοχής"] == area_cat), elaxisti].values[0]
 
             return c
         except KeyError:
@@ -91,29 +91,36 @@ class Alexandrion(TypeTemplate):
 
         hold_idx = []
         hold = []
+        ksila_pals = []
 
         for i in self.data.itertuples():
             minimum = self.get_minimum(
                 i.Γεωγραφικός_Τομέας, i.Περιοχή_Παράδοσης)
-            maximum = 10**9
+            maximum = round2(self.get_cost(i.Γεωγραφικός_Τομέας,
+                          paleta, 1, i.Περιοχή_Παράδοσης))
 
             if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
                 hold_idx.append(i.Index)
                 hold.append(i.Συνολική_Χρέωση)
+                ksila_pals.append(i.ksila)
             else:
                 if hold:
                     hold_idx.append(i.Index)
                     hold.append(i.Συνολική_Χρέωση)
+                    ksila_pals.append(i.ksila)
 
                     whole = round2(sum(hold))
 
                     if whole > maximum:
-                        if insert_into == 'last':
-                            self.data.loc[i.Index, final_charge] = maximum
+                        sum_ksila = sum(ksila_pals)
+                        if sum_ksila != 0:
+                            multiplier = max(ksila_pals)
+                            _index = ksila_pals.index(multiplier)
+                            _df_index = hold_idx[_index]
+                            self.data.loc[_df_index, final_charge] = maximum * multiplier
                         else:
-                            _position = hold.index(max(hold))
-                            _df_index = hold_idx[_position]
-                            self.data.loc[_df_index, final_charge] = maximum
+                            self.log(f"Maybe missing PAL order - {i.Index}")
+                            self.data.loc[i.Index, final_charge] = maximum
                     elif whole < minimum:
                         if insert_into == 'last':
                             self.data.loc[i.Index, final_charge] = minimum
@@ -127,6 +134,7 @@ class Alexandrion(TypeTemplate):
 
                     hold_idx = []
                     hold = []
+                    ksila_pals = []
                 else:
                     if i.Συνολική_Χρέωση > maximum:
                         self.data.loc[i.Index, final_charge] = maximum
@@ -152,7 +160,7 @@ class Alexandrion(TypeTemplate):
             if i.Τελική_Χρέωση > wall:
                 try:
                     c = self.data.loc[self.data[kodikos_arxikis_paraggelias]
-                                  == i.Κωδικός_Παραγγελίας, ksila_paleton].values[0]
+                                      == i.Κωδικός_Παραγγελίας, ksila_paleton].values[0]
                 except IndexError:
                     c = 0
                 print(c)
@@ -170,6 +178,18 @@ class Alexandrion(TypeTemplate):
 
             self.log("Processing...", Display.INFO)
 
+            pals = self.data.loc[self.data[kodikos_paraggelias].str.startswith(
+                "PAL")][[kodikos_arxikis_paraggelias, ksila_paleton]]
+            pals = pals.rename(columns={kodikos_arxikis_paraggelias: 'kodikos',
+                                        ksila_paleton: 'ksila'})
+
+            self.data = self.data.merge(pals,
+                                        how="left",
+                                        left_on=kodikos_paraggelias,
+                                        right_on='kodikos').drop("kodikos", axis=1)
+
+            self.data['ksila'] = self.data['ksila'].fillna(0).astype(int)
+
             ckiv = self.data.apply(lambda x: self.get_cost(x[tomeas],
                                                            kivotio,
                                                            x[kivotia],
@@ -182,11 +202,10 @@ class Alexandrion(TypeTemplate):
                                                            x[paradosi]),
                                    axis=1)
 
-
             self.data[total_charge] = ckiv + cpal
 
             self.process_rows(insert_into='max')
-            self.process_pals()
+            # self.process_pals()
 
             self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
             self.data[strech] = ''
@@ -199,9 +218,9 @@ class Alexandrion(TypeTemplate):
 
             self.data[kola_dist_charge] = self.data[final_charge]
 
-            # self.data = self.data[info_map[self.map_name]['akl_cols']]
+            self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            # self.data.columns = info_map[self.map_name]['formal_cols']
+            self.data.columns = info_map[self.map_name]['formal_cols']
 
             self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
                      Display.INFO)
