@@ -10,6 +10,7 @@ from atakl.transform.giochi import Giochi
 from atakl.transform.giochi_crate import GiochiCrate
 from atakl.transform.essse import Essse
 from atakl.transform.cosco_infoquest import CoscoInfoquest
+from atakl.transform.alexandrion import Alexandrion
 
 transformer_mapper = {
     "Concepts": Concepts,
@@ -19,7 +20,8 @@ transformer_mapper = {
     "Giochi": Giochi,
     "Giochi - Crate": GiochiCrate,
     "Essse": Essse,
-    "Cosco - Infoquest": CoscoInfoquest}
+    "Cosco - Infoquest": CoscoInfoquest,
+    "Alexandrion": Alexandrion}
 
 
 def load_tranformer(_action: str, mode, path_list=None):
