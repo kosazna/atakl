@@ -86,6 +86,63 @@ class CoscoInfoquest(TypeTemplate):
 
         self.preprocessed = True
 
+    def process_rows(self, insert_into='last'):
+        self.data[final_charge] = 0.0
+
+        hold_idx = []
+        hold = []
+        separate = False
+
+        for i in self.data.itertuples():
+            minimum = self.get_minimum(i.Γεωγραφικός_Τομέας)
+            maximum = self.get_maximum(i.Γεωγραφικός_Τομέας)
+
+            if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
+                if i.Συνολική_Χρέωση > maximum:
+                    self.data.loc[i.Index, final_charge] = maximum
+                    separate = True
+                else:
+                    hold_idx.append(i.Index)
+                    hold.append(i.Συνολική_Χρέωση)
+            else:
+                if hold:
+                    hold_idx.append(i.Index)
+                    hold.append(i.Συνολική_Χρέωση)
+
+                    whole = round2(sum(hold))
+
+                    if separate:
+                        for idx, value in zip(hold_idx, hold):
+                            self.data.loc[idx, final_charge] = value
+                    elif whole > maximum:
+                        if insert_into == 'last':
+                            self.data.loc[i.Index, final_charge] = maximum
+                        else:
+                            _position = hold.index(max(hold))
+                            _df_index = hold_idx[_position]
+                            self.data.loc[_df_index, final_charge] = maximum
+                    elif whole < minimum:
+                        if insert_into == 'last':
+                            self.data.loc[i.Index, final_charge] = minimum
+                        else:
+                            _position = hold.index(max(hold))
+                            _df_index = hold_idx[_position]
+                            self.data.loc[_df_index, final_charge] = minimum
+                    else:
+                        for idx, value in zip(hold_idx, hold):
+                            self.data.loc[idx, final_charge] = value
+
+                    hold_idx = []
+                    hold = []
+                    separate = False
+                else:
+                    if i.Συνολική_Χρέωση > maximum:
+                        self.data.loc[i.Index, final_charge] = maximum
+                    elif i.Συνολική_Χρέωση < minimum:
+                        self.data.loc[i.Index, final_charge] = minimum
+                    else:
+                        self.data.loc[i.Index, final_charge] = i.Συνολική_Χρέωση
+
     def process(self):
         auth = Authorize(self.map_name, self.log)
 

@@ -93,6 +93,7 @@ class Alexandrion(TypeTemplate):
         hold = []
         ksila_pals = []
         kiv_charge = []
+        separate = False
 
         for i in self.data.itertuples():
             minimum = self.get_minimum(
@@ -101,10 +102,14 @@ class Alexandrion(TypeTemplate):
                           paleta, 1, i.Περιοχή_Παράδοσης))
 
             if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
-                hold_idx.append(i.Index)
-                hold.append(i.Συνολική_Χρέωση)
-                ksila_pals.append(i.ksila)
-                kiv_charge.append(i.Χρέωση_Κιβωτίων)
+                if i.Χρέωση_Κιβωτίων > maximum:
+                    self.data.loc[i.Index, final_charge] = maximum * i.ksila
+                    separate = True
+                else:
+                    hold_idx.append(i.Index)
+                    hold.append(i.Συνολική_Χρέωση)
+                    ksila_pals.append(i.ksila)
+                    kiv_charge.append(i.Χρέωση_Κιβωτίων)
             else:
                 if hold:
                     hold_idx.append(i.Index)
@@ -115,7 +120,10 @@ class Alexandrion(TypeTemplate):
                     whole = round2(sum(hold))
                     whole_kiv = round2(sum(kiv_charge))
 
-                    if whole_kiv > maximum:
+                    if separate:
+                        for idx, value in zip(hold_idx, hold):
+                            self.data.loc[idx, final_charge] = value
+                    elif whole_kiv > maximum:
                         sum_ksila = sum(ksila_pals)
                         if sum_ksila != 0:
                             multiplier = max(ksila_pals)
@@ -140,6 +148,7 @@ class Alexandrion(TypeTemplate):
                     hold = []
                     ksila_pals = []
                     kiv_charge = []
+                    separate = False
                 else:
                     if i.Χρέωση_Κιβωτίων > maximum:
                         self.data.loc[i.Index, final_charge] = maximum * i.ksila
@@ -191,18 +200,6 @@ class Alexandrion(TypeTemplate):
                                         right_on='kodikos').drop("kodikos", axis=1)
 
             self.data['ksila'] = self.data['ksila'].fillna(0).astype(int)
-
-            # ckiv = self.data.apply(lambda x: self.get_cost(x[tomeas],
-            #                                                kivotio,
-            #                                                x[kivotia],
-            #                                                x[paradosi]),
-            #                        axis=1)
-
-            # cpal = self.data.apply(lambda x: self.get_cost(x[tomeas],
-            #                                                paleta,
-            #                                                x[paletes],
-            #                                                x[paradosi]),
-            #                        axis=1)
 
             self.data[kivotia_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
                                                            kivotio,
