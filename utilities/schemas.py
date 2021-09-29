@@ -96,6 +96,8 @@ ogkos_over_007 = "Όγκος_σε_(m3)_πάνω_από_0,07 κ.μ."
 ksila_paleton = "Ξύλα_παλετών"
 stock_out_charge = "Χρέωση_Stock_Out"
 
+paletes_charge = "Χρέωση_Παλετών"
+
 # Cost file keys
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
@@ -497,7 +499,8 @@ info_map = {
          "sort": [imerominia_apostolis,
                   pelatis,
                   tomeas,
-                  paradosi],
+                  paradosi,
+                  apostoli],
          "drop": [pelatis,
                   tomeas,
                   paradosi],

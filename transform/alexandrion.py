@@ -92,6 +92,7 @@ class Alexandrion(TypeTemplate):
         hold_idx = []
         hold = []
         ksila_pals = []
+        kiv_charge = []
 
         for i in self.data.itertuples():
             minimum = self.get_minimum(
@@ -103,15 +104,18 @@ class Alexandrion(TypeTemplate):
                 hold_idx.append(i.Index)
                 hold.append(i.Συνολική_Χρέωση)
                 ksila_pals.append(i.ksila)
+                kiv_charge.append(i.Χρέωση_Κιβωτίων)
             else:
                 if hold:
                     hold_idx.append(i.Index)
                     hold.append(i.Συνολική_Χρέωση)
                     ksila_pals.append(i.ksila)
+                    kiv_charge.append(i.Χρέωση_Κιβωτίων)
 
                     whole = round2(sum(hold))
+                    whole_kiv = round2(sum(kiv_charge))
 
-                    if whole > maximum:
+                    if whole_kiv > maximum:
                         sum_ksila = sum(ksila_pals)
                         if sum_ksila != 0:
                             multiplier = max(ksila_pals)
@@ -135,9 +139,10 @@ class Alexandrion(TypeTemplate):
                     hold_idx = []
                     hold = []
                     ksila_pals = []
+                    kiv_charge = []
                 else:
-                    if i.Συνολική_Χρέωση > maximum:
-                        self.data.loc[i.Index, final_charge] = maximum
+                    if i.Χρέωση_Κιβωτίων > maximum:
+                        self.data.loc[i.Index, final_charge] = maximum * i.ksila
                     elif i.Συνολική_Χρέωση < minimum:
                         self.data.loc[i.Index, final_charge] = minimum
                     else:
@@ -163,9 +168,6 @@ class Alexandrion(TypeTemplate):
                                       == i.Κωδικός_Παραγγελίας, ksila_paleton].values[0]
                 except IndexError:
                     c = 0
-                print(c)
-                print(self.data.loc[i.Index, final_charge])
-                print(wall)
 
                 if c:
                     self.data.loc[i.Index, final_charge] = c * wall
@@ -190,19 +192,30 @@ class Alexandrion(TypeTemplate):
 
             self.data['ksila'] = self.data['ksila'].fillna(0).astype(int)
 
-            ckiv = self.data.apply(lambda x: self.get_cost(x[tomeas],
+            # ckiv = self.data.apply(lambda x: self.get_cost(x[tomeas],
+            #                                                kivotio,
+            #                                                x[kivotia],
+            #                                                x[paradosi]),
+            #                        axis=1)
+
+            # cpal = self.data.apply(lambda x: self.get_cost(x[tomeas],
+            #                                                paleta,
+            #                                                x[paletes],
+            #                                                x[paradosi]),
+            #                        axis=1)
+
+            self.data[kivotia_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
                                                            kivotio,
                                                            x[kivotia],
                                                            x[paradosi]),
                                    axis=1)
-
-            cpal = self.data.apply(lambda x: self.get_cost(x[tomeas],
+            self.data[paletes_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
                                                            paleta,
                                                            x[paletes],
                                                            x[paradosi]),
                                    axis=1)
 
-            self.data[total_charge] = ckiv + cpal
+            self.data[total_charge] = self.data[kivotia_charge] + self.data[paletes_charge]
 
             self.process_rows(insert_into='max')
             # self.process_pals()
