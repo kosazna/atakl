@@ -815,15 +815,22 @@ p, li { white-space: pre-wrap; }
        <height>30</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Webdings</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgba(248, 248, 255, 0.8);
+font-family: &quot;Webdings&quot;;
 border-width:4px;
 border-color:black;
 border-style:offset;
-border-radius:10px;</string>
+border-radius:5px;</string>
      </property>
      <property name="text">
-      <string>...</string>
+      <string>2</string>
      </property>
     </widget>
     <widget class="QToolButton" name="browse_db_data">
@@ -835,15 +842,22 @@ border-radius:10px;</string>
        <height>30</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Webdings</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgba(248, 248, 255, 0.8);
+font-family: &quot;Webdings&quot;;
 border-width:4px;
 border-color:black;
 border-style:offset;
-border-radius:10px;</string>
+border-radius:5px;</string>
      </property>
      <property name="text">
-      <string>...</string>
+      <string>2</string>
      </property>
     </widget>
     <widget class="QTextEdit" name="text_general">
@@ -960,15 +974,22 @@ border-radius:5px;</string>
        <height>30</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Webdings</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgba(248, 248, 255, 0.8);
+font-family: &quot;Webdings&quot;;
 border-width:4px;
 border-color:black;
 border-style:offset;
-border-radius:10px;</string>
+border-radius:5px;</string>
      </property>
      <property name="text">
-      <string>...</string>
+      <string>2</string>
      </property>
     </widget>
     <widget class="QToolButton" name="button_validate_data">

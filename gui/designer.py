@@ -323,19 +323,29 @@ class Ui_designer(object):
         self.akl_logo.setObjectName("akl_logo")
         self.browse_costs = QtWidgets.QToolButton(self.frame_main)
         self.browse_costs.setGeometry(QtCore.QRect(760, 160, 30, 30))
+        font = QtGui.QFont()
+        font.setFamily("Webdings")
+        font.setPointSize(11)
+        self.browse_costs.setFont(font)
         self.browse_costs.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
+                                        "font-family: \"Webdings\";\n"
                                         "border-width:4px;\n"
                                         "border-color:black;\n"
                                         "border-style:offset;\n"
-                                        "border-radius:10px;")
+                                        "border-radius:5px;")
         self.browse_costs.setObjectName("browse_costs")
         self.browse_db_data = QtWidgets.QToolButton(self.frame_main)
         self.browse_db_data.setGeometry(QtCore.QRect(760, 200, 30, 30))
+        font = QtGui.QFont()
+        font.setFamily("Webdings")
+        font.setPointSize(11)
+        self.browse_db_data.setFont(font)
         self.browse_db_data.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
+                                          "font-family: \"Webdings\";\n"
                                           "border-width:4px;\n"
                                           "border-color:black;\n"
                                           "border-style:offset;\n"
-                                          "border-radius:10px;")
+                                          "border-radius:5px;")
         self.browse_db_data.setObjectName("browse_db_data")
         self.text_general = QtWidgets.QTextEdit(self.frame_main)
         self.text_general.setGeometry(QtCore.QRect(10, 350, 781, 191))
@@ -383,11 +393,16 @@ class Ui_designer(object):
         self.text_output.setObjectName("text_output")
         self.browse_output = QtWidgets.QToolButton(self.frame_main)
         self.browse_output.setGeometry(QtCore.QRect(760, 240, 30, 30))
+        font = QtGui.QFont()
+        font.setFamily("Webdings")
+        font.setPointSize(11)
+        self.browse_output.setFont(font)
         self.browse_output.setStyleSheet("background-color: rgba(248, 248, 255, 0.8);\n"
+                                         "font-family: \"Webdings\";\n"
                                          "border-width:4px;\n"
                                          "border-color:black;\n"
                                          "border-style:offset;\n"
-                                         "border-radius:10px;")
+                                         "border-radius:5px;")
         self.browse_output.setObjectName("browse_output")
         self.button_validate_data = QtWidgets.QToolButton(self.frame_main)
         self.button_validate_data.setGeometry(QtCore.QRect(530, 280, 120, 30))
@@ -494,8 +509,8 @@ class Ui_designer(object):
                                          "p, li { white-space: pre-wrap; }\n"
                                          "</style></head><body style=\" font-family:\'Segoe UI\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
                                          "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#434343;\">Attiki Kinisi Logistics SA</span></p></body></html>"))
-        self.browse_costs.setText(_translate("designer", "..."))
-        self.browse_db_data.setText(_translate("designer", "..."))
+        self.browse_costs.setText(_translate("designer", "2"))
+        self.browse_db_data.setText(_translate("designer", "2"))
         self.text_general.setHtml(_translate("designer", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                              "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                              "p, li { white-space: pre-wrap; }\n"
@@ -504,7 +519,7 @@ class Ui_designer(object):
         self.tick_default.setText(_translate(
             "designer", "Use default file paths"))
         self.label_output.setText(_translate("designer", "Output"))
-        self.browse_output.setText(_translate("designer", "..."))
+        self.browse_output.setText(_translate("designer", "2"))
         self.button_validate_data.setText(_translate("designer", "Validate"))
         self.tick_export_new.setText(_translate(
             "designer", "New file after process"))
