@@ -98,7 +98,7 @@ class CoscoInfoquest(TypeTemplate):
             maximum = self.get_maximum(i.Γεωγραφικός_Τομέας)
 
             if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
-                if i.Συνολική_Χρέωση > maximum:
+                if i.Χρέωση_Διανομής_Όγκου > maximum:
                     self.data.loc[i.Index, final_charge] = maximum
                     separate = True
                 else:
@@ -114,13 +114,13 @@ class CoscoInfoquest(TypeTemplate):
                     if separate:
                         for idx, value in zip(hold_idx, hold):
                             self.data.loc[idx, final_charge] = value
-                    elif whole > maximum:
-                        if insert_into == 'last':
-                            self.data.loc[i.Index, final_charge] = maximum
-                        else:
-                            _position = hold.index(max(hold))
-                            _df_index = hold_idx[_position]
-                            self.data.loc[_df_index, final_charge] = maximum
+                    # elif whole > maximum:
+                    #     if insert_into == 'last':
+                    #         self.data.loc[i.Index, final_charge] = maximum
+                    #     else:
+                    #         _position = hold.index(max(hold))
+                    #         _df_index = hold_idx[_position]
+                    #         self.data.loc[_df_index, final_charge] = maximum
                     elif whole < minimum:
                         if insert_into == 'last':
                             self.data.loc[i.Index, final_charge] = minimum

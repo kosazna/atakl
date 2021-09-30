@@ -93,7 +93,6 @@ class Alexandrion(TypeTemplate):
         hold = []
         ksila_pals = []
         kiv_charge = []
-        separate = False
 
         for i in self.data.itertuples():
             minimum = self.get_minimum(
@@ -102,10 +101,6 @@ class Alexandrion(TypeTemplate):
                           paleta, 1, i.Περιοχή_Παράδοσης))
 
             if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
-                if i.Χρέωση_Κιβωτίων > maximum:
-                    self.data.loc[i.Index, final_charge] = maximum * i.ksila
-                    separate = True
-                else:
                     hold_idx.append(i.Index)
                     hold.append(i.Συνολική_Χρέωση)
                     ksila_pals.append(i.ksila)
@@ -120,10 +115,7 @@ class Alexandrion(TypeTemplate):
                     whole = round2(sum(hold))
                     whole_kiv = round2(sum(kiv_charge))
 
-                    if separate:
-                        for idx, value in zip(hold_idx, hold):
-                            self.data.loc[idx, final_charge] = value
-                    elif whole_kiv > maximum:
+                    if whole_kiv > maximum:
                         sum_ksila = sum(ksila_pals)
                         if sum_ksila != 0:
                             multiplier = max(ksila_pals)
@@ -148,7 +140,6 @@ class Alexandrion(TypeTemplate):
                     hold = []
                     ksila_pals = []
                     kiv_charge = []
-                    separate = False
                 else:
                     if i.Χρέωση_Κιβωτίων > maximum:
                         self.data.loc[i.Index, final_charge] = maximum * i.ksila
