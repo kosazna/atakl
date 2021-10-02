@@ -24,6 +24,17 @@ class Kitsanelis(TypeTemplate):
 
         self.data = self.set_data(data_filepath, self.map_name)
         self.validator = Validator(self.data, self.map_name, mode)
+        self.pals = self._set_pals()
+
+    def _set_pals(self):
+        pals = pd.read_excel(self.data_file, sheet_name='Stock Out')[
+            ["Κωδικός Παραγγελίας",
+             "Ατόφια Παλλέτα",
+             "Κιβώτια"]].rename(columns={"Ατόφια Παλλέτα": atofia_paleta})
+        pals_only = pals.loc[pals[atofia_paleta] > 0]
+        pals_only[atofia_paleta] = pals_only[atofia_paleta].astype(int)
+        pals_only[kivotia] = pals_only[kivotia].astype(int)
+        return pals_only
 
     def get_cost(self, region: str, material: str, quantity: int = None):
         if region == "ΕΞΑΓΩΓΗ":
@@ -33,7 +44,6 @@ class Kitsanelis(TypeTemplate):
                 return round2(self.costs.loc[region, material] * quantity)
             except KeyError as e:
                 self.log(e, Display.ERROR)
-                return 0.00
 
     def _finalize_cost(self, region: str, charge: float):
         wall = round2(self.get_cost(region, paleta, 1))
@@ -54,6 +64,29 @@ class Kitsanelis(TypeTemplate):
         self.data[poli_paradosis] = self.data[poli_paradosis].fillna("<NULL>")
 
         self.preprocessed = True
+
+    def process_stock_out(self):
+        for i in self.data.itertuples():
+            pals = i.Ατόφια_Παλέτα
+            if pals > 0:
+                kivs = i.Κιβώτια
+                fil6 = i.Κιβώτια_6φιαλών
+
+                if fil6 != 0:
+                    fils = fiales6
+                else:
+                    fils = fiales12
+
+                if pals > 0:
+                    pal_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
+                                             paleta_dist_charge,
+                                             pals)
+
+                    kiv_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
+                                             fils,
+                                             kivs)
+
+                    self.data.loc[i.Index, final_charge] = pal_cost + kiv_cost
 
     def process(self):
         auth = Authorize(self.map_name, self.log)
@@ -81,12 +114,20 @@ class Kitsanelis(TypeTemplate):
                     x[tomeas], fiales12, x[kivotia_12fialon]),
                 axis=1)
 
+            self.data = self.data.merge(self.pals, how='left', left_on=kodikos_paraggelias,
+                                        right_on="Κωδικός Παραγγελίας").drop("Κωδικός Παραγγελίας", axis=1)
+            self.data[atofia_paleta] = self.data[atofia_paleta].fillna(
+                0).astype(int)
+            self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
+
             self.data[total_charge] = sum([self.data[diafimistiko_dist_charge],
                                            self.data[ximoi_dist_charge],
                                            self.data[fiales6_dist_charge],
                                            self.data[fiales12_dist_charge]])
 
             self.process_rows(insert_into='max')
+
+            self.process_stock_out()
 
             self.data.loc[
                 self.data[apostoli] == idiofortosi, final_charge] = 0.00
