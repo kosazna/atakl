@@ -11,6 +11,7 @@ from atakl.transform.giochi_crate import GiochiCrate
 from atakl.transform.essse import Essse
 from atakl.transform.cosco_infoquest import CoscoInfoquest
 from atakl.transform.alexandrion import Alexandrion
+from atakl.transform.kitsanelis import Kitsanelis
 
 transformer_mapper = {
     "Concepts": Concepts,
@@ -21,7 +22,8 @@ transformer_mapper = {
     "Giochi - Crate": GiochiCrate,
     "Essse": Essse,
     "Cosco - Infoquest": CoscoInfoquest,
-    "Alexandrion": Alexandrion}
+    "Alexandrion": Alexandrion,
+    "Kitsanelis": Kitsanelis}
 
 
 def load_tranformer(_action: str, mode, path_list=None):

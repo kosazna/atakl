@@ -218,6 +218,7 @@ class Ui_designer(object):
         self.process_list.addItem("")
         self.process_list.addItem("")
         self.process_list.addItem("")
+        self.process_list.addItem("")
         self.button_process = QtWidgets.QToolButton(self.frame_main)
         self.button_process.setEnabled(True)
         self.button_process.setGeometry(QtCore.QRect(670, 280, 120, 30))
@@ -497,9 +498,10 @@ class Ui_designer(object):
             3, _translate("designer", "Cosco - Infoquest"))
         self.process_list.setItemText(4, _translate("designer", "Essse"))
         self.process_list.setItemText(5, _translate("designer", "Giochi"))
-        self.process_list.setItemText(6, _translate(
-            "designer", "PT Beverages - Lavazza"))
+        self.process_list.setItemText(6, _translate("designer", "Kitsanelis"))
         self.process_list.setItemText(7, _translate(
+            "designer", "PT Beverages - Lavazza"))
+        self.process_list.setItemText(8, _translate(
             "designer", "PT Beverages - Spirits"))
         self.button_process.setText(_translate("designer", "Process"))
         self.button_insert.setText(_translate("designer", "@Διανομή"))
@@ -507,7 +509,7 @@ class Ui_designer(object):
         self.akl_logo.setHtml(_translate("designer", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                          "p, li { white-space: pre-wrap; }\n"
-                                         "</style></head><body style=\" font-family:\'Segoe UI\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                                         "</style></head><body style=\" font-family:\'Segoe UI\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
                                          "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#434343;\">Attiki Kinisi Logistics SA</span></p></body></html>"))
         self.browse_costs.setText(_translate("designer", "2"))
         self.browse_db_data.setText(_translate("designer", "2"))

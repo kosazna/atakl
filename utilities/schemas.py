@@ -98,6 +98,15 @@ stock_out_charge = "Χρέωση_Stock_Out"
 
 paletes_charge = "Χρέωση_Παλετών"
 
+kivotia_diafimistikou = "Κιβώτια_Διαφημιστικού_Υλικού"
+kivotia_ximou = "Κιβώτια_Χυμοί"
+kivotia_6fialon = "Κιβώτια_6φιαλών"
+kivotia_12fialon = "Κιβώτια_12φιαλών"
+diafimistiko_dist_charge = "Χρέωση_Διαφημιστικού_Υλικού"
+ximoi_dist_charge = "Χρέωση_Χυμών"
+fiales6_dist_charge = "Χρέωση_Διανομής_6φίαλων"
+fiales12_dist_charge = "Χρέωση_Διανομής_12φίαλων"
+
 # Cost file keys
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
@@ -115,6 +124,11 @@ ogkos_small = "Όγκος <8 m3"
 ogkos_medium = "Όγκος 8-16 m3"
 ogkos_large = "Όγκος >16 m3"
 kuviko_eidiki_xreosi = "Κυβικό μέτρο (ειδική χρέωση)"
+diafimistiko = "Χρέωση Διαφημιστικού Υλικού"
+ximoi = "Χρέωση Χυμών"
+fiales6 = "Χρέωση Διανομής 6φίαλων"
+fiales12 = "Χρέωση Διανομής 12φίαλων"
+paleta_dist_charge = "Χρέωση Διανομής Παλέτας"
 
 atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
@@ -285,6 +299,25 @@ ALEXANDRION = [kodikos_paraggelias,
                paratiriseis,
                kola_dist_charge,
                strech]
+
+KITSANELIS = [kodikos_paraggelias,
+              kodikos_arxikis_paraggelias,
+              imerominia_paradosis,
+              deltio,
+              pelatis,
+              tomeas,
+              poli_paradosis,
+              apostoli,
+              kivotia_diafimistikou,
+              kivotia_ximou,
+              kivotia_6fialon,
+              kivotia_12fialon,
+              ksila_paleton,
+              diafimistiko_dist_charge,
+              ximoi_dist_charge,
+              fiales6_dist_charge,
+              fiales12_dist_charge,
+              final_dist_charge]
 
 info_map = {
     "Concepts":
@@ -508,6 +541,26 @@ info_map = {
                         pelatis,
                         tomeas,
                         paradosi,
+                        apostoli],
+         "validator": {"missing": [tomeas,
+                                   pelatis]}},
+    "Kitsanelis":
+        {"init_ncols": 13,
+         "date_col": imerominia_paradosis,
+         "formal_cols": list(map(c_2space, KITSANELIS)),
+         "akl_cols": KITSANELIS,
+         "sort": [imerominia_paradosis,
+                  pelatis,
+                  tomeas,
+                  poli_paradosis,
+                  apostoli],
+         "drop": [pelatis,
+                  tomeas,
+                  poli_paradosis],
+         "check_idxs": [imerominia_paradosis,
+                        pelatis,
+                        tomeas,
+                        poli_paradosis,
                         apostoli],
          "validator": {"missing": [tomeas,
                                    pelatis]}}
