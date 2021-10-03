@@ -70,7 +70,8 @@ class Validator:
                    delivery_area,
                    city]
 
-        _grouped = self.data.groupby(grouper, as_index=False)[[cartons, weight]].sum()
+        _grouped = self.data.groupby(grouper, as_index=False)[
+            [cartons, weight]].sum()
 
         _grouped['Must_Have_PAL'] = _grouped.apply(
             lambda x: 1 if (x[weight]/6 + x[cartons]) >= 11 else 0, axis=1)
@@ -82,7 +83,8 @@ class Validator:
                                                                                         delivery_area,
                                                                                         city]]
 
-        df = must_have_pal.merge(has_pal, how='outer', on=grouper).sort_values(grouper)
+        df = must_have_pal.merge(has_pal, how='outer',
+                                 on=grouper).sort_values(grouper)
         df['Must_Have_PAL'] = df['Must_Have_PAL'].fillna(0).astype(int)
 
         has_zeros = all(df['Must_Have_PAL'] == 1)
@@ -91,6 +93,20 @@ class Validator:
         passes = has_zeros and has_nas
 
         return passes, df
+
+    def kitsanelis_check(self):
+        v = self.data.copy()
+        v['kivotia_sum'] = v[kivotia_diafimistikou] + \
+            v[kivotia_ximou] + v[kivotia_6fialon] + v[kivotia_12fialon]
+        must_pals = v.loc[v['kivotia_sum'] > 10, [kodikos_paraggelias]]
+        pals = v.loc[v[kodikos_paraggelias].str.startswith(
+            'PAL', na=False)][kodikos_arxikis_paraggelias]
+        result = must_pals.merge(
+            pals, how='left', left_on=kodikos_paraggelias, right_on=kodikos_arxikis_paraggelias)
+        missing_pals = result.loc[result[kodikos_arxikis_paraggelias].isna(
+        ), kodikos_paraggelias].tolist()
+
+        return missing_pals
 
     def validate(self):
         cols_not_na = info_map[self.map_name].get(
@@ -193,13 +209,25 @@ class Validator:
                          Display.INFO)
                 self.log("Clients that should NOT have orders starting with PAL but do have, start with 0:\n",
                          Display.INFO)
-                         
+
                 for i in df.itertuples():
-                    _pal = f'{" "*17}' if pd.isna(i.Order_Code) else i.Order_Code
+                    _pal = f'{" "*17}' if pd.isna(
+                        i.Order_Code) else i.Order_Code
                     self.log(
                         f"{i.Must_Have_PAL} | {_pal} | {i.Distribution_Date:%d/%m/%Y} | {i.Customer_Name} | {i.Delivery_Area}")
                     self.log("-" * 150)
                 self.log('\n')
+
+        if self.map_name == "Kitsanelis":
+            missing_pals = self.kitsanelis_check()
+
+            if missing_pals:
+                self.validation_passed = False
+                self.log("Clients that must have orders starting with PAL and don't:",
+                         Display.INFO)
+
+                for order in missing_pals:
+                    self.log(order)
 
         if self.validation_passed:
             self.log('Data Validation: Successful', Display.INFO)
