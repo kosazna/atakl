@@ -102,8 +102,8 @@ kivotia_diafimistikou = "Κιβώτια_Διαφημιστικού_Υλικού"
 kivotia_ximou = "Κιβώτια_Χυμοί"
 kivotia_6fialon = "Κιβώτια_6φιαλών"
 kivotia_12fialon = "Κιβώτια_12φιαλών"
-diafimistiko_dist_charge = "Χρέωση_Διαφημιστικού_Υλικού"
-ximoi_dist_charge = "Χρέωση_Χυμών"
+diafimistiko_dist_charge = "Χρέωση_Διανομής_Διαφημιστικού_Υλικού"
+ximoi_dist_charge = "Χρέωση_Διανομής_Χυμών"
 fiales6_dist_charge = "Χρέωση_Διανομής_6φίαλων"
 fiales12_dist_charge = "Χρέωση_Διανομής_12φίαλων"
 
@@ -563,5 +563,5 @@ info_map = {
                         poli_paradosis,
                         apostoli],
          "validator": {"missing": [tomeas,
-                                   pelatis]}}
+                                   paradosi]}}
 }

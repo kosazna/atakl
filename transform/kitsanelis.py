@@ -26,6 +26,8 @@ class Kitsanelis(TypeTemplate):
         self.validator = Validator(self.data, self.map_name, mode)
         self.pals = self._set_pals()
 
+        self.check_data = None
+
     def _set_pals(self):
         pals = pd.read_excel(self.data_file, sheet_name='Stock Out')[
             ["Κωδικός Παραγγελίας",
@@ -71,21 +73,27 @@ class Kitsanelis(TypeTemplate):
             if pals > 0:
                 kivs = i.Κιβώτια
                 fil6 = i.Κιβώτια_6φιαλών
+                fil12 = i.Κιβώτια_12φιαλών
 
                 if fil6 != 0:
                     fils = fiales6
                 else:
                     fils = fiales12
 
-                if pals > 0:
-                    pal_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
-                                             paleta_dist_charge,
-                                             pals)
+                pal_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
+                                         paleta_dist_charge,
+                                         pals)
 
+                if kivs > 0:
                     kiv_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
                                              fils,
                                              kivs)
+                else:
+                    kiv_cost = 0
 
+                if pal_cost + kiv_cost == 0:
+                    self.data.loc[i.Index, final_charge] = i.Τελική_Χρέωση
+                else:
                     self.data.loc[i.Index, final_charge] = pal_cost + kiv_cost
 
     def process(self):
@@ -132,7 +140,12 @@ class Kitsanelis(TypeTemplate):
             self.data.loc[
                 self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
+            self.data.loc[self.data[kodikos_paraggelias].str.startswith(
+                'PAL', na=False), final_charge] = 0.00
+
             self.data[final_dist_charge] = self.data[final_charge]
+
+            self.check_data = self.data.copy()
 
             self.data = self.data[info_map[self.map_name]['akl_cols']]
 
