@@ -37,8 +37,10 @@ def display_info(text: str):
 def round2(number):
     return round(float(number), 2)
 
+
 def text_clean(text):
     return re.sub('\s{2,}', ' ', str(text)).strip()
+
 
 def datestamp(obj=False):
     datetime_now = datetime.now()
@@ -82,7 +84,7 @@ def check_idxs(data, index, cols: list):
 
 
 def col_has_na(df, col, idx_shift=0):
-    _nas = df.loc[df[col].isna(), col]
+    _nas = df.loc[df[col] == 'nan', col]
     _idxs = (_nas.index + idx_shift).tolist()
 
     return not _nas.empty, _idxs
@@ -137,6 +139,7 @@ def duplicated_data(df, cols, idx_shift=0):
     _idxs = (_nas.index + idx_shift).tolist()
 
     return not _nas.empty, _idxs
+
 
 def unique_from_groupby(dataframe, groupby_key, agg_key):
     gb = dataframe.groupby(groupby_key)[agg_key].agg(["unique"])

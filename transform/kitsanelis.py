@@ -70,19 +70,21 @@ class Kitsanelis(TypeTemplate):
 
     def process_stock_out(self):
         for i in self.data.itertuples():
-            pals = i.Ατόφια_Παλέτα
-            if pals > 0:
-                kivs = i.Κιβώτια
+            if i.Γεωγραφικός_Τομέας == 'ΑΤΤΙΚΗ':
+                pals = i.Ατόφια_Παλέτα
+                if pals > 0:
+                    kivs = i.Κιβώτια
 
-                pal_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
-                                         paleta_dist_charge,
-                                         pals)
+                    pal_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
+                                             paleta_dist_charge,
+                                             pals)
 
-                if kivs == 0:
-                    self.data.loc[i.Index, final_charge] = pal_cost
-                else:
-                    self.data.loc[i.Index, final_charge] = 0
-                    self.log(f"Row: {i.Index + 2} -> Κιβώτια: {kivs}", Display.WARNING)
+                    if kivs == 0:
+                        self.data.loc[i.Index, final_charge] = pal_cost
+                    else:
+                        self.data.loc[i.Index, final_charge] = 0
+                        self.log(f"Row: {i.Index + 2} -> Κιβώτια: {kivs}",
+                                 Display.WARNING)
 
     def process(self):
         auth = Authorize(self.map_name, self.log)

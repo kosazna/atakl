@@ -161,6 +161,8 @@ class Validator:
                     self.log(f"Index: {'-'.join(map(str, missing_idxs[i]))}\n",
                              Display.INFO)
 
+                self.log()
+
         if self.value_warnings:
             self.validation_passed = False
             for i in under_col:
@@ -169,12 +171,14 @@ class Validator:
                              Display.WARNING)
                     self.log(f"Index: {'-'.join(map(str, under_idxs[i]))}\n",
                              Display.INFO)
+                    self.log()
             for i in nonzero_col:
                 if nonzero_bools[i]:
                     self.log(f"[{cols_zero[i]}] contains [{len(nonzero_idxs[i])}] non-zero values",
                              Display.WARNING)
                     self.log(f"Index: {'-'.join(map(str, nonzero_idxs[i]))}\n",
                              Display.INFO)
+                    self.log()
 
         if self.duplicates:
             self.validation_passed = False
@@ -182,6 +186,7 @@ class Validator:
                      Display.WARNING)
             self.log(
                 f"Index: {'-'.join(map(str, duplicated_idxs))}\n", Display.INFO)
+            self.log()
 
         if self.map_name == 'Cavino':
             cav_diff, kivotia_count, pal_count = self.cavino_check()
@@ -193,12 +198,15 @@ class Validator:
                          Display.WARNING)
                 self.log(f"[{pal_count}] records with 'Κωδικός Παραγγελίας' starting with PAL\n",
                          Display.WARNING)
+                self.log()
 
             if has_certain_client:
                 self.validation_passed = False
                 self.log(f"Data contains client 'ΧΛΑΜΠΕΑ ΑΦΟΙ ΟΕ'",
                          Display.WARNING)
                 self.log(f"Index: {'-'.join(map(str, idxs))}\n", Display.INFO)
+
+                self.log()
 
         if self.map_name == 'Essse':
             passes, df = self.essse_check()
@@ -216,7 +224,7 @@ class Validator:
                     self.log(
                         f"{i.Must_Have_PAL} | {_pal} | {i.Distribution_Date:%d/%m/%Y} | {i.Customer_Name} | {i.Delivery_Area}")
                     self.log("-" * 150)
-                self.log('\n')
+                self.log()
 
         if self.map_name == "Kitsanelis":
             missing_pals = self.kitsanelis_check()
