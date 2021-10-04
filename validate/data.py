@@ -157,7 +157,7 @@ class Validator:
             for i in missing_col:
                 if missing_bools[i]:
                     self.log(f"[{cols_not_na[i]}] contains [{len(missing_idxs[i])}] missing values",
-                             Display.ERROR)
+                             Display.WARNING)
                     self.log(f"Index: {'-'.join(map(str, missing_idxs[i]))}\n",
                              Display.INFO)
 

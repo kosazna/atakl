@@ -56,8 +56,8 @@ class Display(metaclass=Singleton):
                 _c = '<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p>'
             else:
                 if kind is None:
-                    _c = f'<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">{content}</p>'
+                    _c = f'<p style="margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">{content}</p>'
                 else:
-                    _c = f'<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">[<span style=" color:{self.color[kind]};">{kind}</span>] - {content}</p>'
+                    _c = f'<p style="margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">[<span style="color:{self.color[kind]};">{kind}</span>] - {content}</p>'
 
             self._content.append(_c)
