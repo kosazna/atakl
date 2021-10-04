@@ -45,7 +45,8 @@ class Kitsanelis(TypeTemplate):
             try:
                 return round2(self.costs.loc[region, material] * quantity)
             except KeyError as e:
-                self.log(e, Display.ERROR)
+                self.log(f"'Γεωγραφικός Τομέας' null value.", Display.ERROR)
+                return 0.00
 
     def _finalize_cost(self, region: str, charge: float):
         wall = round2(self.get_cost(region, paleta, 1))
@@ -72,29 +73,16 @@ class Kitsanelis(TypeTemplate):
             pals = i.Ατόφια_Παλέτα
             if pals > 0:
                 kivs = i.Κιβώτια
-                fil6 = i.Κιβώτια_6φιαλών
-                fil12 = i.Κιβώτια_12φιαλών
-
-                if fil6 != 0:
-                    fils = fiales6
-                else:
-                    fils = fiales12
 
                 pal_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
                                          paleta_dist_charge,
                                          pals)
 
-                if kivs > 0:
-                    kiv_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
-                                             fils,
-                                             kivs)
+                if kivs == 0:
+                    self.data.loc[i.Index, final_charge] = pal_cost
                 else:
-                    kiv_cost = 0
-
-                if pal_cost + kiv_cost == 0:
-                    self.data.loc[i.Index, final_charge] = i.Τελική_Χρέωση
-                else:
-                    self.data.loc[i.Index, final_charge] = pal_cost + kiv_cost
+                    self.data.loc[i.Index, final_charge] = 0
+                    self.log(f"Row: {i.Index + 2} -> Κιβώτια: {kivs}", Display.WARNING)
 
     def process(self):
         auth = Authorize(self.map_name, self.log)

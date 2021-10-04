@@ -563,5 +563,5 @@ info_map = {
                         poli_paradosis,
                         apostoli],
          "validator": {"missing": [tomeas,
-                                   paradosi]}}
+                                   poli_paradosis]}}
 }

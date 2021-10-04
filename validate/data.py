@@ -223,11 +223,12 @@ class Validator:
 
             if missing_pals:
                 self.validation_passed = False
-                self.log("Clients that must have orders starting with PAL and don't:",
+                self.log("Orders that must have orders starting with PAL and don't:",
                          Display.INFO)
 
                 for order in missing_pals:
                     self.log(order)
+                self.log('\n')
 
         if self.validation_passed:
             self.log('Data Validation: Successful', Display.INFO)
