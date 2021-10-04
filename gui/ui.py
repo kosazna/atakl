@@ -282,7 +282,7 @@ class AKLUI(Ui_designer):
                 self.transformer.export()
 
                 _old_txt = self.transformer.log.get_content()
-                _final_txt = _old_txt + "\n\n[Process Finished]"
+                _final_txt = _old_txt + "[Process Finished]"
                 self.text_general.setText(_final_txt)
 
                 self.transformer.log.erase()

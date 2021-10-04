@@ -182,6 +182,7 @@ class TypeTemplate:
 
     def export(self, output=None):
         if self.to_export:
+            self.log()
             self.log("Saving data...", Display.INFO)
 
             date_col = c_2space(info_map[self.map_name]['date_col'])
@@ -203,11 +204,13 @@ class TypeTemplate:
                     self.log(
                         f"Appended new sheet '{sheet_name}' to original data",
                         Display.INFO)
+                    self.log()
                 else:
                     self.data.to_excel(self.output,
                                        sheet_name=sheet_name,
                                        index=False)
                     self.log(f"Exported file: {self.output}", Display.INFO)
+                    self.log()
             else:
                 with pd.ExcelWriter(output,
                                     mode='a') as xlsx:
@@ -217,9 +220,11 @@ class TypeTemplate:
                 self.log(
                     f"Appended new sheet '{sheet_name}' to original data",
                     Display.INFO)
+                self.log()
         else:
             self.log("Can't export data. No processing was performed",
                      Display.INFO)
+            self.log()
 
     def create_backup(self):
         backup_dir = paths.akl_home.joinpath(".history")

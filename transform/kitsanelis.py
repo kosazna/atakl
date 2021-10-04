@@ -91,6 +91,7 @@ class Kitsanelis(TypeTemplate):
             self._preprocess()
 
             self.log("Processing...", Display.INFO)
+            self.log()
 
             self.data[diafimistiko_dist_charge] = self.data.apply(
                 lambda x: self.get_cost(
@@ -139,7 +140,9 @@ class Kitsanelis(TypeTemplate):
 
             self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+            self.log()
+
+            self.log(f"Data Process Complete: [{self.data.shape[0]}] records",
                      Display.INFO)
 
             self.to_export = True

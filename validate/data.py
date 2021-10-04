@@ -227,8 +227,8 @@ class Validator:
                          Display.INFO)
 
                 for order in missing_pals:
-                    self.log(order)
-                self.log('\n')
+                    self.log(f"  - {order}")
+                self.log()
 
         if self.validation_passed:
             self.log('Data Validation: Successful', Display.INFO)
