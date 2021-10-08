@@ -12,6 +12,7 @@ from atakl.transform.essse import Essse
 from atakl.transform.cosco_infoquest import CoscoInfoquest
 from atakl.transform.alexandrion import Alexandrion
 from atakl.transform.kitsanelis import Kitsanelis
+from atakl.transform.siganos import Siganos
 
 transformer_mapper = {
     "Concepts": Concepts,
@@ -23,7 +24,8 @@ transformer_mapper = {
     "Essse": Essse,
     "Cosco - Infoquest": CoscoInfoquest,
     "Alexandrion": Alexandrion,
-    "Kitsanelis": Kitsanelis}
+    "Kitsanelis": Kitsanelis,
+    "Siganos": Siganos}
 
 
 def load_tranformer(_action: str, mode, path_list=None):

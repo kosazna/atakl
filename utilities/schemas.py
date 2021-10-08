@@ -319,6 +319,22 @@ KITSANELIS = [kodikos_paraggelias,
               fiales12_dist_charge,
               final_dist_charge]
 
+SIGANOS = [kodikos_paraggelias,
+           kodikos_arxikis_paraggelias,
+           imerominia_apostolis,
+           parastatiko,
+           pelatis,
+           tomeas,
+           paradosi,
+           apostoli,
+           paletes,
+           kivotia,
+           temaxia,
+           kola,
+           paratiriseis,
+           kola_dist_charge,
+           strech]
+
 info_map = {
     "Concepts":
         {"init_ncols": 12,
@@ -563,5 +579,25 @@ info_map = {
                         poli_paradosis,
                         apostoli],
          "validator": {"missing": [tomeas,
-                                   poli_paradosis]}}
+                                   poli_paradosis]}},
+    "Siganos":
+        {"init_ncols": 13,
+         "date_col": imerominia_apostolis,
+         "formal_cols": list(map(c_2space, SIGANOS)),
+         "akl_cols": KITSANELIS,
+         "sort": [imerominia_apostolis,
+                  pelatis,
+                  tomeas,
+                  perioxi,
+                  apostoli],
+         "drop": [pelatis,
+                  tomeas,
+                  perioxi],
+         "check_idxs": [imerominia_apostolis,
+                        pelatis,
+                        tomeas,
+                        perioxi,
+                        apostoli],
+         "validator": {"missing": [tomeas,
+                                   perioxi]}}
 }
