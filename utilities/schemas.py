@@ -2,7 +2,7 @@
 
 from atakl.utilities.utils import c_2space
 
-AKL_VERSION = '2.0'
+AKL_VERSION = '3.0'
 split_char = '@'
 
 # Type ONE columns for processing
@@ -129,6 +129,7 @@ ximoi = "Χρέωση Χυμών"
 fiales6 = "Χρέωση Διανομής 6φίαλων"
 fiales12 = "Χρέωση Διανομής 12φίαλων"
 paleta_dist_charge = "Χρέωση Διανομής Παλέτας"
+kivotia_costs_dist_charge = "Χρέωση Διανομής Κιβωτίων"
 
 atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
@@ -584,20 +585,21 @@ info_map = {
         {"init_ncols": 13,
          "date_col": imerominia_apostolis,
          "formal_cols": list(map(c_2space, SIGANOS)),
-         "akl_cols": KITSANELIS,
+         "akl_cols": SIGANOS,
          "sort": [imerominia_apostolis,
                   pelatis,
                   tomeas,
-                  perioxi,
+                  paradosi,
                   apostoli],
          "drop": [pelatis,
                   tomeas,
-                  perioxi],
+                  paradosi],
          "check_idxs": [imerominia_apostolis,
                         pelatis,
                         tomeas,
-                        perioxi,
+                        paradosi,
                         apostoli],
          "validator": {"missing": [tomeas,
-                                   perioxi]}}
+                                   paradosi],
+                       "ensure_zero": [kola]}}
 }

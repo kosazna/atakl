@@ -108,6 +108,11 @@ class Validator:
 
         return missing_pals
 
+    def siganos_check(self):
+        prob = self.data.loc[(~self.data[kodikos_paraggelias].str.startswith(
+            'PAL')) & (self.data[temaxia] != 0)].index + 2
+        return prob.tolist()
+
     def validate(self):
         cols_not_na = info_map[self.map_name].get(
             'validator', {}).get('missing', [])
@@ -237,6 +242,15 @@ class Validator:
                 for order in missing_pals:
                     self.log(f"  - {order}")
                 self.log()
+
+        if self.map_name == "Siganos":
+            probs = self.siganos_check()
+
+            if probs:
+                self.validation_passed = False
+                self.log(f"Order not starting with PAL contains [{temaxia}] - Count: {len(probs)}",
+                         Display.WARNING)
+                self.log(f"Index: {'-'.join(map(str, probs))}\n", Display.INFO)
 
         if self.validation_passed:
             self.log('Data Validation: Successful', Display.INFO)
