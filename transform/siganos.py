@@ -55,31 +55,73 @@ class Siganos(TypeTemplate):
 
         self.preprocessed = True
 
-    def process_pals(self):
+    def process_rows(self, insert_into='last'):
+        self.data[final_charge] = 0.0
+
+        hold_idx = []
+        hold = []
+        hold_kivs = []
+        hold_pals = []
+        ksila = []
+        maximums = []
+
         for i in self.data.itertuples():
-            pals = i.ksila
-            pal_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
-                                     paleta_dist_charge,
-                                     pals,
-                                     i.Επωνυμία_Πελάτη,
-                                     i.Περιοχή_Παράδοσης)
-            if i.Χρέωση_Διανομής_Κιβωτίου > i.Χρέωση_Διανομής_Παλέτας:
+            minimum = self.get_minimum(i.Γεωγραφικός_Τομέας)
+            maximum = self.get_cost(i.Γεωγραφικός_Τομέας,
+                                    paleta_dist_charge,
+                                    i.ksila,
+                                    i.Επωνυμία_Πελάτη,
+                                    i.Περιοχή_Παράδοσης)
 
-                self.data.loc[i.Index, final_charge] = pal_cost
-                pals = i.Ατόφια_Παλέτα
-                if pals > 0:
-                    kivs = i.Κιβώτια
+            if self._check_idxs(i.Index, info_map[self.map_name]['check_idxs']):
+                hold_idx.append(i.Index)
+                hold.append(i.Συνολική_Χρέωση)
+                hold_kivs.append(i.Χρέωση_Διανομής_Κιβωτίου)
+                hold_pals.append(i.Χρέωση_Διανομής_Παλέτας)
+                ksila.append(i.ksila)
+                maximums.append(maximum)
+            else:
+                if hold:
+                    hold_idx.append(i.Index)
+                    hold.append(i.Συνολική_Χρέωση)
+                    hold_kivs.append(i.Χρέωση_Διανομής_Κιβωτίου)
+                    hold_pals.append(i.Χρέωση_Διανομής_Παλέτας)
+                    ksila.append(i.ksila)
+                    maximums.append(maximum)
 
-                    pal_cost = self.get_cost(i.Γεωγραφικός_Τομέας,
-                                             paleta_dist_charge,
-                                             pals)
+                    whole = round2(sum(hold))
+                    whole_kivs = round2(sum(hold_kivs))
+                    whole_pals = round2(sum(hold_pals))
 
-                    if kivs == 0:
-                        self.data.loc[i.Index, final_charge] = pal_cost
+                    if whole_kivs > whole_pals and whole > minimum:
+                        max_ksila = max(ksila)
+                        _position = ksila.index(max_ksila)
+                        _df_index = hold_idx[_position]
+                        self.data.loc[_df_index, final_charge] = maximums[_position]
+                    elif whole < minimum:
+                        if insert_into == 'last':
+                            self.data.loc[i.Index, final_charge] = minimum
+                        else:
+                            _position = hold.index(max(hold))
+                            _df_index = hold_idx[_position]
+                            self.data.loc[_df_index, final_charge] = minimum
                     else:
-                        self.data.loc[i.Index, final_charge] = 0
-                        self.log(f"Row: {i.Index + 2} -> Κιβώτια: {kivs}",
-                                 Display.WARNING)
+                        for idx, value in zip(hold_idx, hold):
+                            self.data.loc[idx, final_charge] = value
+
+                    hold_idx = []
+                    hold = []
+                    hold_kivs = []
+                    hold_pals = []
+                    ksila = []
+                    maximums = []
+                else:
+                    if i.Χρέωση_Διανομής_Κιβωτίου > i.Χρέωση_Διανομής_Παλέτας and i.Συνολική_Χρέωση > minimum:
+                        self.data.loc[i.Index, final_charge] = maximum
+                    elif i.Συνολική_Χρέωση < minimum:
+                        self.data.loc[i.Index, final_charge] = minimum
+                    else:
+                        self.data.loc[i.Index, final_charge] = i.Συνολική_Χρέωση
 
     def process(self):
         auth = Authorize(self.map_name, self.log)
@@ -94,20 +136,22 @@ class Siganos(TypeTemplate):
                 kodikos_arxikis_paraggelias, temaxia]].copy()
             temaxia_values = temaxia_values.rename(columns={kodikos_arxikis_paraggelias: 'og',
                                                             temaxia: 'ksila'})
+            
 
             self.data = self.data.merge(
-                temaxia_values, left_on=kodikos_paraggelias, right_on='og')
+                temaxia_values, how='left', left_on=kodikos_paraggelias, right_on='og')
+            self.data['ksila'] = self.data['ksila'].fillna(0).astype(int)
 
             self.data[paletes_dist_charge] = self.data.apply(
                 lambda x: self.get_cost(
                     x[tomeas], paleta_dist_charge, x[paletes], x[pelatis],
-                    x[perioxi]),
+                    x[paradosi]),
                 axis=1)
 
             self.data[kivotia_dist_charge] = self.data.apply(
                 lambda x: self.get_cost(
                     x[tomeas], kivotia_costs_dist_charge, x[kivotia], x[pelatis],
-                    x[perioxi]),
+                    x[paradosi]),
                 axis=1)
 
             self.data[total_charge] = self.data[paletes_dist_charge] + \
@@ -115,15 +159,14 @@ class Siganos(TypeTemplate):
 
             self.process_rows(insert_into='max')
 
-            self.process_pals()
-
             self.data.loc[
                 self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
             self.data.loc[self.data[kodikos_paraggelias].str.startswith(
                 'PAL', na=False), final_charge] = 0.00
 
-            self.data[final_dist_charge] = self.data[final_charge]
+            self.data[kola_dist_charge] = self.data[final_charge]
+            self.data[strech] = ''
 
             self.check_data = self.data.copy()
 
