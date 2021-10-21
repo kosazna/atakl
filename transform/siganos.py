@@ -69,7 +69,7 @@ class Siganos(TypeTemplate):
             minimum = self.get_minimum(i.Γεωγραφικός_Τομέας)
             maximum = self.get_cost(i.Γεωγραφικός_Τομέας,
                                     paleta_dist_charge,
-                                    i.ksila,
+                                    1,
                                     i.Επωνυμία_Πελάτη,
                                     i.Περιοχή_Παράδοσης)
 
@@ -79,7 +79,6 @@ class Siganos(TypeTemplate):
                 hold_kivs.append(i.Χρέωση_Διανομής_Κιβωτίου)
                 hold_pals.append(i.Χρέωση_Διανομής_Παλέτας)
                 ksila.append(i.ksila)
-                maximums.append(maximum)
             else:
                 if hold:
                     hold_idx.append(i.Index)
@@ -87,17 +86,16 @@ class Siganos(TypeTemplate):
                     hold_kivs.append(i.Χρέωση_Διανομής_Κιβωτίου)
                     hold_pals.append(i.Χρέωση_Διανομής_Παλέτας)
                     ksila.append(i.ksila)
-                    maximums.append(maximum)
 
                     whole = round2(sum(hold))
                     whole_kivs = round2(sum(hold_kivs))
-                    whole_pals = round2(sum(hold_pals))
 
-                    if whole_kivs > whole_pals and whole > minimum:
+                    if whole_kivs > maximum:
                         max_ksila = max(ksila)
                         _position = ksila.index(max_ksila)
                         _df_index = hold_idx[_position]
-                        self.data.loc[_df_index, final_charge] = maximums[_position]
+                        self.data.loc[_df_index,
+                                      final_charge] = max_ksila * maximum
                     elif whole < minimum:
                         if insert_into == 'last':
                             self.data.loc[i.Index, final_charge] = minimum
@@ -114,10 +112,9 @@ class Siganos(TypeTemplate):
                     hold_kivs = []
                     hold_pals = []
                     ksila = []
-                    maximums = []
                 else:
-                    if i.Χρέωση_Διανομής_Κιβωτίου > i.Χρέωση_Διανομής_Παλέτας and i.Συνολική_Χρέωση > minimum:
-                        self.data.loc[i.Index, final_charge] = maximum
+                    if i.Χρέωση_Διανομής_Κιβωτίου > maximum:
+                        self.data.loc[i.Index, final_charge] = maximum * i.ksila
                     elif i.Συνολική_Χρέωση < minimum:
                         self.data.loc[i.Index, final_charge] = minimum
                     else:
@@ -136,7 +133,6 @@ class Siganos(TypeTemplate):
                 kodikos_arxikis_paraggelias, temaxia]].copy()
             temaxia_values = temaxia_values.rename(columns={kodikos_arxikis_paraggelias: 'og',
                                                             temaxia: 'ksila'})
-            
 
             self.data = self.data.merge(
                 temaxia_values, how='left', left_on=kodikos_paraggelias, right_on='og')
