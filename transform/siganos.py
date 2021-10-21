@@ -32,7 +32,7 @@ class Siganos(TypeTemplate):
                  client_name: str = None, subregion: str = None):
         if region == "ΕΞΑΓΩΓΗ":
             return 0.00
-        elif region == "ΑΤΤΙΚΗ" and material == paleta_dist_charge and "ΣΙΓΑΝΟΣ" in client_name and "ΑΓΙΑ ΠΑΡΑΣΚΕΥΗ" in subregion:
+        elif region == "ΑΤΤΙΚΗ" and material == paleta_dist_charge and "ΣΙΓΑΝΟΣ" in client_name and ("ΑΓΙΑ ΠΑΡΑΣΚΕΥΗ" in subregion or "ΑΓ. ΠΑΡΑΣΚΕΥΗ" in subregion):
             if quantity > 10:
                 return 140
             elif 5 <= quantity <= 9:

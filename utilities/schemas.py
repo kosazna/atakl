@@ -601,5 +601,6 @@ info_map = {
                         apostoli],
          "validator": {"missing": [tomeas,
                                    paradosi],
+                       "ensure_under": [(temaxia, 2)],
                        "ensure_zero": [kola]}}
 }
