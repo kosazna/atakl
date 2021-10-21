@@ -108,6 +108,7 @@ fiales6_dist_charge = "Χρέωση_Διανομής_6φίαλων"
 fiales12_dist_charge = "Χρέωση_Διανομής_12φίαλων"
 
 # Cost file keys
+stand = "Stand"
 paleta = "Παλέτα"
 kivotio = "Κιβώτιο"
 vareli = "Βαρέλι"
@@ -194,6 +195,7 @@ PTB_LAVAZZA = [paraggelia,
                kivotia,
                upoloipo_se_temaxia,
                mixanes,
+               stand,
                kostos_metaforas,
                strech]
 
@@ -388,7 +390,7 @@ info_map = {
                                        paletes_san,
                                        kola]}},
     "PT Beverages - Lavazza":
-        {"init_ncols": 14,
+        {"init_ncols": 15,
          "date_col": imerominia,
          "formal_cols": list(map(c_2space, PTB_LAVAZZA)),
          "akl_cols": PTB_LAVAZZA,

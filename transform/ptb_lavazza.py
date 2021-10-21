@@ -69,6 +69,7 @@ class PTBLavazza(TypeTemplate):
             upoloipo_se_temaxia].fillna(
             0).astype(int)
         self.data[mixanes] = self.data[mixanes].fillna(0).astype(int)
+        self.data[stand] = self.data[stand].fillna(0).astype(int)
 
         self.data[poli] = self.data[poli].fillna("<NULL>")
 
@@ -100,10 +101,15 @@ class PTBLavazza(TypeTemplate):
             lambda x: self._finalize_cost(x[tomeas], x[kivotia_charge]),
             axis=1)
 
+        self.data['stand_charge'] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], stand, x[stand]),
+            axis=1)
+
         self.data[total_charge] = sum(
             [self.data[atofia_paleta_charge],
                 self.data[kivotia_charge],
-                self.data[mixanes_charge]])
+                self.data[mixanes_charge],
+                self.data['stand_charge']])
 
         self.process_rows()
 
@@ -114,7 +120,7 @@ class PTBLavazza(TypeTemplate):
 
         self.data[kostos_metaforas] = self.data[final_charge]
         self.data[strech] = ''
-        
+
         self.data = self.data[info_map[self.map_name]['akl_cols']]
 
         self.data.columns = info_map[self.map_name]['formal_cols']
