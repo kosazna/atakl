@@ -121,60 +121,55 @@ class Siganos(TypeTemplate):
                         self.data.loc[i.Index, final_charge] = i.Συνολική_Χρέωση
 
     def process(self):
-        auth = Authorize(self.map_name, self.log)
+        self._preprocess()
 
-        if auth.user_is_licensed():
-            self._preprocess()
+        self.log("Processing...", Display.INFO)
+        self.log()
 
-            self.log("Processing...", Display.INFO)
-            self.log()
+        temaxia_values = self.data[[
+            kodikos_arxikis_paraggelias, temaxia]].copy()
+        temaxia_values = temaxia_values.rename(columns={kodikos_arxikis_paraggelias: 'og',
+                                                        temaxia: 'ksila'})
 
-            temaxia_values = self.data[[
-                kodikos_arxikis_paraggelias, temaxia]].copy()
-            temaxia_values = temaxia_values.rename(columns={kodikos_arxikis_paraggelias: 'og',
-                                                            temaxia: 'ksila'})
+        self.data = self.data.merge(
+            temaxia_values, how='left', left_on=kodikos_paraggelias, right_on='og')
+        self.data['ksila'] = self.data['ksila'].fillna(0).astype(int)
 
-            self.data = self.data.merge(
-                temaxia_values, how='left', left_on=kodikos_paraggelias, right_on='og')
-            self.data['ksila'] = self.data['ksila'].fillna(0).astype(int)
+        self.data[paletes_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(
+                x[tomeas], paleta_dist_charge, x[paletes], x[pelatis],
+                x[paradosi]),
+            axis=1)
 
-            self.data[paletes_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(
-                    x[tomeas], paleta_dist_charge, x[paletes], x[pelatis],
-                    x[paradosi]),
-                axis=1)
+        self.data[kivotia_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(
+                x[tomeas], kivotia_costs_dist_charge, x[kivotia], x[pelatis],
+                x[paradosi]),
+            axis=1)
 
-            self.data[kivotia_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(
-                    x[tomeas], kivotia_costs_dist_charge, x[kivotia], x[pelatis],
-                    x[paradosi]),
-                axis=1)
+        self.data[total_charge] = self.data[paletes_dist_charge] + \
+            self.data[kivotia_dist_charge]
 
-            self.data[total_charge] = self.data[paletes_dist_charge] + \
-                self.data[kivotia_dist_charge]
+        self.process_rows(insert_into='max')
 
-            self.process_rows(insert_into='max')
+        self.data.loc[
+            self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.data.loc[
-                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+        self.data.loc[self.data[kodikos_paraggelias].str.startswith(
+            'PAL', na=False), final_charge] = 0.00
 
-            self.data.loc[self.data[kodikos_paraggelias].str.startswith(
-                'PAL', na=False), final_charge] = 0.00
+        self.data[kola_dist_charge] = self.data[final_charge]
+        self.data[strech] = ''
 
-            self.data[kola_dist_charge] = self.data[final_charge]
-            self.data[strech] = ''
+        self.check_data = self.data.copy()
 
-            self.check_data = self.data.copy()
+        self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.log()
 
-            self.log()
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records",
+                 Display.INFO)
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records",
-                     Display.INFO)
-
-            self.to_export = True
-        else:
-            self.log("Can't process data. Contact Support", Display.INFO)
+        self.to_export = True

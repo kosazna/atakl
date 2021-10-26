@@ -173,59 +173,54 @@ class Alexandrion(TypeTemplate):
                     self.data.loc[i.Index, final_charge] = c * wall
 
     def process(self):
-        auth = Authorize(self.map_name, self.log)
+        self._preprocess()
 
-        if auth.user_is_licensed():
-            self._preprocess()
+        self.log("Processing...", Display.INFO)
 
-            self.log("Processing...", Display.INFO)
+        pals = self.data.loc[self.data[kodikos_paraggelias].str.startswith(
+            "PAL")][[kodikos_arxikis_paraggelias, ksila_paleton]]
+        pals = pals.rename(columns={kodikos_arxikis_paraggelias: 'kodikos',
+                                    ksila_paleton: 'ksila'})
 
-            pals = self.data.loc[self.data[kodikos_paraggelias].str.startswith(
-                "PAL")][[kodikos_arxikis_paraggelias, ksila_paleton]]
-            pals = pals.rename(columns={kodikos_arxikis_paraggelias: 'kodikos',
-                                        ksila_paleton: 'ksila'})
+        self.data = self.data.merge(pals,
+                                    how="left",
+                                    left_on=kodikos_paraggelias,
+                                    right_on='kodikos').drop("kodikos", axis=1)
 
-            self.data = self.data.merge(pals,
-                                        how="left",
-                                        left_on=kodikos_paraggelias,
-                                        right_on='kodikos').drop("kodikos", axis=1)
+        self.data['ksila'] = self.data['ksila'].fillna(0).astype(int)
 
-            self.data['ksila'] = self.data['ksila'].fillna(0).astype(int)
+        self.data[kivotia_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
+                                                        kivotio,
+                                                        x[kivotia],
+                                                        x[paradosi]),
+                                axis=1)
+        self.data[paletes_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
+                                                        paleta,
+                                                        x[paletes],
+                                                        x[paradosi]),
+                                axis=1)
 
-            self.data[kivotia_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
-                                                           kivotio,
-                                                           x[kivotia],
-                                                           x[paradosi]),
-                                   axis=1)
-            self.data[paletes_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
-                                                           paleta,
-                                                           x[paletes],
-                                                           x[paradosi]),
-                                   axis=1)
+        self.data[total_charge] = self.data[kivotia_charge] + self.data[paletes_charge]
 
-            self.data[total_charge] = self.data[kivotia_charge] + self.data[paletes_charge]
+        self.process_rows(insert_into='max')
+        # self.process_pals()
 
-            self.process_rows(insert_into='max')
-            # self.process_pals()
+        self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
+        self.data[strech] = ''
 
-            self.data[paradosi] = self.data[paradosi].replace("<NULL>", "")
-            self.data[strech] = ''
+        self.data.loc[
+            self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.data.loc[
-                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+        self.data.loc[self.data[kodikos_paraggelias].str.startswith(
+            'PAL', na=False), final_charge] = 0.00
 
-            self.data.loc[self.data[kodikos_paraggelias].str.startswith(
-                'PAL', na=False), final_charge] = 0.00
+        self.data[kola_dist_charge] = self.data[final_charge]
 
-            self.data[kola_dist_charge] = self.data[final_charge]
+        self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
+                    Display.INFO)
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                     Display.INFO)
-
-            self.to_export = True
-        else:
-            self.log("Can't process data. Contact Support", Display.INFO)
+        self.to_export = True

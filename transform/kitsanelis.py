@@ -87,66 +87,61 @@ class Kitsanelis(TypeTemplate):
                                  Display.WARNING)
 
     def process(self):
-        auth = Authorize(self.map_name, self.log)
+        self._preprocess()
 
-        if auth.user_is_licensed():
-            self._preprocess()
+        self.log("Processing...", Display.INFO)
+        self.log()
 
-            self.log("Processing...", Display.INFO)
-            self.log()
+        self.data[diafimistiko_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(
+                x[tomeas], diafimistiko, x[kivotia_diafimistikou]),
+            axis=1)
 
-            self.data[diafimistiko_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(
-                    x[tomeas], diafimistiko, x[kivotia_diafimistikou]),
-                axis=1)
+        self.data[ximoi_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], ximoi, x[kivotia_ximou]),
+            axis=1)
 
-            self.data[ximoi_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], ximoi, x[kivotia_ximou]),
-                axis=1)
+        self.data[fiales6_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], fiales6, x[kivotia_6fialon]),
+            axis=1)
 
-            self.data[fiales6_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(x[tomeas], fiales6, x[kivotia_6fialon]),
-                axis=1)
+        self.data[fiales12_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(
+                x[tomeas], fiales12, x[kivotia_12fialon]),
+            axis=1)
 
-            self.data[fiales12_dist_charge] = self.data.apply(
-                lambda x: self.get_cost(
-                    x[tomeas], fiales12, x[kivotia_12fialon]),
-                axis=1)
+        self.data = self.data.merge(self.pals, how='left', left_on=kodikos_paraggelias,
+                                    right_on="Κωδικός Παραγγελίας").drop("Κωδικός Παραγγελίας", axis=1)
+        self.data[atofia_paleta] = self.data[atofia_paleta].fillna(
+            0).astype(int)
+        self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
 
-            self.data = self.data.merge(self.pals, how='left', left_on=kodikos_paraggelias,
-                                        right_on="Κωδικός Παραγγελίας").drop("Κωδικός Παραγγελίας", axis=1)
-            self.data[atofia_paleta] = self.data[atofia_paleta].fillna(
-                0).astype(int)
-            self.data[kivotia] = self.data[kivotia].fillna(0).astype(int)
+        self.data[total_charge] = sum([self.data[diafimistiko_dist_charge],
+                                        self.data[ximoi_dist_charge],
+                                        self.data[fiales6_dist_charge],
+                                        self.data[fiales12_dist_charge]])
 
-            self.data[total_charge] = sum([self.data[diafimistiko_dist_charge],
-                                           self.data[ximoi_dist_charge],
-                                           self.data[fiales6_dist_charge],
-                                           self.data[fiales12_dist_charge]])
+        self.process_rows(insert_into='max')
 
-            self.process_rows(insert_into='max')
+        self.process_stock_out()
 
-            self.process_stock_out()
+        self.data.loc[
+            self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-            self.data.loc[
-                self.data[apostoli] == idiofortosi, final_charge] = 0.00
+        self.data.loc[self.data[kodikos_paraggelias].str.startswith(
+            'PAL', na=False), final_charge] = 0.00
 
-            self.data.loc[self.data[kodikos_paraggelias].str.startswith(
-                'PAL', na=False), final_charge] = 0.00
+        self.data[final_dist_charge] = self.data[final_charge]
 
-            self.data[final_dist_charge] = self.data[final_charge]
+        self.check_data = self.data.copy()
 
-            self.check_data = self.data.copy()
+        self.data = self.data[info_map[self.map_name]['akl_cols']]
 
-            self.data = self.data[info_map[self.map_name]['akl_cols']]
+        self.data.columns = info_map[self.map_name]['formal_cols']
 
-            self.data.columns = info_map[self.map_name]['formal_cols']
+        self.log()
 
-            self.log()
+        self.log(f"Data Process Complete: [{self.data.shape[0]}] records",
+                    Display.INFO)
 
-            self.log(f"Data Process Complete: [{self.data.shape[0]}] records",
-                     Display.INFO)
-
-            self.to_export = True
-        else:
-            self.log("Can't process data. Contact Support", Display.INFO)
+        self.to_export = True
