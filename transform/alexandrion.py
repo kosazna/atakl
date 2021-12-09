@@ -79,10 +79,12 @@ class Alexandrion(TypeTemplate):
         try:
             area, area_cat = self._area_props(region, subregion)
 
-            c = self.costs.loc[(self.costs.index == area) & (
-                self.costs["Κατηγορία Περιοχής"] == area_cat), elaxisti].values[0]
-
-            return c
+            if area != "ΕΞΑΓΩΓΗ":
+                c = self.costs.loc[(self.costs.index == area) & (
+                    self.costs["Κατηγορία Περιοχής"] == area_cat), elaxisti].values[0]
+                return c
+            else:
+                return 0.00
         except KeyError:
             return 0.00
 
