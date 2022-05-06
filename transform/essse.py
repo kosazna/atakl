@@ -161,6 +161,8 @@ class Essse(TypeTemplate):
         self.data.loc[self.data[order_code].str.startswith(
             'PAL', na=False), final_charge] = 0.00
 
+        self.process_epinaulo()
+        
         self.data[delivery_cost] = self.data[final_charge]
 
         self.data = self.data[info_map[self.map_name]['akl_cols']]

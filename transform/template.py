@@ -12,6 +12,8 @@ class TypeTemplate:
         self.data_file = Path(parse_xlsx(data_filepath)[0])
         self.cost_file = Path(cost_filepath)
         self.costs = pd.DataFrame()
+        self.epinaulos = pd.read_excel(
+            self.cost_file, sheet_name="Epinaulos").set_index("Κατηγορία", drop=True)
 
         self.log = Display(mode)
         self.validator = None
@@ -69,6 +71,32 @@ class TypeTemplate:
                      "      you entered the correct sheet name.",
                      Display.INFO)
             return None
+
+    def process_epinaulo(self):
+        self.data[epinaulos_attikis] = 0
+        self.data[epinaulos_ipeirotikis] = 0
+        self.data[epinaulos_nisiotikis] = 0
+
+        for i in self.data.itertuples():
+            try:
+                _tomeas = i.Γεωγραφικός_Τομέας
+                _cat = self.costs.loc[_tomeas, katigoria_epinaulou]
+                _epinaulos = self.epinaulos.loc[_cat, epinaulos]
+                _charge = self.data.loc[i.Index, final_charge]
+
+                _epinaulos_value = round2(_epinaulos * _charge)
+
+                if _cat == "Αττική":
+                    self.data.loc[i.Index, epinaulos_attikis] = _epinaulos_value
+                elif _cat == "Ηπειρωτική":
+                    self.data.loc[i.Index, epinaulos_ipeirotikis] = _epinaulos_value
+                elif _cat == "Νησιωτική":
+                    self.data.loc[i.Index, epinaulos_nisiotikis] = _epinaulos_value
+                else:
+                    pass
+            except KeyError as e:
+                self.log(e, Display.ERROR)
+                continue
 
     def _preprocess(self):
         pass

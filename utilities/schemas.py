@@ -62,6 +62,9 @@ kivotia_lampades_dist_charge = "Χρέωση_Διανομής_Κιβωτίων_�
 kivotia_paixnidia_dist_charge = "Χρέωση_Διανομής_Κιβωτίων_Παιχνίδια"
 ogkos_dist_charge = "Χρέωση_Διανομής_Όγκου"
 final_dist_charge = "Σύνολο_Χρέωσης_Διανομής"
+epinaulos_ipeirotikis = "Επίναυλος_Ηπειρωτικής_Ελλάδας"
+epinaulos_nisiotikis = "Επίναυλος_Νησιωτικής_Ελλάδας"
+epinaulos_attikis = "Επίναυλος_Αττικής"
 
 imerominia_paradosis = "Ημερομηνία_Παράδοσης"
 poli_paradosis = "Πόλη_Παράδοσης"
@@ -131,6 +134,8 @@ fiales6 = "Χρέωση Διανομής 6φίαλων"
 fiales12 = "Χρέωση Διανομής 12φίαλων"
 paleta_dist_charge = "Χρέωση Διανομής Παλέτας"
 kivotia_costs_dist_charge = "Χρέωση Διανομής Κιβωτίων"
+epinaulos = "Επίναυλος"
+katigoria_epinaulou = "Κατηγορία Επιναύλου"
 
 atlog = "ATLOG"
 idiofortosi = "Ιδιοφόρτωση"
@@ -154,6 +159,9 @@ CONCEPTS = [paraggelia,
             varelia_dist_charge,
             kena_varelia_dist_charge,
             total_charge,
+            epinaulos_attikis,
+            epinaulos_ipeirotikis,
+            epinaulos_nisiotikis,
             palleta_ksilo]
 
 PTB_SPIRITS = [paraggelia,
@@ -178,7 +186,10 @@ PTB_SPIRITS = [paraggelia,
                tsantes_dist_charge,
                varelia_dist_charge,
                ompreles_dist_charge,
-               total_charge,
+               final_dist_charge,
+               epinaulos_attikis,
+               epinaulos_ipeirotikis,
+               epinaulos_nisiotikis,
                strech]
 
 PTB_LAVAZZA = [paraggelia,
@@ -197,6 +208,9 @@ PTB_LAVAZZA = [paraggelia,
                mixanes,
                stand,
                kostos_metaforas,
+               epinaulos_attikis,
+               epinaulos_ipeirotikis,
+               epinaulos_nisiotikis,
                strech]
 
 CAVINO = [kodikos_paraggelias,
@@ -213,6 +227,9 @@ CAVINO = [kodikos_paraggelias,
           kola,
           paratiriseis,
           kola_dist_charge,
+          epinaulos_attikis,
+          epinaulos_ipeirotikis,
+          epinaulos_nisiotikis,
           strech]
 
 GIOCHI = [paraggelia,
@@ -232,7 +249,10 @@ GIOCHI = [paraggelia,
           kivotia_lampades_dist_charge,
           kivotia_paixnidia_dist_charge,
           ogkos_dist_charge,
-          final_dist_charge]
+          final_dist_charge,
+          epinaulos_attikis,
+          epinaulos_ipeirotikis,
+          epinaulos_nisiotikis]
 
 GIOCHI_CRATE = [paraggelia,
                 imerominia_paradosis,
@@ -246,7 +266,10 @@ GIOCHI_CRATE = [paraggelia,
                 lampades,
                 temaxia,
                 sinolikos_ogkos,
-                kivotio_charge]
+                kivotio_charge,
+                epinaulos_attikis,
+                epinaulos_ipeirotikis,
+                epinaulos_nisiotikis]
 
 ESSSE = [order_code,
          distribution_date,
@@ -265,7 +288,10 @@ ESSSE = [order_code,
          pallets,
          weight,
          notes,
-         delivery_cost]
+         delivery_cost,
+         epinaulos_attikis,
+         epinaulos_ipeirotikis,
+         epinaulos_nisiotikis]
 
 COSCO_INFOQUEST = [kodikos_paraggelias,
                    kodikos_arxikis_paraggelias,
@@ -284,7 +310,10 @@ COSCO_INFOQUEST = [kodikos_paraggelias,
                    paratiriseis,
                    stock_out_charge,
                    ogkos_dist_charge,
-                   final_dist_charge]
+                   final_dist_charge,
+                   epinaulos_attikis,
+                   epinaulos_ipeirotikis,
+                   epinaulos_nisiotikis]
 
 ALEXANDRION = [kodikos_paraggelias,
                kodikos_arxikis_paraggelias,
@@ -301,6 +330,9 @@ ALEXANDRION = [kodikos_paraggelias,
                kola,
                paratiriseis,
                kola_dist_charge,
+               epinaulos_attikis,
+               epinaulos_ipeirotikis,
+               epinaulos_nisiotikis,
                strech]
 
 KITSANELIS = [kodikos_paraggelias,
@@ -320,7 +352,10 @@ KITSANELIS = [kodikos_paraggelias,
               ximoi_dist_charge,
               fiales6_dist_charge,
               fiales12_dist_charge,
-              final_dist_charge]
+              final_dist_charge,
+              epinaulos_attikis,
+              epinaulos_ipeirotikis,
+              epinaulos_nisiotikis]
 
 SIGANOS = [kodikos_paraggelias,
            kodikos_arxikis_paraggelias,
@@ -336,6 +371,9 @@ SIGANOS = [kodikos_paraggelias,
            kola,
            paratiriseis,
            kola_dist_charge,
+           epinaulos_attikis,
+           epinaulos_ipeirotikis,
+           epinaulos_nisiotikis,
            strech]
 
 info_map = {

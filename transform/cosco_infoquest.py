@@ -28,10 +28,19 @@ class CoscoInfoquest(TypeTemplate):
 
         self.except_areas = pd.read_excel(self.cost_file,
                                           sheet_name="Cosco-Special Areas")
-        self.kuklades_exceptions = self.except_areas["ΚΥΚΛΑΔΕΣ"].tolist()
+        self.exceptions = self._make_exceptions()
 
     def _get_special_cost(self):
         pass
+
+    def _make_exceptions(self):
+        exceptions = {}
+        for region in self.except_areas.columns:
+            _unique = self.except_areas[region].tolist()
+            unique = list(filter(lambda elm: isinstance(elm, str), _unique))
+            exceptions[region] = unique
+
+        return exceptions
 
     def get_cost(self, region: str, material: str, quantity: int = None, subregion=None):
         if region == "ΕΞΑΓΩΓΗ":
@@ -48,10 +57,13 @@ class CoscoInfoquest(TypeTemplate):
                         return round2(self.costs.loc[region, ogkos_large] * quantity)
                     else:
                         return 0.0
-                elif region == "ΚΥΚΛΑΔΕΣ":
+                elif region in self.exceptions:
+                    if "ΣΥΜΗ" in subregion:
+                        return round2(72 * quantity)
+                        
                     found_exception = False
 
-                    for area in self.kuklades_exceptions:
+                    for area in self.exceptions[region]:
                         if area in subregion:
                             found_exception = True
                             break
@@ -71,6 +83,7 @@ class CoscoInfoquest(TypeTemplate):
             except KeyError as e:
                 self.log(e, Display.ERROR)
                 return 0.00
+
 
     def _preprocess(self):
         self.data[sunolika_temaxia] = self.data[sunolika_temaxia].fillna(
@@ -114,23 +127,22 @@ class CoscoInfoquest(TypeTemplate):
                     if separate:
                         for idx, value in zip(hold_idx, hold):
                             self.data.loc[idx, final_charge] = value
-                    # elif whole > maximum:
+                    else:
+                        for idx, value in zip(hold_idx, hold):
+                            if value < minimum:
+                                self.data.loc[idx, final_charge] = minimum
+                            else:
+                                self.data.loc[idx, final_charge] = value
+                    # elif whole < minimum:
                     #     if insert_into == 'last':
-                    #         self.data.loc[i.Index, final_charge] = maximum
+                    #         self.data.loc[i.Index, final_charge] = minimum
                     #     else:
                     #         _position = hold.index(max(hold))
                     #         _df_index = hold_idx[_position]
-                    #         self.data.loc[_df_index, final_charge] = maximum
-                    elif whole < minimum:
-                        if insert_into == 'last':
-                            self.data.loc[i.Index, final_charge] = minimum
-                        else:
-                            _position = hold.index(max(hold))
-                            _df_index = hold_idx[_position]
-                            self.data.loc[_df_index, final_charge] = minimum
-                    else:
-                        for idx, value in zip(hold_idx, hold):
-                            self.data.loc[idx, final_charge] = value
+                    #         self.data.loc[_df_index, final_charge] = minimum
+                    # else:
+                    #     for idx, value in zip(hold_idx, hold):
+                    #         self.data.loc[idx, final_charge] = value
 
                     hold_idx = []
                     hold = []
@@ -149,30 +161,31 @@ class CoscoInfoquest(TypeTemplate):
         self.log("Processing...", Display.INFO)
 
         stock1 = self.data.apply(lambda x: self.get_cost(x[tomeas],
-                                                        c_2space(
-                                                            kivotia_under_007),
-                                                        x[kivotia_under_007]),
-                                axis=1)
+                                                         c_2space(
+            kivotia_under_007),
+            x[kivotia_under_007]),
+            axis=1)
 
         stock2 = self.data.apply(lambda x: self.get_cost(x[tomeas],
-                                                        c_2space(
-                                                            ogkos_over_007),
-                                                        x[ogkos_over_007]),
-                                axis=1)
+                                                         c_2space(
+            ogkos_over_007),
+            x[ogkos_over_007]),
+            axis=1)
 
         self.data[stock_out_charge] = stock1 + stock2
 
-        self.data['subregion'] = self.data[perioxi] + ' ' + self.data[paradosi_address]
+        self.data['subregion'] = self.data[perioxi] + \
+            ' ' + self.data[paradosi_address]
 
         self.data[ogkos_dist_charge] = self.data.apply(lambda x: self.get_cost(x[tomeas],
-                                                                            kuviko_metro,
-                                                                            x[sinolikos_ogkos],
-                                                                            x['subregion']), axis=1)
+                                                                               kuviko_metro,
+                                                                               x[sinolikos_ogkos],
+                                                                               x['subregion']), axis=1)
 
         self.data[total_charge] = self.data[ogkos_dist_charge]
 
         self.process_rows(insert_into='max')
-
+        
         self.data[perioxi] = self.data[perioxi].replace("<NULL>", "")
 
         self.data.loc[
@@ -181,6 +194,8 @@ class CoscoInfoquest(TypeTemplate):
         self.data.loc[self.data[kodikos_paraggelias].str.startswith(
             'PAL', na=False), final_charge] = 0.00
 
+        self.process_epinaulo()
+
         self.data[final_dist_charge] = self.data[final_charge]
 
         self.data = self.data[info_map[self.map_name]['akl_cols']]
@@ -188,6 +203,6 @@ class CoscoInfoquest(TypeTemplate):
         self.data.columns = info_map[self.map_name]['formal_cols']
 
         self.log(f"Data Process Complete: [{self.data.shape[0]}] records\n",
-                Display.INFO)
+                 Display.INFO)
 
         self.to_export = True

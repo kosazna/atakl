@@ -158,6 +158,8 @@ class Siganos(TypeTemplate):
         self.data.loc[self.data[kodikos_paraggelias].str.startswith(
             'PAL', na=False), final_charge] = 0.00
 
+        self.process_epinaulo()
+        
         self.data[kola_dist_charge] = self.data[final_charge]
         self.data[strech] = ''
 

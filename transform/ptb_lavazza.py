@@ -118,6 +118,8 @@ class PTBLavazza(TypeTemplate):
         self.data.loc[
             self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
+        self.process_epinaulo()
+        
         self.data[kostos_metaforas] = self.data[final_charge]
         self.data[strech] = ''
 

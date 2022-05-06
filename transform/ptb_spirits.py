@@ -83,7 +83,8 @@ class PTBSpirits(TypeTemplate):
         self.data[tsantes_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], tsanta, x[tsantes]), axis=1)
 
-        self.data[varelia_dist_charge] = 0.0
+        self.data[varelia_dist_charge] = self.data.apply(
+            lambda x: self.get_cost(x[tomeas], varelia, x[varelia]), axis=1)
 
         self.data[ompreles_dist_charge] = self.data.apply(
             lambda x: self.get_cost(x[tomeas], omprela, x[ompreles]),
@@ -118,7 +119,7 @@ class PTBSpirits(TypeTemplate):
         self.data.loc[
             self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
-        self.data[total_charge] = self.data[final_charge]
+        self.data[final_dist_charge] = self.data[final_charge]
         self.data[strech] = ''
         
         self.data = self.data[info_map[self.map_name]['akl_cols']]

@@ -201,6 +201,8 @@ class Giochi(TypeTemplate):
         self.data.loc[
             self.data[apostoli] == idiofortosi, final_charge] = 0.00
 
+        self.process_epinaulo()
+        
         self.data[final_dist_charge] = self.data[final_charge]
 
         self.data = self.data[info_map[self.map_name]['akl_cols']]

@@ -52,6 +52,8 @@ class GiochiCrate(TypeTemplate):
 
         self.process_rows()
 
+        self.process_epinaulo()
+        
         self.data[kivotio_charge] = self.data[final_charge]
 
         self.data = self.data[info_map[self.map_name]['akl_cols']]

@@ -113,6 +113,8 @@ class Cavino(TypeTemplate):
 
         self.data.loc[mask1 & ~mask2, final_charge] = 70.0
 
+        self.process_epinaulo()
+        
         self.data[kola_dist_charge] = self.data[final_charge]
         self.data[strech] = ""
 
