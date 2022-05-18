@@ -80,18 +80,27 @@ class TypeTemplate:
         for i in self.data.itertuples():
             try:
                 _tomeas = i.Γεωγραφικός_Τομέας
-                _cat = self.costs.loc[_tomeas, katigoria_epinaulou]
+                _cat_og = self.costs.loc[_tomeas, katigoria_epinaulou]
+
+                if isinstance(_cat_og, str):
+                    _cat = _cat_og
+                else:
+                    _cat = _cat_og[0]
+
                 _epinaulos = self.epinaulos.loc[_cat, epinaulos]
                 _charge = self.data.loc[i.Index, final_charge]
+                print(f"{i.Index} -> {_epinaulos} | {_charge}")
 
                 _epinaulos_value = round2(_epinaulos * _charge)
 
-                if _cat == "Αττική":
+                if "Αττική" in _cat:
                     self.data.loc[i.Index, epinaulos_attikis] = _epinaulos_value
-                elif _cat == "Ηπειρωτική":
-                    self.data.loc[i.Index, epinaulos_ipeirotikis] = _epinaulos_value
-                elif _cat == "Νησιωτική":
-                    self.data.loc[i.Index, epinaulos_nisiotikis] = _epinaulos_value
+                elif "Ηπειρωτική" in _cat:
+                    self.data.loc[i.Index,
+                                  epinaulos_ipeirotikis] = _epinaulos_value
+                elif "Νησιωτική" in _cat:
+                    self.data.loc[i.Index,
+                                  epinaulos_nisiotikis] = _epinaulos_value
                 else:
                     pass
             except KeyError as e:
